@@ -17,6 +17,7 @@
 <meta name="twitter:card" content="summary">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Lexend:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -167,6 +168,15 @@ label.campo span.opcional{display:inline;font-weight:400;color:var(--tinta-2)}
 .gracias{text-align:center}
 .gracias .velas-anim{font-size:3rem;letter-spacing:.2rem;margin:.25rem 0 .5rem}
 .gracias p{margin:.3rem 0 1rem;color:var(--tinta-2)}
+.acciones-entradas{display:flex;flex-direction:column;gap:.65rem}
+#entradas{padding:.25rem}
+@media print{
+  body *{visibility:hidden}
+  #entradas,#entradas *{visibility:visible}
+  .modal{position:static;background:none;padding:0;overflow:visible}
+  #entradas{position:absolute;left:0;top:0;width:100%}
+  .entrada{break-inside:avoid}
+}
 @media (prefers-reduced-motion:reduce){.aviso{transition:none}.destello,.llama{animation:none}.destello{opacity:.7}.llama{opacity:.85}}
 </style>
 </head>
@@ -294,9 +304,13 @@ label.campo span.opcional{display:inline;font-weight:400;color:var(--tinta-2)}
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="m-titulo">
   <div class="caja">
     <h2 id="m-titulo">¡Gracias! Estas son tus entradas</h2>
-    <p class="nota">Podés mostrar la entrada en la puerta o simplemente decir el nombre del asistente. Para guardarla, sacale una captura de pantalla.</p>
+    <p class="nota">Podés mostrar la entrada en la puerta o simplemente decir el nombre del asistente.</p>
     <div id="entradas"></div>
-    <button class="btn btn-principal" id="fin">Volver al inicio</button>
+    <div class="acciones-entradas">
+      <button class="btn btn-principal" id="guardar-entradas"><span id="ge-txt">Guardar o compartir</span><small style="display:block;font-size:.95rem;font-weight:400">Por WhatsApp, en la galería y más</small></button>
+      <button class="btn btn-borde" id="imprimir-entradas">Imprimir o guardar en PDF</button>
+      <button class="btn btn-borde" id="fin">Volver al inicio</button>
+    </div>
   </div>
 </div>
 <div class="aviso" id="aviso" role="status" aria-live="polite"></div>
@@ -403,7 +417,7 @@ document.querySelectorAll('[data-copiar]').forEach(b=>b.addEventListener('click'
 $('ok-pago').onclick=()=>{
   const p=document.querySelector('input[name=pago]:checked');if(!p)return;
   if(p.value==='mp'&&LINK_MP)window.open(LINK_MP,'_blank');
-  const cod=String(Math.floor(1000+Math.random()*9000));
+  const cod=String(Math.floor(1000+Math.random()*9000));estado.codigo='GC-'+cod;
   $('entradas').innerHTML=estado.nombres.map((n,i)=>
     '<div class="entrada"><div class="e-top"><b>Gala Candlelight</b><span>Entrada '+(i+1)+' de '+estado.cant+'</span></div>'+
     '<div class="e-cuerpo"><small>Asistente</small><div class="nombre">'+esc(n)+'</div>'+
@@ -412,6 +426,35 @@ $('ok-pago').onclick=()=>{
   $('modal').classList.add('ver');$('modal').scrollTop=0;document.body.style.overflow='hidden';
 };
 $('fin').onclick=()=>location.reload();
+$('imprimir-entradas').onclick=()=>window.print();
+
+// Guardar o compartir entradas (mismo mecanismo que la app de Luján)
+$('guardar-entradas').addEventListener('click',async function(){
+  const btn=this,panel=$('entradas');
+  if(typeof html2canvas==='undefined'){alert('No pudimos preparar la imagen. Sacale una captura de pantalla a las entradas.');return}
+  btn.disabled=true;const lbl=$('ge-txt');const original=lbl.textContent;lbl.textContent='Preparando…';
+  try{
+    const canvas=await html2canvas(panel,{backgroundColor:'#FFF6E3',scale:window.devicePixelRatio>1?2:1.5});
+    const fileName='entradas-gala-candlelight-'+(estado.codigo||'')+'.png';
+    const dataUrl=canvas.toDataURL('image/png');
+    // En celular usamos el menú nativo de compartir (WhatsApp, Guardar imagen, etc.).
+    // En PC el archivo baja directo a Descargas.
+    const esMobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.maxTouchPoints>1&&/Mac/.test(navigator.platform));
+    let ok=false;
+    if(esMobile&&navigator.canShare&&navigator.share){
+      try{
+        const blob=await new Promise(r=>canvas.toBlob(r,'image/png'));
+        if(blob){const file=new File([blob],fileName,{type:'image/png'});
+          if(navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'Entradas Gala Candlelight'});ok=true}}
+      }catch(err){if(err&&err.name==='AbortError')ok=true}
+    }
+    if(!ok){
+      const a=document.createElement('a');a.download=fileName;a.href=dataUrl;document.body.appendChild(a);a.click();a.remove();
+      if(esMobile){const w=window.open();if(w){w.document.write('<title>Entradas</title><body style="margin:0;background:#111;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;font-family:sans-serif;"><p style="color:#fff;padding:12px;text-align:center;">Mantené presionada la imagen para guardarla, o sacale una captura de pantalla.</p><img src="'+dataUrl+'" style="max-width:100%;height:auto;"></body>')}}
+    }
+  }catch(e){alert('No pudimos generar la imagen. Sacale una captura de pantalla a las entradas.')}
+  finally{btn.disabled=false;lbl.textContent=original}
+});
 
 // Donación de velas
 const vela={cant:1};
