@@ -18,6 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Lexend:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -171,13 +172,6 @@ label.campo span.opcional{display:inline;font-weight:400;color:var(--tinta-2)}
 .gracias p{margin:.3rem 0 1rem;color:var(--tinta-2)}
 .acciones-entradas{display:flex;flex-direction:column;gap:.65rem}
 #entradas{padding:.25rem}
-@media print{
-  body *{visibility:hidden}
-  #entradas,#entradas *{visibility:visible}
-  .modal{position:static;background:none;padding:0;overflow:visible}
-  #entradas{position:absolute;left:0;top:0;width:100%}
-  .entrada{break-inside:avoid}
-}
 @media (prefers-reduced-motion:reduce){.aviso{transition:none}.destello,.llama{animation:none}.destello{opacity:.7}.llama{opacity:.85}}
 </style>
 </head>
@@ -308,7 +302,7 @@ label.campo span.opcional{display:inline;font-weight:400;color:var(--tinta-2)}
     <div id="entradas"></div>
     <div class="acciones-entradas">
       <button class="btn btn-principal" id="guardar-entradas"><span id="ge-txt">Guardar o compartir</span><small style="display:block;font-size:.95rem;font-weight:400">Por WhatsApp, en la galería y más</small></button>
-      <button class="btn btn-borde" id="imprimir-entradas">Imprimir o guardar en PDF</button>
+      <button class="btn btn-borde" id="pdf-entradas"><span id="pdf-txt">Descargar en PDF</span></button>
       <button class="btn btn-borde" id="fin">Volver al inicio</button>
     </div>
   </div>
@@ -426,7 +420,50 @@ $('ok-pago').onclick=()=>{
   $('modal').classList.add('ver');$('modal').scrollTop=0;document.body.style.overflow='hidden';
 };
 $('fin').onclick=()=>location.reload();
-$('imprimir-entradas').onclick=()=>window.print();
+
+const esMobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.maxTouchPoints>1&&/Mac/.test(navigator.platform));
+// En celular: menú nativo de compartir. En PC: descarga directa. Devuelve true si se resolvió.
+async function compartirArchivo(blob,fileName,titulo){
+  if(esMobile&&navigator.canShare&&navigator.share){
+    try{const file=new File([blob],fileName,{type:blob.type});
+      if(navigator.canShare({files:[file]})){await navigator.share({files:[file],title:titulo});return true}
+    }catch(err){if(err&&err.name==='AbortError')return true}
+  }
+  const url=URL.createObjectURL(blob);const a=document.createElement('a');a.download=fileName;a.href=url;
+  document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);
+  return false;
+}
+
+// Captura un elemento copiándolo fuera de pantalla (evita recortes dentro del pop-up)
+async function capturar(el,ancho,fondo){
+  const caja=document.createElement('div');
+  caja.style.cssText='position:fixed;left:-10000px;top:0;width:'+ancho+'px;background:'+fondo+';padding:8px';
+  caja.appendChild(el.cloneNode(true));document.body.appendChild(caja);
+  try{return await html2canvas(caja,{backgroundColor:fondo,scale:2,scrollX:0,scrollY:0,windowWidth:ancho+40})}
+  finally{caja.remove()}
+}
+
+// Descargar en PDF: una entrada por página
+$('pdf-entradas').addEventListener('click',async function(){
+  const btn=this,lbl=$('pdf-txt');
+  if(typeof html2canvas==='undefined'||!window.jspdf){alert('No pudimos preparar el PDF. Usá "Guardar o compartir" o sacale una captura de pantalla.');return}
+  btn.disabled=true;const original=lbl.textContent;lbl.textContent='Preparando…';
+  try{
+    const {jsPDF}=window.jspdf;let pdf=null;const ancho=110,margen=8;
+    for(const el of document.querySelectorAll('#entradas .entrada')){
+      const c=await capturar(el,380,'#FFFFFF');
+      const alto=ancho*c.height/c.width;const fmt=[ancho+margen*2,alto+margen*2];
+      const ori=fmt[0]>fmt[1]?'landscape':'portrait';
+      if(!pdf)pdf=new jsPDF({unit:'mm',format:fmt,orientation:ori});else pdf.addPage(fmt,ori);
+      pdf.addImage(c.toDataURL('image/jpeg',0.92),'JPEG',margen,margen,ancho,alto);
+    }
+    const fileName='entradas-gala-candle-night-'+(estado.codigo||'')+'.pdf';
+    const blob=pdf.output('blob');
+    const ok=await compartirArchivo(blob,fileName,'Entradas Gala Candle Night');
+    if(!ok&&esMobile){const w=window.open(URL.createObjectURL(blob));if(!w)avisar('Si no ves el PDF, revisá tus descargas.')}
+  }catch(e){alert('No pudimos generar el PDF. Usá "Guardar o compartir" o sacale una captura de pantalla.')}
+  finally{btn.disabled=false;lbl.textContent=original}
+});
 
 // Guardar o compartir entradas (mismo mecanismo que la app de Luján)
 $('guardar-entradas').addEventListener('click',async function(){
@@ -434,12 +471,11 @@ $('guardar-entradas').addEventListener('click',async function(){
   if(typeof html2canvas==='undefined'){alert('No pudimos preparar la imagen. Sacale una captura de pantalla a las entradas.');return}
   btn.disabled=true;const lbl=$('ge-txt');const original=lbl.textContent;lbl.textContent='Preparando…';
   try{
-    const canvas=await html2canvas(panel,{backgroundColor:'#FFF6E3',scale:window.devicePixelRatio>1?2:1.5});
+    const canvas=await capturar(panel,380,'#FFF6E3');
     const fileName='entradas-gala-candle-night-'+(estado.codigo||'')+'.png';
     const dataUrl=canvas.toDataURL('image/png');
     // En celular usamos el menú nativo de compartir (WhatsApp, Guardar imagen, etc.).
     // En PC el archivo baja directo a Descargas.
-    const esMobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.maxTouchPoints>1&&/Mac/.test(navigator.platform));
     let ok=false;
     if(esMobile&&navigator.canShare&&navigator.share){
       try{
