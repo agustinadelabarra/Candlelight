@@ -191,7 +191,7 @@ label.campo span.opcional{display:inline;font-weight:400;color:var(--tinta-2)}
       <small>Colaborá aunque no puedas venir</small><span class="cv">🕯️ <span id="velas-total">0</span> <span id="velas-txt">velas donadas</span></span></button>
   </main>
   <footer class="ayuda">
-    <button class="btn btn-borde" data-msg="Esta opción estará disponible pronto">Necesito ayuda para comprar</button>
+    <button class="btn btn-borde" data-ir="p-ayuda">Necesito ayuda para comprar</button>
   </footer>
 </section>
 
@@ -265,6 +265,30 @@ label.campo span.opcional{display:inline;font-weight:400;color:var(--tinta-2)}
     </div>
   </div>
   <div class="pie"><button class="btn btn-principal" id="ok-pago" disabled>Confirmar compra</button></div>
+</section>
+
+<section class="pantalla" id="p-ayuda">
+  <div class="barra"><button class="volver" data-ir="p-inicio">‹ Volver</button><span class="barra-titulo">Gala Candle Night</span></div>
+  <div class="cuerpo" style="padding-top:1rem">
+    <h2>Te ayudamos a comprar</h2>
+    <p class="intro-vela">Indicanos tu teléfono y te llamamos para coordinar la venta.</p>
+    <label class="campo"><span>Teléfono</span>
+      <input type="tel" id="tel-ayuda" inputmode="tel" autocomplete="tel" placeholder="Ej: 11 4567 8900">
+      <div class="msg-error" id="err-tel-ayuda">Escribí el teléfono con código de área, por ejemplo 11 4567 8900.</div>
+    </label>
+    <label class="campo"><span>Tu nombre <span class="opcional">(opcional)</span></span>
+      <input type="text" id="nombre-ayuda" autocapitalize="words" autocomplete="name" placeholder="Para saber por quién preguntar"></label>
+  </div>
+  <div class="pie"><button class="btn btn-principal" id="ok-ayuda">Pedir que me llamen</button></div>
+</section>
+
+<section class="pantalla" id="p-ayuda-ok">
+  <div class="cuerpo gracias" style="padding-top:3rem">
+    <div class="velas-anim" aria-hidden="true">📞</div>
+    <h2>¡Listo! Te vamos a llamar</h2>
+    <p class="intro-vela" id="ayuda-ok-txt" style="margin-top:.5rem"></p>
+  </div>
+  <div class="pie"><button class="btn btn-principal" id="fin-ayuda">Volver al inicio</button></div>
 </section>
 
 <section class="pantalla" id="p-vela">
@@ -491,6 +515,18 @@ $('guardar-entradas').addEventListener('click',async function(){
   }catch(e){alert('No pudimos generar la imagen. Sacale una captura de pantalla a las entradas.')}
   finally{btn.disabled=false;lbl.textContent=original}
 });
+
+// Pedido de ayuda para comprar
+$('ok-ayuda').onclick=()=>{
+  const tel=$('tel-ayuda').value.replace(/\D/g,'');const ok=tel.length>=10;
+  $('tel-ayuda').classList.toggle('mal',!ok);$('err-tel-ayuda').classList.toggle('ver',!ok);
+  if(!ok){$('tel-ayuda').focus();return}
+  // Cuando conectemos Supabase, acá se guarda el pedido para que lo vean los voluntarios
+  const n=$('nombre-ayuda').value.trim();
+  $('ayuda-ok-txt').textContent=(n?n.split(/\s+/)[0]+', te':'Te')+' vamos a llamar al '+$('tel-ayuda').value.trim()+' para ayudarte con la compra de las entradas.';
+  ir('p-ayuda-ok');
+};
+$('fin-ayuda').onclick=()=>{$('tel-ayuda').value='';$('nombre-ayuda').value='';ir('p-inicio')};
 
 // Donación de velas
 const vela={cant:1};
