@@ -139,8 +139,11 @@ input.mal{border-color:var(--error);box-shadow:0 0 0 1px var(--error)}
 .datos-transf dd{margin:0;font-size:1.2rem;font-weight:600;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:.4rem .5rem}
 .datos-transf dd span{min-width:0;overflow-wrap:anywhere}
 .datos-transf dd .copiar{flex:none}
-.copiar{font:inherit;font-size:1rem;border:2px solid var(--tinta);background:none;border-radius:10px;padding:.3rem .9rem;min-height:46px;min-width:84px;cursor:pointer;color:var(--tinta)}
-.por-mail{margin-top:.7rem}
+.copiar{display:inline-flex;align-items:center;justify-content:center;font:inherit;border:0;background:none;border-radius:10px;width:46px;height:46px;padding:0;cursor:pointer;color:var(--tinta)}
+.copiar:active,.copiar.ok{background:#F3E8CF}
+.por-mail{display:flex;align-items:center;gap:.6rem;margin-top:.8rem;min-height:48px;font-size:1rem;color:var(--tinta-2);cursor:pointer}
+.por-mail input{width:24px;height:24px;flex:none;accent-color:var(--tinta)}
+.indica-transf{margin:0 0 .6rem;font-size:1.05rem;line-height:1.45}
 .nota-seg{margin:.8rem 0 0;font-size:1rem;color:var(--tinta-2);line-height:1.4}
 .mp-txt{font-size:1.1rem;line-height:1.5;margin:0 0 .9rem;text-align:center}
 #modal-mp .caja{margin-top:18vh}
@@ -163,10 +166,13 @@ input.mal{border-color:var(--error);box-shadow:0 0 0 1px var(--error)}
 .subir.apagado{opacity:.45;pointer-events:none}
 .m-mail{background:#F3E8CF;border-radius:14px;padding:1rem;margin:0 0 1rem;text-align:left}
 .m-mail p{margin:0 0 .6rem;font-size:1.05rem;line-height:1.45}
+.m-mail .m-mail-alt{margin:.7rem 0 0;font-size:1rem;color:var(--tinta-2)}
+.m-mail-alt .copiar{vertical-align:middle;margin:-.6rem 0}
+.m-mail-alt b{word-break:break-all;color:var(--tinta)}
 .m-mail .fila-mail{display:flex;align-items:center;justify-content:space-between;gap:.5rem;flex-wrap:wrap;margin-bottom:.7rem}
 .m-mail .fila-mail b{font-size:1.1rem;word-break:break-all}
 .subir{display:flex;align-items:center;justify-content:center;gap:.6rem;margin-top:.9rem;background:var(--crema);
-  border:2px dashed var(--tinta);border-radius:14px;min-height:62px;padding:.7rem 1rem;font-size:1.15rem;font-weight:600;cursor:pointer;text-align:center}
+  border:2px dashed var(--tinta);border-radius:14px;min-height:80px;padding:1rem;font-size:1.3rem;font-weight:700;cursor:pointer;text-align:center}
 .subir input{position:absolute;opacity:0;width:1px;height:1px}
 .subir.ok{border-style:solid;border-color:#2E7D4F;background:#EAF5EE;color:#1F5E3A}
 
@@ -220,14 +226,15 @@ input.mal{border-color:var(--error);box-shadow:0 0 0 1px var(--error)}
   padding:.35rem .95rem;font-size:1rem}
 .contador-velas b{color:var(--oro-claro)}
 .intro-vela{color:var(--tinta-2);margin:-.35rem 0 .7rem;font-size:1.05rem}
-.toggle{display:flex;align-items:center;gap:.9rem;margin:0 0 1.1rem;padding:.9rem 1rem;border:2px solid #C9C0AE;border-radius:14px;background:var(--blanco);cursor:pointer;min-height:64px}
+.sr-submit{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;border:0;padding:0}
+.toggle{display:flex;align-items:center;justify-content:space-between;gap:.9rem;margin:0 0 1.1rem;padding:.4rem 0;cursor:pointer;min-height:52px}
 .toggle input{position:absolute;opacity:0;width:1px;height:1px}
-.toggle .tg-ui{flex:none;width:56px;height:32px;border-radius:16px;background:#C9C0AE;position:relative;transition:background .2s}
+.toggle .tg-ui{order:2;flex:none;width:56px;height:32px;border-radius:16px;background:#C9C0AE;position:relative;transition:background .2s}
 .toggle .tg-ui::after{content:"";position:absolute;top:3px;left:3px;width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .2s}
 .toggle input:checked+.tg-ui{background:var(--oro-osc)}
 .toggle input:checked+.tg-ui::after{transform:translateX(24px)}
 .toggle input:focus-visible+.tg-ui{outline:4px solid var(--oro-prog);outline-offset:3px}
-.toggle .tg-txt{font-size:1.05rem;font-weight:600;line-height:1.3}
+.toggle .tg-txt{flex:1;font-size:1.1rem;font-weight:600;line-height:1.3}
 .toggle .tg-txt small{display:block;font-weight:400;font-size:1rem;color:var(--tinta-2);margin-top:.15rem}
 p.aclara{margin:-.4rem 0 1rem;color:var(--tinta-2);font-size:1rem}
 .sugerencia{display:inline-block;margin-top:.35rem;font:inherit;font-size:1rem;font-weight:600;color:var(--tinta);background:#F3E8CF;border:2px solid var(--tinta);border-radius:10px;padding:.55rem .8rem;min-height:44px;cursor:pointer}
@@ -412,25 +419,25 @@ input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;
 <section class="pantalla" id="p-contacto" data-paso="2">
   <div class="barra"><button class="volver" data-ir="p-cantidad">‹ Volver</button><span class="barra-titulo">Gala Candle Night</span></div>
   <div class="progreso"></div>
-  <div class="cuerpo">
+  <div class="cuerpo"><form id="f-pago" class="f-datos" autocomplete="on" novalidate>
     <h2>Datos de facturación</h2>
     <p class="aclara">Para fines impositivos de la donación.</p>
     <label class="toggle"><input type="checkbox" id="asiste" role="switch" checked><span class="tg-ui" aria-hidden="true"></span>
       <span class="tg-txt">La persona que paga asiste</span></label>
     <label class="campo"><span>Nombre y apellido o razón social</span>
-      <input type="text" id="pg-nombre" autocapitalize="words" autocomplete="name" placeholder="Ej: María López">
+      <input type="text" id="pg-nombre" name="name" autocapitalize="words" autocomplete="name" placeholder="Ej: María López">
       <div class="msg-error" id="err-pg-nombre">Escribí nombre y apellido, o la razón social.</div>
     </label>
     <label class="campo"><span>CUIL o CUIT</span>
-      <input type="text" id="pg-cuit" inputmode="numeric" autocomplete="off" placeholder="Ej: 20-12345678-6" maxlength="13">
+      <input type="text" id="pg-cuit" name="cuit" inputmode="numeric" autocomplete="off" placeholder="Ej: 20-12345678-6" maxlength="13">
       <div class="msg-error" id="err-pg-cuit">Revisá el número: son 11 dígitos, con o sin guiones.</div>
     </label>
     <label class="campo"><span>Teléfono</span>
-      <input type="tel" id="tel" inputmode="tel" autocomplete="tel" placeholder="Ej: 11 4567 8900">
+      <input type="tel" id="tel" name="tel" inputmode="tel" autocomplete="tel" placeholder="Ej: 11 4567 8900">
       <div class="msg-error" id="err-tel">Escribí el teléfono con código de área, por ejemplo 11 4567 8900.</div>
     </label>
     <label class="campo"><span>Mail</span>
-      <input type="email" id="pg-email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="Ej: maria@gmail.com">
+      <input type="email" id="pg-email" name="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="Ej: maria@gmail.com">
       <div class="msg-error" id="err-pg-email">Revisá el mail, por ejemplo maria@gmail.com.</div>
     </label>
     <h3>Soy:</h3>
@@ -440,7 +447,7 @@ input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;
       <label class="opcion"><input type="radio" name="vinculo" value="staff">Staff del colegio</label>
     </div>
     <div class="msg-error" id="err-vinc">Elegí una de las opciones.</div>
-  </div>
+  <button type="submit" class="sr-submit" tabindex="-1" aria-hidden="true" aria-label="Continuar"></button></form></div>
   <div class="pie"><button class="btn btn-principal" id="ok-contacto">Continuar</button></div>
 </section>
 
@@ -457,16 +464,14 @@ input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;
     </div>
     <div class="msg-error" id="err-pago">Elegí la forma de pago.</div>
     <div class="datos-transf" id="datos-transf">
+      <p class="indica-transf">Hacé la transferencia verificando que el titular sea <b>FUNDACION COLEGIO MICHAEL HAM</b> y adjuntá el comprobante aquí abajo:</p>
       <dl>
-        <dt>Alias</dt><dd><span id="alias">MHCOLEGIO</span><button class="copiar" data-copiar="alias">Copiar</button></dd>
-        <dt>CBU</dt><dd><span id="cbu">0070041220000015296171</span><button class="copiar" data-copiar="cbu">Copiar</button></dd>
-        <dt>Titular</dt><dd>Fundación Colegio Michael Ham</dd>
-        <dt>CUIT</dt><dd>30-66388272-0</dd>
+        <dt>Alias</dt><dd><span id="alias">MHCOLEGIO</span><button class="copiar" data-copiar="alias" aria-label="Copiar alias" title="Copiar"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 8V5a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h2" fill="none" stroke="currentColor" stroke-width="2"/></svg></button></dd>
+        <dt>CBU</dt><dd><span id="cbu">0070041220000015296171</span><button class="copiar" data-copiar="cbu" aria-label="Copiar CBU" title="Copiar"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 8V5a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h2" fill="none" stroke="currentColor" stroke-width="2"/></svg></button></dd>
         <dt>Importe</dt><dd id="importe-transf"></dd>
       </dl>
-      <p class="nota-seg">🔒 Antes de confirmar la transferencia, verificá que tu banco muestre como titular a <b>Fundación Colegio Michael Ham</b>. Si figura otro nombre, no transfieras y avisanos.</p>
       <label class="subir" id="subir"><input type="file" id="comprobante" accept="image/*,application/pdf"><span id="subir-txt">📎 Subir comprobante</span></label>
-      <label class="opcion por-mail"><input type="checkbox" id="por-mail"><span>Prefiero enviar el comprobante por mail<small>Al terminar te indicamos a dónde enviarlo</small></span></label>
+      <label class="por-mail"><input type="checkbox" id="por-mail"><span>Prefiero enviar el comprobante por mail</span></label>
     </div>
   </div>
   <div class="pie"><button class="btn btn-principal" id="ok-pago" disabled>Confirmar compra</button></div>
@@ -474,16 +479,16 @@ input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;
 
 <section class="pantalla" id="p-ayuda">
   <div class="barra"><button class="volver" data-ir="p-inicio">‹ Volver</button><span class="barra-titulo">Gala Candle Night</span></div>
-  <div class="cuerpo" style="padding-top:1rem">
+  <div class="cuerpo" style="padding-top:1rem"><form id="f-ayuda" class="f-datos" autocomplete="on" novalidate>
     <h2>Te ayudamos a comprar</h2>
     <p class="intro-vela">Indicanos tu teléfono y te llamamos para coordinar la venta.</p>
     <label class="campo"><span>Teléfono</span>
-      <input type="tel" id="tel-ayuda" inputmode="tel" autocomplete="tel" placeholder="Ej: 11 4567 8900">
+      <input type="tel" id="tel-ayuda" name="tel" inputmode="tel" autocomplete="tel" placeholder="Ej: 11 4567 8900">
       <div class="msg-error" id="err-tel-ayuda">Escribí el teléfono con código de área, por ejemplo 11 4567 8900.</div>
     </label>
     <label class="campo"><span>Tu nombre <span class="opcional">(opcional)</span></span>
-      <input type="text" id="nombre-ayuda" autocapitalize="words" autocomplete="name" placeholder="Para saber por quién preguntar"></label>
-  </div>
+      <input type="text" id="nombre-ayuda" name="name" autocapitalize="words" autocomplete="name" placeholder="Para saber por quién preguntar"></label>
+  <button type="submit" class="sr-submit" tabindex="-1" aria-hidden="true" aria-label="Continuar"></button></form></div>
   <div class="pie"><button class="btn btn-principal" id="ok-ayuda">Pedir que me llamen</button></div>
 </section>
 
@@ -512,26 +517,26 @@ input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;
 </section>
 <section class="pantalla" id="p-vela-datos">
   <div class="barra"><button class="volver" data-ir="p-vela">‹ Volver</button><span class="barra-titulo">Gala Candle Night</span></div>
-  <div class="cuerpo" style="padding-top:1rem">
+  <div class="cuerpo" style="padding-top:1rem"><form id="f-vela" class="f-datos" autocomplete="on" novalidate>
     <h2>Tus datos</h2>
     <p class="aclara">Los necesitamos para registrar tu donación de <b id="resumen-v"></b>.</p>
     <label class="campo"><span>Nombre y apellido o razón social</span>
-      <input type="text" id="v-nombre" autocapitalize="words" autocomplete="name" placeholder="Ej: María López">
+      <input type="text" id="v-nombre" name="name" autocapitalize="words" autocomplete="name" placeholder="Ej: María López">
       <div class="msg-error" id="err-v-nombre">Escribí nombre y apellido, o la razón social.</div>
     </label>
     <label class="campo"><span>CUIL o CUIT</span>
-      <input type="text" id="v-cuit" inputmode="numeric" autocomplete="off" placeholder="Ej: 20-12345678-6" maxlength="13">
+      <input type="text" id="v-cuit" name="cuit" inputmode="numeric" autocomplete="off" placeholder="Ej: 20-12345678-6" maxlength="13">
       <div class="msg-error" id="err-v-cuit">Revisá el número: son 11 dígitos, con o sin guiones.</div>
     </label>
     <label class="campo"><span>Teléfono</span>
-      <input type="tel" id="v-tel" inputmode="tel" autocomplete="tel" placeholder="Ej: 11 4567 8900">
+      <input type="tel" id="v-tel" name="tel" inputmode="tel" autocomplete="tel" placeholder="Ej: 11 4567 8900">
       <div class="msg-error" id="err-v-tel">Escribí el teléfono con código de área, por ejemplo 11 4567 8900.</div>
     </label>
     <label class="campo"><span>Mail</span>
-      <input type="email" id="v-email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="Ej: maria@gmail.com">
+      <input type="email" id="v-email" name="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="Ej: maria@gmail.com">
       <div class="msg-error" id="err-v-email">Revisá el mail, por ejemplo maria@gmail.com.</div>
     </label>
-  </div>
+  <button type="submit" class="sr-submit" tabindex="-1" aria-hidden="true" aria-label="Continuar"></button></form></div>
   <div class="pie"><button class="btn btn-principal" id="ok-vela">Donar con Mercado Pago</button></div>
 </section>
 
@@ -549,12 +554,11 @@ input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="m-titulo">
   <div class="caja">
     <h2 id="m-titulo">¡Gracias! Estas son tus entradas</h2>
-    <p class="nota">Podés mostrar la entrada en la puerta o simplemente decir el nombre del asistente.</p>
+    <p class="nota" id="m-sub">Podés mostrar la entrada en la puerta o simplemente decir el nombre del asistente.</p>
     <p class="nota" id="m-nota-pago" style="font-weight:600;color:var(--tinta)"></p>
     <div class="m-mail" id="m-mail" hidden>
-      <p>Enviá el comprobante de la transferencia por mail, indicando la <b>compra <span id="m-mail-cod"></span></b>. Alguien del colegio lo va a procesar.</p>
-      <div class="fila-mail"><b id="m-mail-dir"></b><button class="copiar" data-copiar="m-mail-dir">Copiar</button></div>
       <a class="btn btn-principal" id="m-mail-btn" href="#">✉️ Enviar comprobante por mail</a>
+      <p class="m-mail-alt">Si no se abre tu mail, envialo a <b id="m-mail-dir"></b><button class="copiar" data-copiar="m-mail-dir" aria-label="Copiar dirección de mail" title="Copiar"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 8V5a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h2" fill="none" stroke="currentColor" stroke-width="2"/></svg></button> indicando la compra <b id="m-mail-cod"></b>.</p>
     </div>
     <div id="entradas"></div>
     <div class="acciones-entradas">
@@ -753,7 +757,7 @@ function pintarListaVol(){
     '</tbody></table></div>';
 }
 // Versión y firma
-const APP_VERSION='1.9';
+const APP_VERSION='2.1';
 $('app-ver').textContent='v'+APP_VERSION;
 $('vs-mark').addEventListener('click',e=>{e.stopPropagation();$('vs-tip').hidden=!$('vs-tip').hidden;if(!$('vs-tip').hidden)trackEvent('vertexsur_click',{})});
 document.addEventListener('click',e=>{if(!e.target.closest('#vs-mark'))$('vs-tip').hidden=true});
@@ -916,6 +920,8 @@ let toggleTocado=false;$('asiste').addEventListener('change',()=>{toggleTocado=t
 }));
 ['pg-cuit','v-cuit'].forEach(id=>$(id).addEventListener('blur',()=>{if(cuitOk($(id).value))$(id).value=formatoCuit($(id).value)}));
 
+// Formularios de datos: permiten el autocompletado del navegador; "Enter" equivale al botón principal
+[['f-pago','ok-contacto'],['f-vela','ok-vela'],['f-ayuda','ok-ayuda']].forEach(([f,b])=>$(f).addEventListener('submit',e=>{e.preventDefault();$(b).click()}));
 // Paso 2 (datos de quien paga)
 $('ok-contacto').onclick=()=>{
   estado.pagador=estado.pagador||{};
@@ -955,7 +961,7 @@ $('comprobante').addEventListener('change',e=>{
   actualizarBoton();
 });
 document.querySelectorAll('[data-copiar]').forEach(b=>b.addEventListener('click',async()=>{
-  try{await navigator.clipboard.writeText($(b.dataset.copiar).textContent);avisar('Copiado')}catch(e){avisar('No se pudo copiar. Anotalo a mano.')}
+  try{await navigator.clipboard.writeText($(b.dataset.copiar).textContent);avisar('Copiado ✓');b.classList.add('ok');setTimeout(()=>b.classList.remove('ok'),1200)}catch(e){avisar('No se pudo copiar. Anotalo a mano.')}
 }));
 let pendienteMP=null;
 function abrirAvisoMP(fn){pendienteMP=fn;$('mp-titular').textContent=TITULAR_MP;$('modal-mp').classList.add('ver');document.body.style.overflow='hidden';setTimeout(()=>$('mp-ir').focus(),50)}
@@ -985,9 +991,8 @@ async function confirmarCompra(){
       '<div class="e-cuerpo"><small>Asistente</small><div class="nombre">'+esc(a.nombre)+'</div>'+
       '<small>Fecha</small><div>Martes 3 de noviembre, 19 h</div><small style="margin-top:.4rem">Lugar</small><div>Colegio Michael Ham</div>'+'</div>'+
       '<div class="e-pie"><span>Ubicación por orden de llegada</span><span>Código <b>'+esc(a.codigo_entrada)+'</b></span></div></div>').join('');
-    $('m-nota-pago').textContent=p.value==='mp'
-      ?'Recordá completar el pago en Mercado Pago.'
-      :'Vamos a verificar tu transferencia. Tus entradas quedan confirmadas cuando se acredite.';
+    const esTransf=p.value!=='mp';
+    $('m-nota-pago').textContent=esTransf?'':'Recordá completar el pago en Mercado Pago.';$('m-nota-pago').hidden=esTransf;$('m-sub').hidden=esTransf;
     $('m-mail').hidden=!porMail;
     if(porMail){
       const asunto='Comprobante Gala Candle Night - Compra '+r.codigo;
