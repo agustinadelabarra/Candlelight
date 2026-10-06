@@ -64,6 +64,20 @@ body{margin:0;min-height:100%;background:var(--crema);color:var(--tinta);
 
 /* Inicio */
 .hero{position:relative;height:clamp(220px,40vh,400px);overflow:hidden;flex:none}
+@media (min-width:700px){
+  .hero{height:clamp(200px,34vh,400px)}
+  body .grilla-datos{display:grid;grid-template-columns:1fr 1fr;column-gap:.9rem;align-items:end}
+  body .opciones.op-soy{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+  body .datos-transf dl{display:grid;grid-template-columns:1fr 1.7fr;column-gap:1rem}
+  body .datos-transf dl .dato:last-child{grid-column:1 / -1}
+  body .opciones.op-pago{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+  body .opciones.op-soy .opcion,body .opciones.op-pago .opcion{min-height:56px;padding-top:.5rem;padding-bottom:.5rem}
+  body #p-contacto .cuerpo h3{margin-top:.6rem}
+  body .grilla-datos label.campo{margin-bottom:.5rem}
+  body .grilla-datos label.campo>span{font-size:.95rem}
+  body #p-contacto .toggle{margin-bottom:.5rem;padding-bottom:.5rem}
+  body #p-contacto .aclara{margin-bottom:.4rem}
+}
 .hero img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
 .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(255,246,227,0) 80%,var(--crema) 100%)}
 .titulo{text-align:center;padding:.4rem 1.25rem 0}
@@ -142,6 +156,7 @@ input.mal{border-color:var(--error);box-shadow:0 0 0 1px var(--error)}
 .copiar{display:inline-flex;align-items:center;justify-content:center;font:inherit;border:0;background:none;border-radius:10px;width:46px;height:46px;padding:0;cursor:pointer;color:var(--tinta)}
 .copiar:active,.copiar.ok{background:#F3E8CF}
 .por-mail{display:flex;align-items:center;gap:.6rem;margin-top:.8rem;min-height:48px;font-size:1rem;color:var(--tinta-2);cursor:pointer}
+.por-mail.apagado{opacity:.45;cursor:default}
 .por-mail input{width:24px;height:24px;flex:none;accent-color:var(--tinta)}
 .indica-transf{margin:0 0 .6rem;font-size:1.05rem;line-height:1.45}
 .nota-seg{margin:.8rem 0 0;font-size:1rem;color:var(--tinta-2);line-height:1.4}
@@ -227,14 +242,14 @@ input.mal{border-color:var(--error);box-shadow:0 0 0 1px var(--error)}
 .contador-velas b{color:var(--oro-claro)}
 .intro-vela{color:var(--tinta-2);margin:-.35rem 0 .7rem;font-size:1.05rem}
 .sr-submit{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;border:0;padding:0}
-.toggle{display:flex;align-items:center;justify-content:space-between;gap:.9rem;margin:0 0 1.1rem;padding:.4rem 0;cursor:pointer;min-height:52px}
+.toggle{display:flex;align-items:center;justify-content:flex-end;gap:.7rem;margin:0 0 1rem;padding:.3rem 0 .7rem;cursor:pointer;min-height:52px;border-bottom:1px solid #E2D8C3}
 .toggle input{position:absolute;opacity:0;width:1px;height:1px}
 .toggle .tg-ui{order:2;flex:none;width:56px;height:32px;border-radius:16px;background:#C9C0AE;position:relative;transition:background .2s}
 .toggle .tg-ui::after{content:"";position:absolute;top:3px;left:3px;width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .2s}
 .toggle input:checked+.tg-ui{background:var(--oro-osc)}
 .toggle input:checked+.tg-ui::after{transform:translateX(24px)}
 .toggle input:focus-visible+.tg-ui{outline:4px solid var(--oro-prog);outline-offset:3px}
-.toggle .tg-txt{flex:1;font-size:1.1rem;font-weight:600;line-height:1.3}
+.toggle .tg-txt{flex:none;text-align:right;font-size:1rem;font-weight:400;color:var(--tinta-2);line-height:1.3}
 .toggle .tg-txt small{display:block;font-weight:400;font-size:1rem;color:var(--tinta-2);margin-top:.15rem}
 p.aclara{margin:-.4rem 0 1rem;color:var(--tinta-2);font-size:1rem}
 .sugerencia{display:inline-block;margin-top:.35rem;font:inherit;font-size:1rem;font-weight:600;color:var(--tinta);background:#F3E8CF;border:2px solid var(--tinta);border-radius:10px;padding:.55rem .8rem;min-height:44px;cursor:pointer}
@@ -424,6 +439,7 @@ input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;
     <p class="aclara">Para fines impositivos de la donación.</p>
     <label class="toggle"><input type="checkbox" id="asiste" role="switch" checked><span class="tg-ui" aria-hidden="true"></span>
       <span class="tg-txt">La persona que paga asiste</span></label>
+    <div class="grilla-datos">
     <label class="campo"><span>Nombre y apellido o razón social</span>
       <input type="text" id="pg-nombre" name="name" autocapitalize="words" autocomplete="name" placeholder="Ej: María López">
       <div class="msg-error" id="err-pg-nombre">Escribí nombre y apellido, o la razón social.</div>
@@ -440,11 +456,13 @@ input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;
       <input type="email" id="pg-email" name="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="Ej: maria@gmail.com">
       <div class="msg-error" id="err-pg-email">Revisá el mail, por ejemplo maria@gmail.com.</div>
     </label>
+    </div>
     <h3>Soy:</h3>
-    <div class="opciones" role="radiogroup" aria-label="Soy">
+    <div class="opciones op-soy" role="radiogroup" aria-label="Soy">
       <label class="opcion"><input type="radio" name="vinculo" value="exalumno">Exalumno/a</label>
       <label class="opcion"><input type="radio" name="vinculo" value="familia">Familia de alumno/a</label>
       <label class="opcion"><input type="radio" name="vinculo" value="staff">Staff del colegio</label>
+      <label class="opcion"><input type="radio" name="vinculo" value="otro">Otro</label>
     </div>
     <div class="msg-error" id="err-vinc">Elegí una de las opciones.</div>
   <button type="submit" class="sr-submit" tabindex="-1" aria-hidden="true" aria-label="Continuar"></button></form></div>
@@ -458,7 +476,7 @@ input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;
     <h2>Resumen</h2>
     <div class="resumen" id="resumen"></div>
     <h3>Forma de pago</h3>
-    <div class="opciones" role="radiogroup" aria-label="Forma de pago">
+    <div class="opciones op-pago" role="radiogroup" aria-label="Forma de pago">
       <label class="opcion"><input type="radio" name="pago" value="mp"><span>Mercado Pago<small>Con tarjeta o dinero en cuenta</small></span></label>
       <label class="opcion"><input type="radio" name="pago" value="transf"><span>Transferencia bancaria<small>Desde tu banco o billetera</small></span></label>
     </div>
@@ -466,9 +484,9 @@ input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;
     <div class="datos-transf" id="datos-transf">
       <p class="indica-transf">Hacé la transferencia verificando que el titular sea <b>FUNDACION COLEGIO MICHAEL HAM</b> y adjuntá el comprobante aquí abajo:</p>
       <dl>
-        <dt>Alias</dt><dd><span id="alias">MHCOLEGIO</span><button class="copiar" data-copiar="alias" aria-label="Copiar alias" title="Copiar"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 8V5a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h2" fill="none" stroke="currentColor" stroke-width="2"/></svg></button></dd>
-        <dt>CBU</dt><dd><span id="cbu">0070041220000015296171</span><button class="copiar" data-copiar="cbu" aria-label="Copiar CBU" title="Copiar"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 8V5a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h2" fill="none" stroke="currentColor" stroke-width="2"/></svg></button></dd>
-        <dt>Importe</dt><dd id="importe-transf"></dd>
+        <div class="dato"><dt>Alias</dt><dd><span id="alias">MHCOLEGIO</span><button class="copiar" data-copiar="alias" aria-label="Copiar alias" title="Copiar"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 8V5a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h2" fill="none" stroke="currentColor" stroke-width="2"/></svg></button></dd></div>
+        <div class="dato"><dt>CBU</dt><dd><span id="cbu">0070041220000015296171</span><button class="copiar" data-copiar="cbu" aria-label="Copiar CBU" title="Copiar"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 8V5a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h2" fill="none" stroke="currentColor" stroke-width="2"/></svg></button></dd></div>
+        <div class="dato"><dt>Importe</dt><dd id="importe-transf"></dd></div>
       </dl>
       <label class="subir" id="subir"><input type="file" id="comprobante" accept="image/*,application/pdf"><span id="subir-txt">📎 Subir comprobante</span></label>
       <label class="por-mail"><input type="checkbox" id="por-mail"><span>Prefiero enviar el comprobante por mail</span></label>
@@ -520,6 +538,7 @@ input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;
   <div class="cuerpo" style="padding-top:1rem"><form id="f-vela" class="f-datos" autocomplete="on" novalidate>
     <h2>Tus datos</h2>
     <p class="aclara">Los necesitamos para registrar tu donación de <b id="resumen-v"></b>.</p>
+    <div class="grilla-datos">
     <label class="campo"><span>Nombre y apellido o razón social</span>
       <input type="text" id="v-nombre" name="name" autocapitalize="words" autocomplete="name" placeholder="Ej: María López">
       <div class="msg-error" id="err-v-nombre">Escribí nombre y apellido, o la razón social.</div>
@@ -536,6 +555,7 @@ input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;
       <input type="email" id="v-email" name="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="Ej: maria@gmail.com">
       <div class="msg-error" id="err-v-email">Revisá el mail, por ejemplo maria@gmail.com.</div>
     </label>
+    </div>
   <button type="submit" class="sr-submit" tabindex="-1" aria-hidden="true" aria-label="Continuar"></button></form></div>
   <div class="pie"><button class="btn btn-principal" id="ok-vela">Donar con Mercado Pago</button></div>
 </section>
@@ -757,7 +777,7 @@ function pintarListaVol(){
     '</tbody></table></div>';
 }
 // Versión y firma
-const APP_VERSION='2.1';
+const APP_VERSION='2.4';
 $('app-ver').textContent='v'+APP_VERSION;
 $('vs-mark').addEventListener('click',e=>{e.stopPropagation();$('vs-tip').hidden=!$('vs-tip').hidden;if(!$('vs-tip').hidden)trackEvent('vertexsur_click',{})});
 document.addEventListener('click',e=>{if(!e.target.closest('#vs-mark'))$('vs-tip').hidden=true});
@@ -776,7 +796,7 @@ $('vol-lista').addEventListener('click',async e=>{
 
 // Control de comprobantes
 let compDatos=[],compAbierta=null;
-const VINC={exalumno:'Exalumno/a',familia:'Familia',staff:'Staff'};
+const VINC={exalumno:'Exalumno/a',familia:'Familia',staff:'Staff',otro:'Otro'};
 const fechaCorta=f=>new Date(f).toLocaleString('es-AR',{day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'});
 async function cargarComp(){
   const b=$('comp-act');b.disabled=true;b.textContent='Cargando…';
@@ -958,6 +978,7 @@ $('comprobante').addEventListener('change',e=>{
   const f=e.target.files[0];estado.comprobante=f||null;
   $('subir').classList.toggle('ok',!!f);
   $('subir-txt').textContent=f?'✓ '+f.name:'📎 Subir comprobante';
+  if(f)$('por-mail').checked=false;$('por-mail').disabled=!!f;$('por-mail').closest('label').classList.toggle('apagado',!!f);
   actualizarBoton();
 });
 document.querySelectorAll('[data-copiar]').forEach(b=>b.addEventListener('click',async()=>{
@@ -992,7 +1013,7 @@ async function confirmarCompra(){
       '<small>Fecha</small><div>Martes 3 de noviembre, 19 h</div><small style="margin-top:.4rem">Lugar</small><div>Colegio Michael Ham</div>'+'</div>'+
       '<div class="e-pie"><span>Ubicación por orden de llegada</span><span>Código <b>'+esc(a.codigo_entrada)+'</b></span></div></div>').join('');
     const esTransf=p.value!=='mp';
-    $('m-nota-pago').textContent=esTransf?'':'Recordá completar el pago en Mercado Pago.';$('m-nota-pago').hidden=esTransf;$('m-sub').hidden=esTransf;
+    $('m-nota-pago').textContent='';$('m-nota-pago').hidden=true;$('m-sub').hidden=esTransf;
     $('m-mail').hidden=!porMail;
     if(porMail){
       const asunto='Comprobante Gala Candle Night - Compra '+r.codigo;
