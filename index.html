@@ -214,6 +214,15 @@ input.pin{font-size:2rem;letter-spacing:.6rem;text-align:center;max-width:220px;
 .menu-lista button[aria-current=page]{font-weight:700;background:#F3E7C9}
 .menu-n{display:inline-block;min-width:1.6em;text-align:center;background:var(--oro);color:var(--carbon);border-radius:999px;font-size:.85rem;font-weight:700;padding:.05rem .45rem;margin-left:.35rem}
 .menu-n:empty{display:none}
+.tabla-wrap{overflow-x:auto;background:var(--blanco);border:1px solid var(--linea);border-radius:12px}
+.tabla-comp{width:100%;border-collapse:collapse;font-size:1rem}
+.tabla-comp th{text-align:left;font-size:.85rem;font-weight:600;color:var(--tinta-2);padding:.55rem .6rem;border-bottom:2px solid var(--linea);background:#FBF6EA}
+.tabla-comp td{padding:.5rem .6rem;border-bottom:1px solid var(--linea);vertical-align:middle}
+.tabla-comp tr:last-child td{border-bottom:none}
+.tabla-comp .n{text-align:right;white-space:nowrap}
+.tabla-comp .mas{font-size:.85rem;color:var(--tinta-2);white-space:nowrap}
+.b-tabla{font:inherit;font-size:.95rem;font-weight:600;border:2px solid var(--tinta);background:var(--blanco);color:var(--tinta);border-radius:10px;padding:.35rem .7rem;min-height:42px;cursor:pointer}
+.nota-tabla{font-size:.9rem;color:var(--tinta-2);text-align:center;margin:.6rem 0 0}
 .comp{background:var(--blanco);border:1px solid var(--linea);border-radius:14px;padding:.8rem .9rem;margin-bottom:.6rem}
 .comp-l1{display:flex;justify-content:space-between;align-items:baseline;gap:.5rem}
 .comp-l1 b{font-size:1.15rem}.comp-l1 span{font-size:.9rem;color:var(--tinta-2)}
@@ -275,7 +284,7 @@ input.pin{font-size:2rem;letter-spacing:.6rem;text-align:center;max-width:220px;
 <section class="pantalla" id="p-comp">
   <div class="barra"><button class="volver" data-ir="p-inicio">‹ Inicio</button><span class="barra-titulo">Comprobantes</span><button class="menu-barra abre-menu" aria-label="Abrir menú"><i></i><i></i><i></i></button></div>
   <div class="cuerpo">
-    <div class="vol-resumen"><small>Compras pendientes de verificar</small><b id="comp-total">–</b><div class="det" id="comp-det"></div></div>
+    <div class="vol-resumen"><small>Transferencias para verificar</small><b id="comp-total">–</b><div class="det" id="comp-det"></div></div>
     <div class="vol-herr" style="justify-content:flex-end"><button id="comp-act" style="min-height:50px">Actualizar</button></div>
     <div id="comp-lista"></div>
   </div>
@@ -573,17 +582,13 @@ async function cargarComp(){
 }
 $('comp-act').onclick=cargarComp;
 function pintarComp(){
-  $('comp-lista').innerHTML=compDatos.length?compDatos.map(c=>
-    '<div class="comp"><div class="comp-l1"><b>Compra '+esc(c.codigo)+'</b><span>'+fechaCorta(c.fecha)+'</span></div>'+
-    '<div class="comp-nombres">'+(c.nombres||[]).map(esc).join(', ')+'</div>'+
-    '<div class="comp-datos"><strong>'+pesos(c.total)+'</strong><span>'+(c.cantidad===1?'1 entrada':c.cantidad+' entradas')+'</span>'+
-    '<a href="tel:'+esc(c.telefono.replace(/[^\d+]/g,''))+'">'+esc(c.telefono)+'</a><span>'+(VINC[c.vinculo]||'')+'</span></div>'+
-    (c.forma_pago==='transferencia'
-      ?(c.tiene_comprobante?'<button class="b-ver" data-ver="'+esc(c.codigo)+'">📄 Ver comprobante</button>':'<div class="comp-mp">Transferencia sin comprobante adjunto.</div>')
-      :'<div class="comp-mp">Pagó con Mercado Pago: verificá el cobro en la cuenta antes de aceptar.</div>')+
-    '<div class="comp-acc"><button class="b-no" data-estado="rechazada" data-cod="'+esc(c.codigo)+'">Rechazar</button>'+
-    '<button class="b-ok" data-estado="pagada" data-cod="'+esc(c.codigo)+'">Aceptar</button></div></div>').join('')
-    :'<p class="vol-vacio">No hay compras pendientes. 🎉</p>';
+  if(!compDatos.length){$('comp-lista').innerHTML='<p class="vol-vacio">No hay transferencias para verificar. 🎉</p>';return}
+  $('comp-lista').innerHTML='<div class="tabla-wrap"><table class="tabla-comp"><thead><tr><th>Asistentes</th><th class="n">Entr.</th><th class="n">Total</th><th></th></tr></thead><tbody>'+
+    compDatos.map(c=>{const n=c.nombres||[];
+      return '<tr><td>'+esc(n[0]||'')+(n.length>1?' <span class="mas">+'+(n.length-1)+'</span>':'')+'</td>'+
+      '<td class="n">'+c.cantidad+'</td><td class="n">'+pesos(c.total).replace('$ ','$')+'</td>'+
+      '<td><button class="b-tabla" data-ver="'+esc(c.codigo)+'">Ver</button></td></tr>'}).join('')+
+    '</tbody></table></div><p class="nota-tabla">Tocá "Ver" para revisar el comprobante y aceptar o rechazar la compra.</p>';
 }
 $('comp-lista').addEventListener('click',e=>{
   const v=e.target.closest('[data-ver]');if(v){verComprobante(v.dataset.ver);return}
@@ -604,7 +609,8 @@ async function cambiarEstado(cod,est){
 async function verComprobante(cod){
   const c=compDatos.find(x=>x.codigo===cod);if(!c)return;compAbierta=cod;
   $('mc-titulo').textContent='Compra '+cod;
-  $('mc-sub').textContent=(c.nombres||[]).join(', ')+' · '+pesos(c.total)+' · '+(c.cantidad===1?'1 entrada':c.cantidad+' entradas');
+  $('mc-sub').innerHTML=esc((c.nombres||[]).join(', '))+'<br><b>'+pesos(c.total)+'</b> · '+(c.cantidad===1?'1 entrada':c.cantidad+' entradas')+
+    '<br>'+fechaCorta(c.fecha)+' · <a href="tel:'+esc(c.telefono.replace(/[^\d+]/g,''))+'" style="color:var(--tinta)">'+esc(c.telefono)+'</a>';
   $('mc-cont').innerHTML='<div class="cargando">Cargando comprobante…</div>';
   $('mc-ok').disabled=$('mc-no').disabled=false;
   $('modal-comp').classList.add('ver');$('modal-comp').scrollTop=0;document.body.style.overflow='hidden';
@@ -616,7 +622,7 @@ async function verComprobante(cod){
     $('mc-cont').innerHTML=d.tipo==='pdf'
       ?'<a class="btn btn-sec" href="'+esc(d.url)+'" target="_blank" rel="noopener">Abrir comprobante (PDF)</a>'
       :'<a href="'+esc(d.url)+'" target="_blank" rel="noopener"><img src="'+esc(d.url)+'" alt="Comprobante de la compra '+esc(cod)+'"></a><p class="nota" style="margin-top:.4rem">Tocá la imagen para verla más grande.</p>';
-  }catch(e){$('mc-cont').innerHTML='<div class="cargando">No se pudo cargar el comprobante. Probá de nuevo.</div>'}
+  }catch(e){$('mc-cont').innerHTML='<div class="cargando">'+(e.message==='sin comprobante'?'Esta compra no tiene comprobante adjunto.':'No se pudo cargar el comprobante. Probá de nuevo.')+'</div>'}
 }
 function cerrarComp(){compAbierta=null;$('modal-comp').classList.remove('ver');document.body.style.overflow=''}
 $('mc-cerrar').onclick=cerrarComp;
