@@ -4,6 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Gala Candle Night</title>
+<script>
+  // Google Analytics: completar GA_ID con el ID de medición (G-XXXXXXXXXX). Vacío = no se carga nada.
+  window.GA_ID = '';
+  if (window.GA_ID) {
+    var s = document.createElement('script'); s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + window.GA_ID; document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function(){ dataLayer.push(arguments); };
+    gtag('js', new Date());
+    // Una sola página real: las pantallas se registran a mano como page_view
+    gtag('config', window.GA_ID, { send_page_view: false });
+  }
+</script>
 <meta name="description" content="3 de noviembre en el Colegio Michael Ham. Comprá tu entrada o doná una vela.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://candlelight-lemon.vercel.app/">
@@ -29,7 +42,8 @@
   padding-bottom:env(safe-area-inset-bottom,0px);
 }
 *,*::before,*::after{box-sizing:inherit}
-html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px);background:var(--crema)}
+html{touch-action:manipulation;height:100%;scroll-padding-top:env(safe-area-inset-top,0px);background:var(--crema)}
+button,a,label,input{touch-action:manipulation}
 body{margin:0;min-height:100%;background:var(--crema);color:var(--tinta);
   font-family:Lexend,"Segoe UI",Verdana,sans-serif;font-size:1.15rem;line-height:1.45}
 .app{max-width:560px;margin:0 auto}
@@ -71,7 +85,7 @@ body{margin:0;min-height:100%;background:var(--crema);color:var(--tinta);
   position:sticky;top:env(safe-area-inset-top,0px);z-index:2}
 .volver{background:none;border:2px solid #B9B2A3;color:var(--tinta);font:inherit;font-size:1rem;border-radius:12px;padding:.4rem .8rem;min-height:46px;cursor:pointer}
 .barra-titulo{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600;font-size:1.45rem;flex:1;text-align:right}
-.progreso{padding:.7rem 1.25rem 0;color:var(--oro-osc);font-size:.95rem}
+.progreso{padding:.7rem 1.25rem 0;color:var(--oro-osc);font-size:1rem}
 .puntos{display:flex;gap:.35rem;margin-top:.3rem}
 .puntos i{flex:1;height:6px;border-radius:3px;background:var(--linea)}
 .puntos i.ok{background:var(--oro-prog)}
@@ -104,19 +118,22 @@ input.mal{border-color:var(--error);box-shadow:0 0 0 1px var(--error)}
   border-radius:14px;padding:.8rem 1rem;cursor:pointer;min-height:62px;font-size:1.2rem}
 .opcion input{width:28px;height:28px;accent-color:var(--tinta);flex:none}
 .opcion:has(input:checked){border-color:var(--tinta);box-shadow:0 0 0 1px var(--tinta)}
-.opcion small{display:block;font-size:.95rem;color:var(--tinta-2)}
+.opcion small{display:block;font-size:1rem;color:var(--tinta-2)}
 
 .resumen{background:var(--blanco);border:1px solid var(--linea);border-radius:14px;padding:.85rem 1rem}
 .resumen .r-total{display:flex;justify-content:space-between;align-items:baseline;font-weight:700}
 .resumen .r-total b{font-size:1.5rem}
 .resumen ul{margin:.4rem 0 0;padding-left:1.2rem;color:var(--tinta-2)}
+.e-reserva{margin-top:.55rem;padding:.35rem .6rem;border-radius:8px;background:#EAF0FA;color:#22406E;font-weight:600;font-size:1rem}
+.ef-aviso{background:#EAF0FA;color:#22406E;border-radius:12px;padding:.9rem 1rem;font-size:1.05rem;line-height:1.45}
 .datos-transf{background:var(--blanco);border:2px solid var(--tinta);border-radius:14px;padding:.9rem 1rem;margin-top:.75rem;display:none}
 .datos-transf.ver{display:block}
+.ef-txt{margin:0;font-size:1.1rem;line-height:1.45}
 .datos-transf dl{margin:0}
-.datos-transf dt{font-size:.9rem;color:var(--tinta-2);margin-top:.5rem}
+.datos-transf dt{font-size:1rem;color:var(--tinta-2);margin-top:.5rem}
 .datos-transf dt:first-child{margin-top:0}
 .datos-transf dd{margin:0;font-size:1.2rem;font-weight:600;display:flex;justify-content:space-between;align-items:center;gap:.5rem}
-.copiar{font:inherit;font-size:.95rem;border:2px solid var(--tinta);background:none;border-radius:10px;padding:.3rem .7rem;cursor:pointer;color:var(--tinta)}
+.copiar{font:inherit;font-size:1rem;border:2px solid var(--tinta);background:none;border-radius:10px;padding:.3rem .9rem;min-height:46px;min-width:84px;cursor:pointer;color:var(--tinta)}
 .subir{display:flex;align-items:center;justify-content:center;gap:.6rem;margin-top:.9rem;background:var(--crema);
   border:2px dashed var(--tinta);border-radius:14px;min-height:62px;padding:.7rem 1rem;font-size:1.15rem;font-weight:600;cursor:pointer;text-align:center}
 .subir input{position:absolute;opacity:0;width:1px;height:1px}
@@ -130,13 +147,13 @@ input.mal{border-color:var(--error);box-shadow:0 0 0 1px var(--error)}
 .caja h2{text-align:center;margin:.2rem 0 .3rem;font-size:1.4rem}
 .caja .nota{text-align:center;color:var(--tinta-2);margin:0 0 1rem;font-size:1rem}
 .entrada{background:var(--blanco);border-radius:16px;overflow:hidden;margin-bottom:1rem;border:1px solid var(--linea)}
-.e-top{background:var(--carbon);color:var(--crema);padding:.8rem .9rem;display:flex;justify-content:space-between;align-items:center}
-.e-top b{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600;font-size:1.3rem;color:var(--oro-claro);white-space:nowrap}
-.e-top span{font-size:.85rem;white-space:nowrap;margin-left:.5rem}
+.e-top{background:var(--carbon);color:var(--crema);padding:.8rem .9rem;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:.15rem .5rem}
+.e-top b{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600;font-size:1.3rem;color:var(--oro-claro)}
+.e-top span{font-size:1rem;white-space:nowrap}
 .e-cuerpo{padding:.9rem 1rem;border-bottom:2px dashed var(--linea)}
-.e-cuerpo small{display:block;color:var(--tinta-2);font-size:.85rem}
+.e-cuerpo small{display:block;color:var(--tinta-2);font-size:1rem}
 .e-cuerpo .nombre{font-size:1.45rem;font-weight:700;margin-bottom:.5rem}
-.e-pie{display:flex;justify-content:space-between;align-items:center;gap:.5rem;padding:.7rem 1rem;font-size:.95rem}
+.e-pie{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:.4rem .75rem;padding:.7rem 1rem;font-size:1rem}
 .e-pie b{letter-spacing:.04em;white-space:nowrap}
 
 .aviso{position:fixed;left:50%;bottom:calc(6rem + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);
@@ -151,9 +168,15 @@ input.mal{border-color:var(--error);box-shadow:0 0 0 1px var(--error)}
 #p-inicio .datos{color:var(--oro)}
 #p-inicio .datos strong{color:#F5EEDF}
 #p-inicio .btn-sec{background:var(--oro);border:none;color:var(--carbon)}
-#p-inicio .btn-sec small{color:var(--carbon)}
-#p-inicio .btn-sec .cv{display:block;font-size:.95rem;font-weight:600;margin-top:.2rem}
-#p-inicio .ayuda{border-top-color:rgba(245,238,223,.14)}
+#p-inicio .btn-sec small{color:var(--carbon);font-size:1rem}
+#p-inicio .btn-sec .cv{display:block;font-size:1rem;font-weight:600;margin-top:.2rem}
+#p-inicio .ayuda{border-top-color:rgba(245,238,223,.14);padding-top:.55rem;padding-bottom:.25rem}
+.firma{display:flex;align-items:center;justify-content:center;gap:.5rem;margin-top:.2rem;color:rgba(245,238,223,.45);font-size:.78rem;line-height:1}
+.vs-wrap{position:relative}
+.vs-mark{background:none;border:0;padding:.2rem .5rem;cursor:pointer;font:500 1.05rem 'Lexend',sans-serif;color:inherit;opacity:.85}
+.vs-mark:hover{opacity:1}
+.vs-tip{position:absolute;left:50%;bottom:100%;transform:translateX(-50%);margin-bottom:6px;background:#2C2926;border:1px solid rgba(245,238,223,.2);color:#F5EEDF;font-size:.8rem;padding:.4rem .65rem;border-radius:6px;white-space:nowrap;z-index:5}
+.vs-tip[hidden]{display:none}
 #p-inicio .btn-borde{border-color:rgba(245,238,223,.4);color:#F5EEDF}
 #p-inicio .btn:focus-visible{outline-color:var(--oro-claro)}
 .barra{background:var(--carbon);border-bottom:none;color:#F5EEDF}
@@ -187,7 +210,7 @@ label.campo span.opcional{display:inline;font-weight:400;color:var(--tinta-2)}
 .menu-lista button:not([hidden])~button:not([hidden]){border-top:1px solid var(--linea)}
 .menu-lista button[hidden]+button{border-top:none}
 /* Voluntarios */
-input.pin{font-size:2rem;letter-spacing:.6rem;text-align:center;max-width:220px;display:block;margin:0 auto}
+input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;max-width:220px;display:block;margin:0 auto}
 .vol-resumen{background:var(--carbon);color:#F5EEDF;border-radius:18px;padding:1rem 1.1rem;text-align:center;margin:.6rem 0 .8rem}
 .vol-resumen small{display:block;color:var(--oro-claro);font-size:1rem}
 .vol-resumen b{display:block;font-size:3.4rem;line-height:1.05;font-weight:700}
@@ -202,7 +225,7 @@ input.pin{font-size:2rem;letter-spacing:.6rem;text-align:center;max-width:220px;
 .vol-l1 a{color:var(--tinta);white-space:nowrap;font-size:1rem}
 .vol-l2{display:flex;flex-wrap:wrap;align-items:center;gap:.45rem;margin-top:.3rem;font-size:.92rem;color:var(--tinta-2)}
 .chip{border-radius:999px;padding:.1rem .6rem;font-weight:600;font-size:.88rem}
-.chip.pagada{background:#E3F2E8;color:#1F5E3A}.chip.pendiente{background:#FBEFD2;color:#7A5A14}.chip.rechazada{background:#F8E1DF;color:#8C1D17}
+.chip.pagada{background:#E3F2E8;color:#1F5E3A}.chip.pendiente{background:#FBEFD2;color:#7A5A14}.chip.rechazada{background:#F8E1DF;color:#8C1D17}.chip.reservada{background:#EAF0FA;color:#22406E}
 .vol-vacio{text-align:center;color:var(--tinta-2);padding:1.5rem 0}
 /* Menú en barra de voluntarios */
 .menu-barra{width:48px;height:46px;border-radius:12px;border:2px solid rgba(255,246,227,.5);background:none;color:var(--crema);cursor:pointer;
@@ -214,15 +237,24 @@ input.pin{font-size:2rem;letter-spacing:.6rem;text-align:center;max-width:220px;
 .menu-lista button[aria-current=page]{font-weight:700;background:#F3E7C9}
 .menu-n{display:inline-block;min-width:1.6em;text-align:center;background:var(--oro);color:var(--carbon);border-radius:999px;font-size:.85rem;font-weight:700;padding:.05rem .45rem;margin-left:.35rem}
 .menu-n:empty{display:none}
+.contadores{display:flex;gap:.45rem;margin:.6rem 0 .3rem}
+.cont{flex:1;border-radius:16px;padding:.75rem .5rem;text-align:center;background:var(--carbon);color:#F5EEDF}
+.cont b{display:block;font-size:2.4rem;line-height:1.05;font-weight:700}
+.cont small{font-size:.95rem}
+.cont.ok b{color:#8FD4A8}.cont.pend b{color:var(--oro-claro)}
+.det-rech{text-align:center;font-size:.92rem;color:var(--tinta-2);min-height:.3rem;margin-bottom:.4rem}
+.tabla-comp td.tel{white-space:nowrap;font-size:.92rem}.tabla-comp td.tel a{color:var(--tinta);display:inline-block;padding:.7rem 0;margin:-.5rem 0}
+.tabla-comp .chip{white-space:nowrap}
 .tabla-wrap{overflow-x:auto;background:var(--blanco);border:1px solid var(--linea);border-radius:12px}
 .tabla-comp{width:100%;border-collapse:collapse;font-size:1rem}
-.tabla-comp th{text-align:left;font-size:.85rem;font-weight:600;color:var(--tinta-2);padding:.55rem .6rem;border-bottom:2px solid var(--linea);background:#FBF6EA}
+.tabla-comp th{text-align:left;font-size:.92rem;font-weight:600;color:var(--tinta-2);padding:.55rem .6rem;border-bottom:2px solid var(--linea);background:#FBF6EA}
 .tabla-comp td{padding:.5rem .6rem;border-bottom:1px solid var(--linea);vertical-align:middle}
 .tabla-comp tr:last-child td{border-bottom:none}
 .tabla-comp .n{text-align:right;white-space:nowrap}
-.tabla-comp .mas{font-size:.85rem;color:var(--tinta-2);white-space:nowrap}
-.b-tabla{font:inherit;font-size:.95rem;font-weight:600;border:2px solid var(--tinta);background:var(--blanco);color:var(--tinta);border-radius:10px;padding:.35rem .7rem;min-height:42px;cursor:pointer}
-.nota-tabla{font-size:.9rem;color:var(--tinta-2);text-align:center;margin:.6rem 0 0}
+.tabla-comp .tipo{display:inline-block;margin-top:.2rem;font-size:.9rem;color:var(--tinta-2)}
+.tabla-comp .mas{font-size:.9rem;color:var(--tinta-2);white-space:nowrap}
+.b-tabla{font:inherit;font-size:.95rem;font-weight:600;border:2px solid var(--tinta);background:var(--blanco);color:var(--tinta);border-radius:10px;padding:.35rem .7rem;min-height:48px;min-width:56px;cursor:pointer}
+.nota-tabla{font-size:.95rem;color:var(--tinta-2);text-align:center;margin:.6rem 0 0}
 .comp{background:var(--blanco);border:1px solid var(--linea);border-radius:14px;padding:.8rem .9rem;margin-bottom:.6rem}
 .comp-l1{display:flex;justify-content:space-between;align-items:baseline;gap:.5rem}
 .comp-l1 b{font-size:1.15rem}.comp-l1 span{font-size:.9rem;color:var(--tinta-2)}
@@ -258,6 +290,10 @@ input.pin{font-size:2rem;letter-spacing:.6rem;text-align:center;max-width:220px;
   </main>
   <footer class="ayuda">
     <button class="btn btn-borde" data-ir="p-ayuda">Necesito ayuda para comprar</button>
+    <div class="firma">
+      <span class="ver" id="app-ver"></span>
+      <span class="vs-wrap"><span class="vs-tip" id="vs-tip" hidden>Powered by VertexSur</span><button type="button" class="vs-mark" id="vs-mark" aria-label="Powered by VertexSur">@</button></span>
+    </div>
   </footer>
 </section>
 
@@ -275,16 +311,21 @@ input.pin{font-size:2rem;letter-spacing:.6rem;text-align:center;max-width:220px;
 <section class="pantalla" id="p-vol">
   <div class="barra"><button class="volver" data-ir="p-inicio">‹ Inicio</button><span class="barra-titulo">Asistentes</span><button class="menu-barra abre-menu" aria-label="Abrir menú"><i></i><i></i><i></i></button></div>
   <div class="cuerpo">
-    <div class="vol-resumen"><small>Entradas vendidas</small><b id="vol-total">–</b><div class="det" id="vol-det"></div></div>
+    <div class="contadores">
+      <div class="cont tot"><b id="vol-tot">–</b><small>Vendidas</small></div>
+      <div class="cont ok"><b id="vol-ok">–</b><small>Aprobadas</small></div>
+      <div class="cont pend"><b id="vol-pend">–</b><small>Pendientes</small></div>
+    </div>
+    <div class="det-rech" id="vol-rech"></div>
     <div class="vol-herr"><input type="text" id="vol-buscar" placeholder="Buscar nombre o teléfono" aria-label="Buscar"><button id="vol-act">Actualizar</button></div>
-    <ul class="vol-lista" id="vol-lista"></ul>
+    <div id="vol-lista"></div>
   </div>
 </section>
 
 <section class="pantalla" id="p-comp">
-  <div class="barra"><button class="volver" data-ir="p-inicio">‹ Inicio</button><span class="barra-titulo">Comprobantes</span><button class="menu-barra abre-menu" aria-label="Abrir menú"><i></i><i></i><i></i></button></div>
+  <div class="barra"><button class="volver" data-ir="p-inicio">‹ Inicio</button><span class="barra-titulo">Control de pagos</span><button class="menu-barra abre-menu" aria-label="Abrir menú"><i></i><i></i><i></i></button></div>
   <div class="cuerpo">
-    <div class="vol-resumen"><small>Transferencias para verificar</small><b id="comp-total">–</b><div class="det" id="comp-det"></div></div>
+    <div class="vol-resumen"><small>Pagos para controlar</small><b id="comp-total">–</b><div class="det" id="comp-det"></div></div>
     <div class="vol-herr" style="justify-content:flex-end"><button id="comp-act" style="min-height:50px">Actualizar</button></div>
     <div id="comp-lista"></div>
   </div>
@@ -347,6 +388,7 @@ input.pin{font-size:2rem;letter-spacing:.6rem;text-align:center;max-width:220px;
     <div class="opciones" role="radiogroup" aria-label="Forma de pago">
       <label class="opcion"><input type="radio" name="pago" value="mp"><span>Mercado Pago<small>Con tarjeta o dinero en cuenta</small></span></label>
       <label class="opcion"><input type="radio" name="pago" value="transf"><span>Transferencia bancaria<small>Desde tu banco o billetera</small></span></label>
+      <label class="opcion"><input type="radio" name="pago" value="efectivo"><span>Efectivo el día del evento<small>Reservás ahora y pagás en la entrada</small></span></label>
     </div>
     <div class="msg-error" id="err-pago">Elegí la forma de pago.</div>
     <div class="datos-transf" id="datos-transf">
@@ -357,6 +399,9 @@ input.pin{font-size:2rem;letter-spacing:.6rem;text-align:center;max-width:220px;
         <dt>Importe</dt><dd id="importe-transf"></dd>
       </dl>
       <label class="subir" id="subir"><input type="file" id="comprobante" accept="image/*,application/pdf"><span id="subir-txt">📎 Subir comprobante</span></label>
+    </div>
+    <div class="datos-transf" id="datos-efectivo">
+      <p class="ef-txt">Tus entradas quedan <b>reservadas</b> a tu nombre. El día del evento pagás <b id="importe-efectivo"></b> en efectivo, en la entrada.</p>
     </div>
   </div>
   <div class="pie"><button class="btn btn-principal" id="ok-pago" disabled>Confirmar compra</button></div>
@@ -421,7 +466,7 @@ input.pin{font-size:2rem;letter-spacing:.6rem;text-align:center;max-width:220px;
     <p class="nota" id="m-nota-pago" style="font-weight:600;color:var(--tinta)"></p>
     <div id="entradas"></div>
     <div class="acciones-entradas">
-      <button class="btn btn-principal" id="guardar-entradas"><span id="ge-txt">Guardar o compartir</span><small style="display:block;font-size:.95rem;font-weight:400">Por WhatsApp, en la galería y más</small></button>
+      <button class="btn btn-principal" id="guardar-entradas"><span id="ge-txt">Guardar o compartir</span><small style="display:block;font-size:1rem;font-weight:400">Por WhatsApp, en la galería y más</small></button>
       <button class="btn btn-borde" id="pdf-entradas"><span id="pdf-txt">Descargar en PDF</span></button>
       <button class="btn btn-borde" id="fin">Volver al inicio</button>
     </div>
@@ -431,13 +476,13 @@ input.pin{font-size:2rem;letter-spacing:.6rem;text-align:center;max-width:220px;
   <h2 id="mc-titulo"></h2>
   <p class="nota" id="mc-sub"></p>
   <div id="mc-cont"></div>
-  <div class="comp-acc"><button class="b-no" id="mc-no">Rechazar</button><button class="b-ok" id="mc-ok">Aceptar compra</button></div>
+  <div class="comp-acc"><button class="b-no" id="mc-no">Rechazar</button><button class="b-ok" id="mc-ok">Aprobar compra</button></div>
   <button class="btn btn-borde" id="mc-cerrar" style="margin-top:.6rem;color:var(--tinta)">Cerrar</button>
 </div></div>
 <div class="menu-fondo" id="menu"><div class="menu-lista" role="menu">
   <button role="menuitem" id="menu-entrar">🔒 Voluntarios</button>
   <button role="menuitem" data-menu="p-vol" class="menu-vol-item" hidden>👥 Asistentes</button>
-  <button role="menuitem" data-menu="p-comp" class="menu-vol-item" hidden>📄 Comprobantes<span class="menu-n" id="menu-comp-n"></span></button>
+  <button role="menuitem" data-menu="p-comp" class="menu-vol-item" hidden>📄 Control de pagos<span class="menu-n" id="menu-comp-n"></span></button>
   <button role="menuitem" id="menu-salir" class="menu-vol-item" hidden>🔓 Cerrar sesión de voluntarios</button>
 </div></div>
 <div class="aviso" id="aviso" role="status" aria-live="polite"></div>
@@ -456,6 +501,10 @@ let velasDonadas = 0;        // sale de la base de datos
 // =========================
 const $=id=>document.getElementById(id);
 const pesos=n=>'$ '+n.toLocaleString('es-AR');
+// Nunca rompe la app si Analytics no cargó. No se envían nombres ni teléfonos.
+function trackEvent(nombre,params){if(typeof window.gtag!=='function')return;try{window.gtag('event',nombre,params||{})}catch(e){}}
+const NOMBRES_PANTALLA={'p-inicio':'inicio','p-cantidad':'compra_1_cantidad','p-nombres':'compra_2_nombres','p-contacto':'compra_3_contacto',
+  'p-pago':'compra_4_pago','p-vela':'vela','p-ayuda':'ayuda','p-ayuda-ok':'ayuda_enviada','p-pin':'voluntarios_pin','p-vol':'voluntarios_asistentes','p-comp':'voluntarios_comprobantes'};
 async function rpc(fn,params){
   const r=await fetch(SB_URL+'/rest/v1/rpc/'+fn,{method:'POST',headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'},body:JSON.stringify(params||{})});
   const txt=await r.text();let data=null;try{data=txt?JSON.parse(txt):null}catch(e){}
@@ -490,6 +539,8 @@ function ir(id){
   if(id==='p-nombres')armarNombres();
   if(id==='p-pago')armarResumen();
   if(id==='p-inicio')ubicarLlamas();
+  const np=NOMBRES_PANTALLA[id]||id;
+  trackEvent('page_view',{page_title:'Gala Candle Night — '+np,page_location:location.origin+location.pathname+'#'+np,page_path:'/'+np});
   window.scrollTo(0,0);
 }
 document.querySelectorAll('[data-ir]').forEach(b=>b.addEventListener('click',()=>ir(b.dataset.ir)));
@@ -531,7 +582,7 @@ $('ok-pin').onclick=async()=>{
   const pin=$('pin').value.trim();$('pin').classList.remove('mal');$('err-pin').classList.remove('ver');
   if(!/^\d{4}$/.test(pin)){errPin('El PIN tiene 4 números.');return}
   const btn=$('ok-pin');btn.disabled=true;btn.textContent='Verificando…';
-  try{const r=await pedirPanel(pin);pinVol=pin;pintarMenu();pintarVol(r);abrirVol('p-vol')}
+  try{const r=await pedirPanel(pin);pinVol=pin;trackEvent('voluntarios_ingreso',{});pintarMenu();pintarVol(r);abrirVol('p-vol')}
   catch(e){const m=e.message;
     errPin(m==='pin'?'PIN incorrecto.':m==='bloqueado'?'Demasiados intentos. Esperá unos minutos.':msgError(e))}
   finally{btn.disabled=false;btn.textContent='Entrar'}
@@ -544,24 +595,31 @@ async function cargarVol(){
   finally{b.disabled=false;b.textContent='Actualizar'}
 }
 $('vol-act').onclick=cargarVol;
-const ESTADOS={pagada:'Confirmada',pendiente:'Pendiente',rechazada:'Rechazada'};
-const PAGOS={mp:'Mercado Pago',transferencia:'Transferencia'};
+const ESTADOS={pagada:'Aprobada',pendiente:'Pendiente',reservada:'Reservada',rechazada:'Rechazada'};
+const PAGOS={mp:'Mercado Pago',transferencia:'Transferencia',efectivo:'Efectivo'};
 function pintarVol(r){
   volDatos=r.asistentes||[];
-  $('vol-total').textContent=r.total;
-  $('vol-det').textContent=(r.confirmados===1?'1 confirmada':r.confirmados+' confirmadas')+' · '+(r.pendientes===1?'1 pendiente de pago':r.pendientes+' pendientes de pago');
-  $('vol-det').innerHTML=esc($('vol-det').textContent)+(r.rechazados?'<br><span style="opacity:.75">'+(r.rechazados===1?'1 rechazada, no se cuenta':r.rechazados+' rechazadas, no se cuentan')+'</span>':'');
+  $('vol-tot').textContent=r.total;$('vol-ok').textContent=r.confirmados;$('vol-pend').textContent=r.pendientes;
+  const det=[];
+  if(r.reservadas)det.push(r.reservadas===1?'1 pendiente es reserva en efectivo':r.reservadas+' pendientes son reservas en efectivo');
+  if(r.rechazados)det.push(r.rechazados===1?'1 rechazada (no se cuenta)':r.rechazados+' rechazadas (no se cuentan)');
+  $('vol-rech').textContent=det.join(' · ');
   pintarListaVol();
 }
 function pintarListaVol(){
   const q=$('vol-buscar').value.trim().toLowerCase(),qd=q.replace(/\D/g,'');
   const lista=volDatos.filter(a=>!q||a.nombre.toLowerCase().includes(q)||(qd&&a.telefono.replace(/\D/g,'').includes(qd)));
-  $('vol-lista').innerHTML=lista.length?lista.map(a=>
-    '<li><div class="vol-l1"><b>'+esc(a.nombre)+'</b><a href="tel:'+esc(a.telefono.replace(/[^\d+]/g,''))+'">'+esc(a.telefono)+'</a></div>'+
-    '<div class="vol-l2"><span class="chip '+esc(a.estado)+'">'+(ESTADOS[a.estado]||esc(a.estado))+'</span>'+
-    '<span>'+(PAGOS[a.forma_pago]||esc(a.forma_pago))+'</span><span>· Entrada '+esc(a.codigo)+'</span></div></li>').join('')
-    :'<li class="vol-vacio" style="border:none;background:none">'+(volDatos.length?'No hay resultados para esa búsqueda.':'Todavía no hay entradas vendidas.')+'</li>';
+  if(!lista.length){$('vol-lista').innerHTML='<p class="vol-vacio">'+(volDatos.length?'No hay resultados para esa búsqueda.':'Todavía no hay entradas vendidas.')+'</p>';return}
+  $('vol-lista').innerHTML='<div class="tabla-wrap"><table class="tabla-comp"><thead><tr><th>Asistente</th><th>Teléfono</th><th>Estado</th></tr></thead><tbody>'+
+    lista.map(a=>'<tr><td>'+esc(a.nombre)+'</td><td class="tel"><a href="tel:'+esc(a.telefono.replace(/[^\d+]/g,''))+'">'+esc(a.telefono)+'</a></td>'+
+      '<td><span class="chip '+esc(a.estado)+'">'+(ESTADOS[a.estado]||esc(a.estado))+'</span></td></tr>').join('')+
+    '</tbody></table></div>';
 }
+// Versión y firma
+const APP_VERSION='1.3';
+$('app-ver').textContent='v'+APP_VERSION;
+$('vs-mark').addEventListener('click',e=>{e.stopPropagation();$('vs-tip').hidden=!$('vs-tip').hidden;if(!$('vs-tip').hidden)trackEvent('vertexsur_click',{})});
+document.addEventListener('click',e=>{if(!e.target.closest('#vs-mark'))$('vs-tip').hidden=true});
 $('vol-buscar').addEventListener('input',pintarListaVol);
 
 // Control de comprobantes
@@ -574,7 +632,9 @@ async function cargarComp(){
     if(r&&r.error){if(r.error==='pin'){pinVol=null;pintarMenu();ir('p-pin')}else avisar('Demasiados intentos. Esperá unos minutos.');return}
     compDatos=r.compras||[];
     $('comp-total').textContent=r.pendientes;
-    $('comp-det').textContent=r.pendientes?(r.entradas===1?'1 entrada en espera':r.entradas+' entradas en espera'):'Todo al día';
+    const tr=r.transferencias||0,ef=r.efectivo||0,partes=[];
+    if(tr)partes.push(tr===1?'1 transferencia':tr+' transferencias');if(ef)partes.push(ef===1?'1 en efectivo':ef+' en efectivo');
+    $('comp-det').textContent=r.pendientes?partes.join(' · ')+' · '+(r.entradas===1?'1 entrada':r.entradas+' entradas'):'Todo al día';
     $('menu-comp-n').textContent=r.pendientes||'';
     pintarComp();
   }catch(e){avisar(msgError(e))}
@@ -582,13 +642,14 @@ async function cargarComp(){
 }
 $('comp-act').onclick=cargarComp;
 function pintarComp(){
-  if(!compDatos.length){$('comp-lista').innerHTML='<p class="vol-vacio">No hay transferencias para verificar. 🎉</p>';return}
+  if(!compDatos.length){$('comp-lista').innerHTML='<p class="vol-vacio">No hay pagos para controlar. 🎉</p>';return}
   $('comp-lista').innerHTML='<div class="tabla-wrap"><table class="tabla-comp"><thead><tr><th>Asistentes</th><th class="n">Entr.</th><th class="n">Total</th><th></th></tr></thead><tbody>'+
     compDatos.map(c=>{const n=c.nombres||[];
-      return '<tr><td>'+esc(n[0]||'')+(n.length>1?' <span class="mas">+'+(n.length-1)+'</span>':'')+'</td>'+
+      return '<tr><td>'+esc(n[0]||'')+(n.length>1?' <span class="mas">+'+(n.length-1)+'</span>':'')+
+        '<br><span class="tipo '+esc(c.forma_pago)+'">'+(c.forma_pago==='efectivo'?'💵 Efectivo':'🏦 Transferencia')+'</span></td>'+
       '<td class="n">'+c.cantidad+'</td><td class="n">'+pesos(c.total).replace('$ ','$')+'</td>'+
       '<td><button class="b-tabla" data-ver="'+esc(c.codigo)+'">Ver</button></td></tr>'}).join('')+
-    '</tbody></table></div><p class="nota-tabla">Tocá "Ver" para revisar el comprobante y aceptar o rechazar la compra.</p>';
+    '</tbody></table></div><p class="nota-tabla">Tocá "Ver" para revisar el pago y marcarlo como aprobado o rechazado.</p>';
 }
 $('comp-lista').addEventListener('click',e=>{
   const v=e.target.closest('[data-ver]');if(v){verComprobante(v.dataset.ver);return}
@@ -597,11 +658,14 @@ $('comp-lista').addEventListener('click',e=>{
 async function cambiarEstado(cod,est){
   const c=compDatos.find(x=>x.codigo===cod);if(!c)return;
   const quien=(c.nombres||[]).join(', ');
-  if(!confirm((est==='pagada'?'¿Aceptar la compra ':'¿Rechazar la compra ')+cod+'?\n'+quien+' — '+pesos(c.total)))return;
+  const ef=c.forma_pago==='efectivo';
+  const preg=est==='pagada'?(ef?'¿Marcar como pagada la reserva ':'¿Aprobar la compra '):(ef?'¿Cancelar la reserva ':'¿Rechazar la compra ');
+  if(!confirm(preg+cod+'?\n'+quien+' — '+pesos(c.total)))return;
   document.querySelectorAll('[data-cod="'+cod+'"],#mc-ok,#mc-no').forEach(x=>x.disabled=true);
   try{const r=await rpc('gcn_cambiar_estado',{p_pin:pinVol,p_codigo:cod,p_estado:est});
     if(r&&r.error)throw new Error(r.error);
-    avisar(est==='pagada'?'Compra '+cod+' aceptada ✓':'Compra '+cod+' rechazada');
+    avisar(est==='pagada'?(ef?'Reserva '+cod+' pagada ✓':'Compra '+cod+' aprobada ✓'):(ef?'Reserva '+cod+' cancelada':'Compra '+cod+' rechazada'));
+    trackEvent(est==='pagada'?'compra_aprobada':'compra_rechazada',{});
     cerrarComp();await cargarComp();
   }catch(e){avisar(e.message==='no existe'?'Esa compra ya no existe.':msgError(e));
     document.querySelectorAll('[data-cod="'+cod+'"],#mc-ok,#mc-no').forEach(x=>x.disabled=false)}
@@ -610,10 +674,13 @@ async function verComprobante(cod){
   const c=compDatos.find(x=>x.codigo===cod);if(!c)return;compAbierta=cod;
   $('mc-titulo').textContent='Compra '+cod;
   $('mc-sub').innerHTML=esc((c.nombres||[]).join(', '))+'<br><b>'+pesos(c.total)+'</b> · '+(c.cantidad===1?'1 entrada':c.cantidad+' entradas')+
-    '<br>'+fechaCorta(c.fecha)+' · <a href="tel:'+esc(c.telefono.replace(/[^\d+]/g,''))+'" style="color:var(--tinta)">'+esc(c.telefono)+'</a>';
-  $('mc-cont').innerHTML='<div class="cargando">Cargando comprobante…</div>';
+    '<br>'+fechaCorta(c.fecha)+' · <a href="tel:'+esc(c.telefono.replace(/[^\d+]/g,''))+'" style="color:var(--tinta);display:inline-block;padding:.65rem .2rem;margin:-.55rem 0">📞 '+esc(c.telefono)+'</a>';
+  const ef=c.forma_pago==='efectivo';
+  $('mc-ok').textContent=ef?'Marcar como pagada':'Aprobar compra';$('mc-no').textContent=ef?'Cancelar reserva':'Rechazar';
+  $('mc-cont').innerHTML=ef?'<div class="ef-aviso">💵 <b>Pago en efectivo.</b> Se cobra el día del evento. Marcala como pagada cuando recibas el dinero.</div>':'<div class="cargando">Cargando comprobante…</div>';
   $('mc-ok').disabled=$('mc-no').disabled=false;
   $('modal-comp').classList.add('ver');$('modal-comp').scrollTop=0;document.body.style.overflow='hidden';
+  if(ef)return;
   try{
     const r=await fetch(SB_URL+'/functions/v1/gcn-comprobante',{method:'POST',
       headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'},body:JSON.stringify({pin:pinVol,codigo:cod})});
@@ -621,7 +688,7 @@ async function verComprobante(cod){
     if(compAbierta!==cod)return;
     $('mc-cont').innerHTML=d.tipo==='pdf'
       ?'<a class="btn btn-sec" href="'+esc(d.url)+'" target="_blank" rel="noopener">Abrir comprobante (PDF)</a>'
-      :'<a href="'+esc(d.url)+'" target="_blank" rel="noopener"><img src="'+esc(d.url)+'" alt="Comprobante de la compra '+esc(cod)+'"></a><p class="nota" style="margin-top:.4rem">Tocá la imagen para verla más grande.</p>';
+      :'<a href="'+esc(d.url)+'" target="_blank" rel="noopener" aria-label="Ver el comprobante más grande"><img src="'+esc(d.url)+'" alt="Comprobante de la compra '+esc(cod)+'"></a><p class="nota" style="margin-top:.4rem">Tocá la imagen para verla más grande.</p>';
   }catch(e){$('mc-cont').innerHTML='<div class="cargando">'+(e.message==='sin comprobante'?'Esta compra no tiene comprobante adjunto.':'No se pudo cargar el comprobante. Probá de nuevo.')+'</div>'}
 }
 function cerrarComp(){compAbierta=null;$('modal-comp').classList.remove('ver');document.body.style.overflow=''}
@@ -676,19 +743,22 @@ $('ok-contacto').onclick=()=>{
 function armarResumen(){
   $('resumen').innerHTML='<div class="r-total"><span>'+estado.cant+(estado.cant===1?' entrada':' entradas')+'</span><b>'+pesos(PRECIO*estado.cant)+'</b></div><ul>'+
     estado.nombres.map(n=>'<li>'+esc(n)+'</li>').join('')+'</ul>';
-  $('importe-transf').textContent=pesos(PRECIO*estado.cant);
+  $('importe-transf').textContent=pesos(PRECIO*estado.cant);$('importe-efectivo').textContent=pesos(PRECIO*estado.cant);
   actualizarBoton();
 }
+const FORMA_PAGO={mp:'mp',transf:'transferencia',efectivo:'efectivo'};
 function actualizarBoton(){
   const p=document.querySelector('input[name=pago]:checked');const b=$('ok-pago');
   if(!p){b.disabled=true;b.textContent='Confirmar compra';return}
   if(p.value==='mp'){b.disabled=false;b.textContent='Ir a pagar con Mercado Pago'}
+  else if(p.value==='efectivo'){b.disabled=false;b.textContent='Reservar entradas'}
   else{b.disabled=!estado.comprobante;b.textContent=estado.comprobante?'Confirmar compra':'Subí el comprobante para confirmar'}
 }
 document.querySelectorAll('input[name=pago]').forEach(r=>r.addEventListener('change',()=>{
   $('err-pago').classList.remove('ver');
-  $('datos-transf').classList.toggle('ver',r.value==='transf'&&r.checked);
-  if(r.value==='transf')setTimeout(()=>$('datos-transf').scrollIntoView({behavior:'smooth',block:'nearest'}),50);
+  const sel=document.querySelector('input[name=pago]:checked').value;
+  $('datos-transf').classList.toggle('ver',sel==='transf');$('datos-efectivo').classList.toggle('ver',sel==='efectivo');
+  if(sel!=='mp')setTimeout(()=>$(sel==='transf'?'datos-transf':'datos-efectivo').scrollIntoView({behavior:'smooth',block:'nearest'}),50);
   actualizarBoton();
 }));
 $('comprobante').addEventListener('change',e=>{
@@ -710,16 +780,20 @@ $('ok-pago').onclick=async()=>{
     let path=null;
     if(p.value==='transf'){btn.textContent='Subiendo comprobante…';path=await subirComprobante(estado.comprobante);btn.textContent='Registrando…'}
     const r=await rpc('gcn_registrar_compra',{p_telefono:estado.tel,p_vinculo:estado.vinculo,p_nombres:estado.nombres,
-      p_forma_pago:p.value==='mp'?'mp':'transferencia',p_comprobante_path:path});
+      p_forma_pago:FORMA_PAGO[p.value],p_comprobante_path:path});
     estado.codigo=r.codigo;
+    trackEvent('compra_registrada',{forma_pago:FORMA_PAGO[p.value],cantidad:estado.cant,value:PRECIO*estado.cant,currency:'ARS',vinculo:estado.vinculo});
     if(ventanaMP)ventanaMP.location=LINK_MP;
     $('entradas').innerHTML=r.asistentes.map((a,i)=>
       '<div class="entrada"><div class="e-top"><b>Gala Candle Night</b><span>Entrada '+(i+1)+' de '+r.asistentes.length+'</span></div>'+
       '<div class="e-cuerpo"><small>Asistente</small><div class="nombre">'+esc(a.nombre)+'</div>'+
-      '<small>Fecha</small><div>Martes 3 de noviembre, 19 h</div><small style="margin-top:.4rem">Lugar</small><div>Colegio Michael Ham</div></div>'+
+      '<small>Fecha</small><div>Martes 3 de noviembre, 19 h</div><small style="margin-top:.4rem">Lugar</small><div>Colegio Michael Ham</div>'+
+      (p.value==='efectivo'?'<div class="e-reserva">Reservada · se paga en efectivo en la entrada</div>':'')+'</div>'+
       '<div class="e-pie"><span>Ubicación por orden de llegada</span><span>Código <b>'+esc(a.codigo_entrada)+'</b></span></div></div>').join('');
     $('m-nota-pago').textContent=p.value==='mp'
-      ?'Tus entradas quedan confirmadas cuando se acredite el pago en Mercado Pago.'
+      ?'Recordá completar el pago en Mercado Pago.'
+      :p.value==='efectivo'
+      ?'Tus entradas quedan reservadas. El 3 de noviembre pagás '+pesos(PRECIO*estado.cant)+' en efectivo al llegar.'
       :'Vamos a verificar tu transferencia. Tus entradas quedan confirmadas cuando se acredite.';
     $('modal').classList.add('ver');$('modal').scrollTop=0;document.body.style.overflow='hidden';
   }catch(e){
@@ -753,6 +827,7 @@ async function capturar(el,ancho,fondo){
 
 // Descargar en PDF: una entrada por página
 $('pdf-entradas').addEventListener('click',async function(){
+  trackEvent('entradas_pdf',{});
   const btn=this,lbl=$('pdf-txt');
   if(typeof html2canvas==='undefined'||!window.jspdf){alert('No pudimos preparar el PDF. Usá "Guardar o compartir" o sacale una captura de pantalla.');return}
   btn.disabled=true;const original=lbl.textContent;lbl.textContent='Preparando…';
@@ -775,6 +850,7 @@ $('pdf-entradas').addEventListener('click',async function(){
 
 // Guardar o compartir entradas (mismo mecanismo que la app de Luján)
 $('guardar-entradas').addEventListener('click',async function(){
+  trackEvent('entradas_guardar',{});
   const btn=this,panel=$('entradas');
   if(typeof html2canvas==='undefined'){alert('No pudimos preparar la imagen. Sacale una captura de pantalla a las entradas.');return}
   btn.disabled=true;const lbl=$('ge-txt');const original=lbl.textContent;lbl.textContent='Preparando…';
@@ -808,6 +884,7 @@ $('ok-ayuda').onclick=async()=>{
   const btn=$('ok-ayuda');btn.disabled=true;btn.textContent='Enviando…';
   try{
     await rpc('gcn_pedir_ayuda',{p_telefono:$('tel-ayuda').value.trim(),p_nombre:$('nombre-ayuda').value.trim()||null});
+    trackEvent('pedido_ayuda',{});
     const n=$('nombre-ayuda').value.trim();
     $('ayuda-ok-txt').textContent=(n?n.split(/\s+/)[0]+', te':'Te')+' vamos a llamar al '+$('tel-ayuda').value.trim()+' para ayudarte con la compra de las entradas.';
     ir('p-ayuda-ok');
@@ -836,6 +913,7 @@ $('ok-vela').onclick=async()=>{
     const r=await rpc('gcn_registrar_donacion',{p_velas:vela.cant,p_nombre:$('nombre-v').value.trim()||null});
     if(ventanaMP)ventanaMP.location=LINK_MP_VELA;else avisar('Acá se abre el link de Mercado Pago');
     velasDonadas=r.total_velas;pintarContadorInicio();
+    trackEvent('donacion_vela',{velas:vela.cant,value:PRECIO_VELA*vela.cant,currency:'ARS'});
     const n=$('nombre-v').value.trim();
     $('mv-velas').textContent='🕯️'.repeat(Math.min(vela.cant,5));
     $('mv-txt').textContent=(n?n.split(/\s+/)[0]+', ':'')+(vela.cant===1?'encendiste una vela':'encendiste '+vela.cant+' velas')+
