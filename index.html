@@ -136,9 +136,30 @@ input.mal{border-color:var(--error);box-shadow:0 0 0 1px var(--error)}
 .datos-transf dl{margin:0}
 .datos-transf dt{font-size:1rem;color:var(--tinta-2);margin-top:.5rem}
 .datos-transf dt:first-child{margin-top:0}
-.datos-transf dd{margin:0;font-size:1.2rem;font-weight:600;display:flex;justify-content:space-between;align-items:center;gap:.5rem}
+.datos-transf dd{margin:0;font-size:1.2rem;font-weight:600;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:.4rem .5rem}
+.datos-transf dd span{min-width:0;overflow-wrap:anywhere}
+.datos-transf dd .copiar{flex:none}
 .copiar{font:inherit;font-size:1rem;border:2px solid var(--tinta);background:none;border-radius:10px;padding:.3rem .9rem;min-height:46px;min-width:84px;cursor:pointer;color:var(--tinta)}
 .por-mail{margin-top:.7rem}
+.nota-seg{margin:.8rem 0 0;font-size:1rem;color:var(--tinta-2);line-height:1.4}
+.mp-txt{font-size:1.1rem;line-height:1.5;margin:0 0 .9rem;text-align:center}
+#modal-mp .caja{margin-top:18vh}
+.llegaron{text-align:center;font-size:1.1rem;margin:.1rem 0 .7rem}
+.llegaron b{font-size:1.5rem;color:#2E7D4F}
+.tabla-comp td.c-tilde{width:52px;padding-right:0}
+.tilde{width:44px;height:44px;border-radius:10px;border:2.5px solid var(--tinta);background:var(--blanco);font:700 1.4rem/1 'Lexend',sans-serif;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.tilde.si{background:#2E7D4F;border-color:#2E7D4F}
+.sin-tilde{display:inline-block;width:44px;text-align:center;color:var(--tinta-2)}
+.tabla-comp tr.llego td{background:#EEF7F0}
+.tel-chico{display:inline-block;color:var(--tinta);font-size:.95rem;padding:.55rem 0;margin:-.4rem 0 -.5rem}
+.pedido{display:flex;align-items:center;justify-content:space-between;gap:.6rem;background:var(--blanco);border:1.5px solid #E2D8C3;border-radius:14px;padding:.8rem .9rem;margin-bottom:.6rem}
+.pedido.hecho{opacity:.65}
+.pd-info{display:flex;flex-direction:column;min-width:0}
+.pd-info b{font-size:1.1rem}
+.pd-info a{color:var(--tinta);font-size:1.05rem;display:inline-block;padding:.8rem 0;margin:-.55rem 0}
+.pd-info small{color:var(--tinta-2);font-size:.92rem}
+.pd-btn{flex:none;font:inherit;font-size:1rem;font-weight:600;min-height:48px;padding:.5rem .8rem;border-radius:12px;border:2px solid #2E7D4F;background:#2E7D4F;color:#fff;cursor:pointer}
+.pd-btn.deshacer{background:none;color:var(--tinta);border-color:#C9C0AE}
 .subir.apagado{opacity:.45;pointer-events:none}
 .m-mail{background:#F3E8CF;border-radius:14px;padding:1rem;margin:0 0 1rem;text-align:left}
 .m-mail p{margin:0 0 .6rem;font-size:1.05rem;line-height:1.45}
@@ -199,6 +220,15 @@ input.mal{border-color:var(--error);box-shadow:0 0 0 1px var(--error)}
   padding:.35rem .95rem;font-size:1rem}
 .contador-velas b{color:var(--oro-claro)}
 .intro-vela{color:var(--tinta-2);margin:-.35rem 0 .7rem;font-size:1.05rem}
+.toggle{display:flex;align-items:center;gap:.9rem;margin:0 0 1.1rem;padding:.9rem 1rem;border:2px solid #C9C0AE;border-radius:14px;background:var(--blanco);cursor:pointer;min-height:64px}
+.toggle input{position:absolute;opacity:0;width:1px;height:1px}
+.toggle .tg-ui{flex:none;width:56px;height:32px;border-radius:16px;background:#C9C0AE;position:relative;transition:background .2s}
+.toggle .tg-ui::after{content:"";position:absolute;top:3px;left:3px;width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .2s}
+.toggle input:checked+.tg-ui{background:var(--oro-osc)}
+.toggle input:checked+.tg-ui::after{transform:translateX(24px)}
+.toggle input:focus-visible+.tg-ui{outline:4px solid var(--oro-prog);outline-offset:3px}
+.toggle .tg-txt{font-size:1.05rem;font-weight:600;line-height:1.3}
+.toggle .tg-txt small{display:block;font-weight:400;font-size:1rem;color:var(--tinta-2);margin-top:.15rem}
 p.aclara{margin:-.4rem 0 1rem;color:var(--tinta-2);font-size:1rem}
 .sugerencia{display:inline-block;margin-top:.35rem;font:inherit;font-size:1rem;font-weight:600;color:var(--tinta);background:#F3E8CF;border:2px solid var(--tinta);border-radius:10px;padding:.55rem .8rem;min-height:44px;cursor:pointer}
 label.campo span.opcional{display:inline;font-weight:400;color:var(--tinta-2)}
@@ -329,11 +359,20 @@ input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;
       <div class="cont pend"><b id="vol-pend">–</b><small>Pendientes</small></div>
     </div>
     <div class="det-rech" id="vol-rech"></div>
-    <div class="vol-herr"><input type="text" id="vol-buscar" placeholder="Buscar nombre o teléfono" aria-label="Buscar"><button id="vol-act">Actualizar</button></div>
+    <div class="llegaron" id="vol-llegaron"></div>
+    <div class="vol-herr"><input type="text" id="vol-buscar" placeholder="Buscar nombre, teléfono o código" aria-label="Buscar"><button id="vol-act">Actualizar</button></div>
     <div id="vol-lista"></div>
   </div>
 </section>
 
+<section class="pantalla" id="p-ayuda-vol">
+  <div class="barra"><button class="volver" data-ir="p-inicio">‹ Inicio</button><span class="barra-titulo">Pedidos de ayuda</span><button class="menu-barra abre-menu" aria-label="Abrir menú"><i></i><i></i><i></i></button></div>
+  <div class="cuerpo">
+    <div class="vol-resumen"><small>Pedidos sin llamar</small><b id="ayuda-total">–</b><div class="det" id="ayuda-det"></div></div>
+    <div class="vol-herr" style="justify-content:flex-end"><button id="ayuda-act" style="min-height:50px">Actualizar</button></div>
+    <div id="ayuda-lista"></div>
+  </div>
+</section>
 <section class="pantalla" id="p-comp">
   <div class="barra"><button class="volver" data-ir="p-inicio">‹ Inicio</button><span class="barra-titulo">Control de pagos</span><button class="menu-barra abre-menu" aria-label="Abrir menú"><i></i><i></i><i></i></button></div>
   <div class="cuerpo">
@@ -357,11 +396,11 @@ input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;
     <div class="fila"><span>Por entrada</span><span id="precio-u"></span></div>
     <div class="fila"><span>Total</span><b id="total-1"></b></div>
   </div>
-  <div class="pie"><button class="btn btn-principal" data-ir="p-nombres">Continuar</button></div>
+  <div class="pie"><button class="btn btn-principal" data-ir="p-contacto">Continuar</button></div>
 </section>
 
-<section class="pantalla" id="p-nombres" data-paso="2">
-  <div class="barra"><button class="volver" data-ir="p-cantidad">‹ Volver</button><span class="barra-titulo">Gala Candle Night</span></div>
+<section class="pantalla" id="p-nombres" data-paso="3">
+  <div class="barra"><button class="volver" data-ir="p-contacto">‹ Volver</button><span class="barra-titulo">Gala Candle Night</span></div>
   <div class="progreso"></div>
   <div class="cuerpo">
     <h2>Anotá los asistentes</h2>
@@ -370,15 +409,17 @@ input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;
   <div class="pie"><button class="btn btn-principal" id="ok-nombres">Continuar</button></div>
 </section>
 
-<section class="pantalla" id="p-contacto" data-paso="3">
-  <div class="barra"><button class="volver" data-ir="p-nombres">‹ Volver</button><span class="barra-titulo">Gala Candle Night</span></div>
+<section class="pantalla" id="p-contacto" data-paso="2">
+  <div class="barra"><button class="volver" data-ir="p-cantidad">‹ Volver</button><span class="barra-titulo">Gala Candle Night</span></div>
   <div class="progreso"></div>
   <div class="cuerpo">
-    <h2>Datos de quien paga</h2>
-    <p class="aclara">Puede ser una persona distinta de los asistentes.</p>
-    <label class="campo"><span>Nombre y apellido</span>
+    <h2>Datos de facturación</h2>
+    <p class="aclara">Para fines impositivos de la donación.</p>
+    <label class="toggle"><input type="checkbox" id="asiste" role="switch" checked><span class="tg-ui" aria-hidden="true"></span>
+      <span class="tg-txt">La persona que paga asiste</span></label>
+    <label class="campo"><span>Nombre y apellido o razón social</span>
       <input type="text" id="pg-nombre" autocapitalize="words" autocomplete="name" placeholder="Ej: María López">
-      <div class="msg-error" id="err-pg-nombre">Escribí nombre y apellido.</div>
+      <div class="msg-error" id="err-pg-nombre">Escribí nombre y apellido, o la razón social.</div>
     </label>
     <label class="campo"><span>CUIL o CUIT</span>
       <input type="text" id="pg-cuit" inputmode="numeric" autocomplete="off" placeholder="Ej: 20-12345678-6" maxlength="13">
@@ -404,7 +445,7 @@ input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;
 </section>
 
 <section class="pantalla" id="p-pago" data-paso="4">
-  <div class="barra"><button class="volver" data-ir="p-contacto">‹ Volver</button><span class="barra-titulo">Gala Candle Night</span></div>
+  <div class="barra"><button class="volver" data-ir="p-nombres">‹ Volver</button><span class="barra-titulo">Gala Candle Night</span></div>
   <div class="progreso"></div>
   <div class="cuerpo">
     <h2>Resumen</h2>
@@ -417,11 +458,13 @@ input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;
     <div class="msg-error" id="err-pago">Elegí la forma de pago.</div>
     <div class="datos-transf" id="datos-transf">
       <dl>
-        <dt>Alias</dt><dd><span id="alias">[ALIAS]</span><button class="copiar" data-copiar="alias">Copiar</button></dd>
-        <dt>CBU</dt><dd><span id="cbu">[CBU]</span><button class="copiar" data-copiar="cbu">Copiar</button></dd>
-        <dt>Titular</dt><dd>[Titular de la cuenta]</dd>
+        <dt>Alias</dt><dd><span id="alias">MHCOLEGIO</span><button class="copiar" data-copiar="alias">Copiar</button></dd>
+        <dt>CBU</dt><dd><span id="cbu">0070041220000015296171</span><button class="copiar" data-copiar="cbu">Copiar</button></dd>
+        <dt>Titular</dt><dd>Fundación Colegio Michael Ham</dd>
+        <dt>CUIT</dt><dd>30-66388272-0</dd>
         <dt>Importe</dt><dd id="importe-transf"></dd>
       </dl>
+      <p class="nota-seg">🔒 Antes de confirmar la transferencia, verificá que tu banco muestre como titular a <b>Fundación Colegio Michael Ham</b>. Si figura otro nombre, no transfieras y avisanos.</p>
       <label class="subir" id="subir"><input type="file" id="comprobante" accept="image/*,application/pdf"><span id="subir-txt">📎 Subir comprobante</span></label>
       <label class="opcion por-mail"><input type="checkbox" id="por-mail"><span>Prefiero enviar el comprobante por mail<small>Al terminar te indicamos a dónde enviarlo</small></span></label>
     </div>
@@ -472,9 +515,9 @@ input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;
   <div class="cuerpo" style="padding-top:1rem">
     <h2>Tus datos</h2>
     <p class="aclara">Los necesitamos para registrar tu donación de <b id="resumen-v"></b>.</p>
-    <label class="campo"><span>Nombre y apellido</span>
+    <label class="campo"><span>Nombre y apellido o razón social</span>
       <input type="text" id="v-nombre" autocapitalize="words" autocomplete="name" placeholder="Ej: María López">
-      <div class="msg-error" id="err-v-nombre">Escribí nombre y apellido.</div>
+      <div class="msg-error" id="err-v-nombre">Escribí nombre y apellido, o la razón social.</div>
     </label>
     <label class="campo"><span>CUIL o CUIT</span>
       <input type="text" id="v-cuit" inputmode="numeric" autocomplete="off" placeholder="Ej: 20-12345678-6" maxlength="13">
@@ -528,10 +571,19 @@ input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;
   <div class="comp-acc"><button class="b-no" id="mc-no">Rechazar</button><button class="b-ok" id="mc-ok">Aprobar compra</button></div>
   <button class="btn btn-borde" id="mc-cerrar" style="margin-top:.6rem;color:var(--tinta)">Cerrar</button>
 </div></div>
+<div class="modal" id="modal-mp" role="dialog" aria-modal="true" aria-labelledby="mp-titulo"><div class="caja">
+  <h2 id="mp-titulo">Antes de pagar</h2>
+  <p class="mp-txt">Verificá que el destinatario sea la <b id="mp-titular"></b>.</p>
+  <p class="mp-txt">Ante cualquier duda contactanos.</p>
+  <button class="btn btn-principal" id="mp-ir">Entendido, ir a pagar</button>
+  <button class="btn btn-borde" id="mp-volver" style="margin-top:.6rem;color:var(--tinta)">Volver</button>
+</div></div>
 <div class="menu-fondo" id="menu"><div class="menu-lista" role="menu">
   <button role="menuitem" id="menu-entrar">🔒 Voluntarios</button>
   <button role="menuitem" data-menu="p-vol" class="menu-vol-item" hidden>👥 Asistentes</button>
   <button role="menuitem" data-menu="p-comp" class="menu-vol-item" hidden>📄 Control de pagos<span class="menu-n" id="menu-comp-n"></span></button>
+  <button role="menuitem" data-menu="p-ayuda-vol" class="menu-vol-item" hidden>🙋 Pedidos de ayuda<span class="menu-n" id="menu-ayuda-n"></span></button>
+  <button role="menuitem" id="menu-export" class="menu-vol-item" hidden>📊 Exportar a Excel</button>
   <button role="menuitem" id="menu-salir" class="menu-vol-item" hidden>🔓 Cerrar sesión de voluntarios</button>
 </div></div>
 <div class="aviso" id="aviso" role="status" aria-live="polite"></div>
@@ -546,7 +598,9 @@ const MAX_ENTRADAS = 10;
 const LINK_MP = '';     // link de pago de Mercado Pago para entradas, a definir
 let PRECIO_VELA = 15000;
 // Casilla que recibe comprobantes enviados por mail (temporal, para pruebas)
-const MAIL_COMPROBANTES = 'agusdelabarra@hotmail.com';     // se actualiza desde la base al cargar
+const MAIL_COMPROBANTES = 'agusdelabarra@hotmail.com';
+// Nombre que tiene que aparecer como destinatario en Mercado Pago (aviso antes de pagar)
+const TITULAR_MP = 'FUNDACION COLEGIO MICHAEL HAM';     // se actualiza desde la base al cargar
 const LINK_MP_VELA = '';     // link de Mercado Pago para donaciones, a definir
 let velasDonadas = 0;        // sale de la base de datos
 // =========================
@@ -554,8 +608,8 @@ const $=id=>document.getElementById(id);
 const pesos=n=>'$ '+n.toLocaleString('es-AR');
 // Nunca rompe la app si Analytics no cargó. No se envían nombres ni teléfonos.
 function trackEvent(nombre,params){if(typeof window.gtag!=='function')return;try{window.gtag('event',nombre,params||{})}catch(e){}}
-const NOMBRES_PANTALLA={'p-inicio':'inicio','p-cantidad':'compra_1_cantidad','p-nombres':'compra_2_nombres','p-contacto':'compra_3_contacto',
-  'p-pago':'compra_4_pago','p-vela':'vela_1_cantidad','p-vela-datos':'vela_2_datos','p-ayuda':'ayuda','p-ayuda-ok':'ayuda_enviada','p-pin':'voluntarios_pin','p-vol':'voluntarios_asistentes','p-comp':'voluntarios_comprobantes'};
+const NOMBRES_PANTALLA={'p-inicio':'inicio','p-cantidad':'compra_1_cantidad','p-contacto':'compra_2_datos','p-nombres':'compra_3_asistentes',
+  'p-pago':'compra_4_pago','p-vela':'vela_1_cantidad','p-vela-datos':'vela_2_datos','p-ayuda':'ayuda','p-ayuda-ok':'ayuda_enviada','p-pin':'voluntarios_pin','p-vol':'voluntarios_asistentes','p-comp':'voluntarios_comprobantes','p-ayuda-vol':'voluntarios_ayuda'};
 async function rpc(fn,params){
   const r=await fetch(SB_URL+'/rest/v1/rpc/'+fn,{method:'POST',headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'},body:JSON.stringify(params||{})});
   const txt=await r.text();let data=null;try{data=txt?JSON.parse(txt):null}catch(e){}
@@ -582,7 +636,14 @@ const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&qu
 const estado={cant:1,nombres:[]};
 const aviso=$('aviso');let t;
 function avisar(m){aviso.textContent=m;aviso.classList.add('ver');clearTimeout(t);t=setTimeout(()=>aviso.classList.remove('ver'),2600)}
-function ir(id){
+// Historial: el botón "atrás" del celular vuelve un paso en lugar de salir de la app
+let pila=['p-inicio'],ignorarPop=false;
+try{history.replaceState({p:'p-inicio',i:0},'')}catch(e){}
+function ir(id,desdeHistorial){
+  if(!desdeHistorial){
+    if(pila.length>=2&&pila[pila.length-2]===id){pila.pop();ignorarPop=true;try{history.back()}catch(e){ignorarPop=false}}
+    else if(pila[pila.length-1]!==id){pila.push(id);try{history.pushState({p:id,i:pila.length-1},'')}catch(e){}}
+  }
   document.querySelectorAll('.pantalla').forEach(p=>p.classList.remove('activa'));
   const p=$(id);p.classList.add('activa');
   if(p.dataset.paso){const n=+p.dataset.paso;
@@ -595,6 +656,24 @@ function ir(id){
   window.scrollTo(0,0);
 }
 document.querySelectorAll('[data-ir]').forEach(b=>b.addEventListener('click',()=>ir(b.dataset.ir)));
+const PANT_VOL=['p-vol','p-comp','p-ayuda-vol'];
+window.addEventListener('popstate',e=>{
+  if(ignorarPop){ignorarPop=false;return}
+  const actual=pila[pila.length-1];
+  const quedarse=()=>{try{history.pushState({p:actual,i:pila.length-1},'')}catch(err){}};
+  // Si hay algo abierto encima, "atrás" lo cierra y la pantalla no cambia
+  if(menu.classList.contains('ver')){cerrarMenu();quedarse();return}
+  if($('modal-mp').classList.contains('ver')){cerrarAvisoMP();quedarse();return}
+  if($('modal-comp').classList.contains('ver')){$('mc-cerrar').click();quedarse();return}
+  if($('modal').classList.contains('ver')){quedarse();avisar('Guardá tus entradas antes de salir. Tocá "Listo" para terminar.');return}
+  if($('modal-vela').classList.contains('ver')){quedarse();$('fin-vela').click();return}
+  const s=e.state;if(!s||!s.p||!$(s.p)){pila=['p-inicio'];ir('p-inicio',true);return}
+  pila.length=Math.min(pila.length,s.i);pila[s.i]=s.p;
+  // Pantallas que ya no tienen sentido (sesión cerrada o compra terminada) llevan al inicio
+  const invalida=(PANT_VOL.includes(s.p)&&!pinVol)||(['p-nombres','p-pago'].includes(s.p)&&!estado.pagador)||s.p==='p-ayuda-ok';
+  if(invalida){pila=['p-inicio'];try{history.replaceState({p:'p-inicio',i:0},'')}catch(err){};ir('p-inicio',true);return}
+  ir(s.p,true);
+});
 document.querySelectorAll('[data-msg]').forEach(b=>b.addEventListener('click',()=>avisar(b.dataset.msg)));
 
 // Menú y vista de voluntarios
@@ -602,13 +681,15 @@ const menu=$('menu');let pinVol=null,volDatos=[];
 function cerrarMenu(){menu.classList.remove('ver');document.querySelectorAll('.abre-menu').forEach(b=>b.setAttribute('aria-expanded','false'))}
 document.querySelectorAll('.abre-menu').forEach(b=>{b.setAttribute('aria-expanded','false');b.onclick=e=>{
   e.stopPropagation();const act=document.querySelector('.pantalla.activa').id;
+  // En el inicio no hay pantalla anterior: se agrega una para que "atrás" cierre el menú en lugar de salir de la app
+  if(pila.length===1&&!(history.state&&history.state.capa)){try{history.pushState({p:'p-inicio',i:0,capa:true},'')}catch(err){}}
   document.querySelectorAll('[data-menu]').forEach(x=>{if(x.dataset.menu===act)x.setAttribute('aria-current','page');else x.removeAttribute('aria-current')});
   menu.classList.add('ver');b.setAttribute('aria-expanded','true');menu.querySelector('button').focus()}});
 menu.onclick=e=>{if(e.target===menu)cerrarMenu()};
 document.addEventListener('keydown',e=>{if(e.key==='Escape')cerrarMenu()});
 function abrirVol(dest){
-  if(dest==='p-vol'){ir('p-vol');cargarVol()}else{ir('p-comp')}
-  cargarComp();
+  if(dest==='p-vol'){ir('p-vol');cargarVol()}else if(dest==='p-ayuda-vol'){ir('p-ayuda-vol');cargarAyuda(true)}else{ir('p-comp')}
+  cargarComp();if(dest!=='p-ayuda-vol')cargarAyuda(false);
 }
 function pintarMenu(){
   $('menu-entrar').hidden=!!pinVol;
@@ -621,6 +702,7 @@ $('menu-entrar').onclick=()=>{
 document.querySelectorAll('[data-menu]').forEach(b=>b.onclick=()=>{cerrarMenu();if(pinVol)abrirVol(b.dataset.menu)});
 $('menu-salir').onclick=()=>{
   cerrarMenu();pinVol=null;volDatos=[];compDatos=[];$('vol-lista').innerHTML='';$('comp-lista').innerHTML='';
+  ayudaDatos=[];$('ayuda-lista').innerHTML='';$('menu-ayuda-n').textContent='';
   $('menu-comp-n').textContent='';pintarMenu();ir('p-inicio');avisar('Sesión de voluntarios cerrada');
 };
 async function pedirPanel(pin){
@@ -648,8 +730,10 @@ async function cargarVol(){
 $('vol-act').onclick=cargarVol;
 const ESTADOS={pagada:'Aprobada',pendiente:'Pendiente',reservada:'Reservada',rechazada:'Rechazada'};
 const PAGOS={mp:'Mercado Pago',transferencia:'Transferencia',efectivo:'Efectivo'};
+let volTotal=0,volLlegaron=0;
+function pintarLlegaron(){$('vol-llegaron').innerHTML='Llegaron <b>'+volLlegaron+'</b> de '+volTotal}
 function pintarVol(r){
-  volDatos=r.asistentes||[];
+  volDatos=r.asistentes||[];volTotal=r.total||0;volLlegaron=r.llegaron||0;pintarLlegaron();
   $('vol-tot').textContent=r.total;$('vol-ok').textContent=r.confirmados;$('vol-pend').textContent=r.pendientes;
   const det=[];
   if(r.reservadas)det.push(r.reservadas===1?'1 pendiente es reserva en efectivo':r.reservadas+' pendientes son reservas en efectivo');
@@ -659,19 +743,32 @@ function pintarVol(r){
 }
 function pintarListaVol(){
   const q=$('vol-buscar').value.trim().toLowerCase(),qd=q.replace(/\D/g,'');
-  const lista=volDatos.filter(a=>!q||a.nombre.toLowerCase().includes(q)||(qd&&a.telefono.replace(/\D/g,'').includes(qd)));
+  const lista=volDatos.filter(a=>!q||a.nombre.toLowerCase().includes(q)||(qd&&(a.telefono.replace(/\D/g,'').includes(qd)||(a.codigo||'').includes(qd))));
   if(!lista.length){$('vol-lista').innerHTML='<p class="vol-vacio">'+(volDatos.length?'No hay resultados para esa búsqueda.':'Todavía no hay entradas vendidas.')+'</p>';return}
-  $('vol-lista').innerHTML='<div class="tabla-wrap"><table class="tabla-comp"><thead><tr><th>Asistente</th><th>Teléfono</th><th>Estado</th></tr></thead><tbody>'+
-    lista.map(a=>'<tr><td>'+esc(a.nombre)+'</td><td class="tel"><a href="tel:'+esc(a.telefono.replace(/[^\d+]/g,''))+'">'+esc(a.telefono)+'</a></td>'+
+  $('vol-lista').innerHTML='<div class="tabla-wrap"><table class="tabla-comp"><thead><tr><th>Llegó</th><th>Asistente</th><th>Estado</th></tr></thead><tbody>'+
+    lista.map(a=>'<tr'+(a.ingreso?' class="llego"':'')+'><td class="c-tilde">'+(a.estado==='rechazada'?'<span class="sin-tilde">—</span>':
+      '<button class="tilde'+(a.ingreso?' si':'')+'" data-ingreso="'+esc(a.codigo||'')+'" aria-pressed="'+(!!a.ingreso)+'" aria-label="'+(a.ingreso?'Llegó: ':'Marcar llegada de ')+esc(a.nombre)+'">'+(a.ingreso?'✓':'')+'</button>')+'</td>'+
+      '<td>'+esc(a.nombre)+'<br><a class="tel-chico" href="tel:'+esc(a.telefono.replace(/[^\d+]/g,''))+'">'+esc(a.telefono)+'</a></td>'+
       '<td><span class="chip '+esc(a.estado)+'">'+(ESTADOS[a.estado]||esc(a.estado))+'</span></td></tr>').join('')+
     '</tbody></table></div>';
 }
 // Versión y firma
-const APP_VERSION='1.6';
+const APP_VERSION='1.9';
 $('app-ver').textContent='v'+APP_VERSION;
 $('vs-mark').addEventListener('click',e=>{e.stopPropagation();$('vs-tip').hidden=!$('vs-tip').hidden;if(!$('vs-tip').hidden)trackEvent('vertexsur_click',{})});
 document.addEventListener('click',e=>{if(!e.target.closest('#vs-mark'))$('vs-tip').hidden=true});
 $('vol-buscar').addEventListener('input',pintarListaVol);
+$('vol-lista').addEventListener('click',async e=>{
+  const b=e.target.closest('[data-ingreso]');if(!b||b.disabled)return;
+  const a=volDatos.find(x=>x.codigo===b.dataset.ingreso);if(!a)return;const nuevo=!a.ingreso;
+  if(!nuevo&&!confirm('¿Desmarcar la llegada de '+a.nombre+'?'))return;
+  a.ingreso=nuevo;volLlegaron+=nuevo?1:-1;pintarListaVol();pintarLlegaron();
+  const volver=()=>{a.ingreso=!nuevo;volLlegaron+=nuevo?-1:1;pintarListaVol();pintarLlegaron()};
+  try{const r=await rpc('gcn_marcar_ingreso',{p_pin:pinVol,p_codigo_entrada:a.codigo,p_ingreso:nuevo});
+    if(r&&r.error){volver();if(r.error==='pin'){pinVol=null;pintarMenu();ir('p-pin')}else avisar(r.error==='no existe'?'Esa entrada ya no existe. Tocá Actualizar.':'Demasiados intentos. Esperá unos minutos.');return}
+    volLlegaron=r.llegaron;pintarLlegaron();if(nuevo){avisar('✓ Llegó '+a.nombre);trackEvent('ingreso_marcado',{})}
+  }catch(err){volver();avisar(msgError(err))}
+});
 
 // Control de comprobantes
 let compDatos=[],compAbierta=null;
@@ -758,10 +855,14 @@ $('menos').onclick=()=>{if(estado.cant>1){estado.cant--;pintarCant()}};
 $('mas').onclick=()=>{if(estado.cant<MAX_ENTRADAS){estado.cant++;pintarCant()}};
 pintarCant();
 
-// Paso 2
+// Paso 3 (asistentes)
 function armarNombres(){
   const c=$('lista-nombres');const prev=[...c.querySelectorAll('input')].map(i=>i.value);
   if(prev.length)estado.nombres=prev;
+  // Si quien paga asiste, se precarga como primer asistente (sin pisar algo que la persona escribió a mano)
+  const pag=estado.pagador&&estado.pagador.nombre;const n0=estado.nombres[0]||'';
+  if(!estado.noAsiste&&pag){if(!n0||n0===estado.precargado){estado.nombres[0]=pag;estado.precargado=pag}}
+  else if(estado.precargado&&n0===estado.precargado){estado.nombres[0]='';estado.precargado=null}
   c.innerHTML='';
   for(let i=0;i<estado.cant;i++){
     c.insertAdjacentHTML('beforeend','<label class="campo"><span>Asistente '+(i+1)+'</span>'+
@@ -778,7 +879,7 @@ $('ok-nombres').onclick=()=>{
   });
   if(primero){primero.focus();return}
   estado.nombres=[...$('lista-nombres').querySelectorAll('input')].map(i=>i.value.trim());
-  ir('p-contacto');
+  ir('p-pago');
 };
 
 // Datos de quien paga (entradas y velas)
@@ -796,7 +897,8 @@ function marcar(id,errId,ok){$(id).classList.toggle('mal',!ok);$(errId).classLis
 // Valida los 4 datos; devuelve el primer campo con error o null, y guarda los datos limpios
 function validarPagador(p,telId,destino){
   const nom=$(p+'nombre').value.trim().replace(/\s+/g,' '),cuit=$(p+'cuit').value,tel=$(telId).value.trim(),mail=$(p+'email').value.trim();
-  const okN=/^\S{2,}(\s+\S+)+$/.test(nom),okC=cuitOk(cuit),okT=tel.replace(/\D/g,'').length>=10,sug=sugerirEmail(mail),okM=emailOk(mail)&&!sug;
+  const empresa=['30','33','34'].includes(cuit.replace(/\D/g,'').slice(0,2));
+  const okN=empresa?nom.length>=2:/^\S{2,}(\s+\S+)+$/.test(nom),okC=cuitOk(cuit),okT=tel.replace(/\D/g,'').length>=10,sug=sugerirEmail(mail),okM=emailOk(mail)&&!sug;
   marcar(p+'nombre','err-'+p+'nombre',okN);marcar(p+'cuit','err-'+p+'cuit',okC);marcar(telId,'err-'+telId,okT);marcar(p+'email','err-'+p+'email',okM);
   $('err-'+p+'email').innerHTML=sug?'¿Quisiste decir <b>'+esc(sug)+'</b>?<br><button type="button" class="sugerencia" data-sug="'+esc(sug)+'" data-campo="'+p+'email">Sí, usar '+esc(sug)+'</button>':'Revisá el mail, por ejemplo maria@gmail.com.';
   $('err-'+p+'cuit').textContent=cuit.replace(/\D/g,'').length===11?'Ese número no es un CUIL/CUIT válido. Revisá que esté bien escrito.':'Revisá el número: son 11 dígitos, con o sin guiones.';
@@ -807,16 +909,21 @@ function validarPagador(p,telId,destino){
 }
 document.addEventListener('click',e=>{const b=e.target.closest('.sugerencia');if(!b)return;e.preventDefault();
   const c=$(b.dataset.campo);c.value=b.dataset.sug;c.classList.remove('mal');b.closest('.msg-error').classList.remove('ver');c.focus()});
+let toggleTocado=false;$('asiste').addEventListener('change',()=>{toggleTocado=true});
+['input','blur'].forEach(ev=>$('pg-cuit').addEventListener(ev,()=>{
+  const d=$('pg-cuit').value.replace(/\D/g,'');
+  if(!toggleTocado&&$('asiste').checked&&['30','33','34'].includes(d.slice(0,2))){$('asiste').checked=false;avisar('Es un CUIT de empresa: apagamos "La persona que paga asiste"')}
+}));
 ['pg-cuit','v-cuit'].forEach(id=>$(id).addEventListener('blur',()=>{if(cuitOk($(id).value))$(id).value=formatoCuit($(id).value)}));
 
-// Paso 3
+// Paso 2 (datos de quien paga)
 $('ok-contacto').onclick=()=>{
   estado.pagador=estado.pagador||{};
   const malo=validarPagador('pg-','tel',estado.pagador);
   const v=document.querySelector('input[name=vinculo]:checked');$('err-vinc').classList.toggle('ver',!v);
   if(malo){malo.focus();return} if(!v){document.querySelector('input[name=vinculo]').focus();return}
-  estado.tel=estado.pagador.tel;estado.vinculo=v.value;
-  ir('p-pago');
+  estado.tel=estado.pagador.tel;estado.vinculo=v.value;estado.noAsiste=!$('asiste').checked;
+  ir('p-nombres');
 };
 
 // Paso 4
@@ -850,9 +957,16 @@ $('comprobante').addEventListener('change',e=>{
 document.querySelectorAll('[data-copiar]').forEach(b=>b.addEventListener('click',async()=>{
   try{await navigator.clipboard.writeText($(b.dataset.copiar).textContent);avisar('Copiado')}catch(e){avisar('No se pudo copiar. Anotalo a mano.')}
 }));
-$('ok-pago').onclick=async()=>{
+let pendienteMP=null;
+function abrirAvisoMP(fn){pendienteMP=fn;$('mp-titular').textContent=TITULAR_MP;$('modal-mp').classList.add('ver');document.body.style.overflow='hidden';setTimeout(()=>$('mp-ir').focus(),50)}
+function cerrarAvisoMP(){$('modal-mp').classList.remove('ver');document.body.style.overflow='';pendienteMP=null}
+$('mp-ir').onclick=()=>{if(!$('modal-mp').classList.contains('ver'))return;const f=pendienteMP;cerrarAvisoMP();trackEvent('aviso_mp_ok',{});if(f)f()};
+$('mp-volver').onclick=cerrarAvisoMP;
+$('modal-mp').onclick=e=>{if(e.target===$('modal-mp'))cerrarAvisoMP()};
+$('ok-pago').onclick=()=>{const p=document.querySelector('input[name=pago]:checked');if(!p||$('ok-pago').disabled)return;if(p.value==='mp')abrirAvisoMP(confirmarCompra);else confirmarCompra()};
+async function confirmarCompra(){
   const p=document.querySelector('input[name=pago]:checked');if(!p)return;
-  const btn=$('ok-pago');const txtOriginal=btn.textContent;
+  const btn=$('ok-pago');if(btn.disabled)return;const txtOriginal=btn.textContent;
   // La ventana de Mercado Pago se abre antes de esperar a la base, para que el navegador no la bloquee
   const ventanaMP=(p.value==='mp'&&LINK_MP)?window.open('about:blank','_blank'):null;
   btn.disabled=true;btn.textContent='Registrando…';
@@ -887,7 +1001,7 @@ $('ok-pago').onclick=async()=>{
     if(ventanaMP)ventanaMP.close();
     avisar(msgError(e));btn.disabled=false;btn.textContent=txtOriginal;
   }
-};
+}
 $('fin').onclick=()=>location.reload();
 
 const esMobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.maxTouchPoints>1&&/Mac/.test(navigator.platform));
@@ -994,9 +1108,9 @@ function pintarVelas(){
 $('menos-v').onclick=()=>{if(vela.cant>1){vela.cant--;pintarVelas()}};
 $('mas-v').onclick=()=>{if(vela.cant<50){vela.cant++;pintarVelas()}};
 $('ok-vela-cant').onclick=()=>{$('resumen-v').textContent=(vela.cant===1?'1 vela':vela.cant+' velas')+' ('+pesos(PRECIO_VELA*vela.cant)+')';ir('p-vela-datos')};
-$('ok-vela').onclick=async()=>{
-  vela.datos=vela.datos||{};const malo=validarPagador('v-','v-tel',vela.datos);if(malo){malo.focus();return}
-  const btn=$('ok-vela');const ventanaMP=LINK_MP_VELA?window.open('about:blank','_blank'):null;
+$('ok-vela').onclick=()=>{vela.datos=vela.datos||{};const malo=validarPagador('v-','v-tel',vela.datos);if(malo){malo.focus();return}abrirAvisoMP(donarVela)};
+async function donarVela(){
+  const btn=$('ok-vela');if(btn.disabled)return;const ventanaMP=LINK_MP_VELA?window.open('about:blank','_blank'):null;
   btn.disabled=true;btn.textContent='Registrando…';
   try{
     const r=await rpc('gcn_registrar_donacion',{p_velas:vela.cant,p_nombre:vela.datos.nombre,p_cuit:vela.datos.cuit,p_telefono:vela.datos.tel,p_email:vela.datos.email});
@@ -1010,9 +1124,83 @@ $('ok-vela').onclick=async()=>{
     $('modal-vela').classList.add('ver');document.body.style.overflow='hidden';
   }catch(e){if(ventanaMP)ventanaMP.close();avisar(msgError(e))}
   finally{btn.disabled=false;btn.textContent='Donar con Mercado Pago'}
-};
+}
 $('fin-vela').onclick=()=>{$('modal-vela').classList.remove('ver');document.body.style.overflow='';vela.cant=1;vela.datos={};pintarVelas();['v-nombre','v-cuit','v-tel','v-email'].forEach(i=>$(i).value='');ir('p-inicio')};
 pintarVelas();pintarContadorInicio();
+
+// Pedidos de ayuda (voluntarios)
+let ayudaDatos=[];
+async function cargarAyuda(mostrar){
+  const b=$('ayuda-act');if(mostrar){b.disabled=true;b.textContent='Cargando…'}
+  try{const r=await rpc('gcn_panel_ayuda',{p_pin:pinVol});
+    if(r&&r.error){if(r.error==='pin'){pinVol=null;pintarMenu();ir('p-pin')}else if(mostrar)avisar('Demasiados intentos. Esperá unos minutos.');return}
+    ayudaDatos=r.pedidos||[];pintarAyuda();
+  }catch(e){if(mostrar)avisar(msgError(e))}
+  finally{b.disabled=false;b.textContent='Actualizar'}
+}
+function pintarAyuda(){
+  const pend=ayudaDatos.filter(a=>!a.llamado).length,hechos=ayudaDatos.length-pend;
+  $('ayuda-total').textContent=pend;$('menu-ayuda-n').textContent=pend||'';
+  $('ayuda-det').textContent=!ayudaDatos.length?'':pend?(hechos?(hechos===1?'1 ya llamado':hechos+' ya llamados'):'Todavía no se llamó a nadie'):'Todo al día';
+  if(!ayudaDatos.length){$('ayuda-lista').innerHTML='<p class="vol-vacio">No hay pedidos de ayuda.</p>';return}
+  $('ayuda-lista').innerHTML=ayudaDatos.map(a=>'<div class="pedido'+(a.llamado?' hecho':'')+'"><div class="pd-info"><b>'+esc(a.nombre||'Sin nombre')+'</b>'+
+    '<a href="tel:'+esc(a.telefono.replace(/[^\d+]/g,''))+'">📞 '+esc(a.telefono)+'</a><small>'+fechaCorta(a.fecha)+'</small></div>'+
+    (a.llamado?'<button class="pd-btn deshacer" data-ayuda="'+esc(a.id)+'" data-llamado="0">Marcar sin llamar</button>'
+              :'<button class="pd-btn" data-ayuda="'+esc(a.id)+'" data-llamado="1">✓ Ya lo llamé</button>')+'</div>').join('');
+}
+$('ayuda-act').onclick=()=>cargarAyuda(true);
+$('ayuda-lista').addEventListener('click',async e=>{
+  const b=e.target.closest('[data-ayuda]');if(!b||b.disabled)return;b.disabled=true;
+  const llamado=b.dataset.llamado==='1';
+  try{const r=await rpc('gcn_marcar_ayuda',{p_pin:pinVol,p_id:b.dataset.ayuda,p_llamado:llamado});
+    if(r&&r.error){if(r.error==='pin'){pinVol=null;pintarMenu();ir('p-pin');return}
+      avisar(r.error==='no existe'?'Ese pedido ya no existe.':'Demasiados intentos. Esperá unos minutos.');b.disabled=false;return}
+    const x=ayudaDatos.find(a=>a.id===b.dataset.ayuda);if(x)x.llamado=llamado;
+    ayudaDatos.sort((p,q)=>(p.llamado-q.llamado)||(new Date(p.fecha)-new Date(q.fecha)));pintarAyuda();
+    avisar(llamado?'Marcado como llamado':'Marcado como pendiente');
+  }catch(err){avisar(msgError(err));b.disabled=false}
+});
+
+// Exportar a Excel (voluntarios). La librería se carga solo cuando se usa.
+const XLSX_URL='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+function cargarScript(src){return new Promise((ok,mal)=>{if(window.XLSX)return ok();const s=document.createElement('script');s.src=src;s.onload=ok;
+  s.onerror=()=>{s.remove();mal(new Error('No se pudo cargar el generador de Excel. Revisá la conexión.'))};document.head.appendChild(s)})}
+const fechaXls=f=>f?new Date(f).toLocaleString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}):'';
+function hojaXls(filas,cols){
+  const ws=XLSX.utils.json_to_sheet(filas,{header:cols});
+  ws['!cols']=cols.map(k=>({wch:Math.min(42,Math.max(k.length,...filas.map(f=>String(f[k]??'').length))+2)}));
+  return ws;
+}
+$('menu-export').onclick=async()=>{
+  cerrarMenu();if(!pinVol)return;avisar('Preparando el Excel…');
+  try{
+    const r=await rpc('gcn_panel_export',{p_pin:pinVol});
+    if(r&&r.error){if(r.error==='pin'){pinVol=null;pintarMenu();ir('p-pin');return}avisar('Demasiados intentos. Esperá unos minutos.');return}
+    await cargarScript(XLSX_URL);
+    const compras=r.compras||[],don=r.donaciones||[];
+    const datosPago=c=>({'Paga (nombre o razón social)':c.pagador||'','CUIL/CUIT':c.cuit?formatoCuit(c.cuit):'','Teléfono':c.telefono||'','Mail':c.email||'','Soy':VINC[c.vinculo]||c.vinculo||''});
+    const filasA=[];compras.forEach(c=>(c.asistentes||[]).forEach(a=>filasA.push(Object.assign({'Asistente':a.nombre,'Código de entrada':a.codigo,
+      'Llegó':a.ingreso?'Sí':'','Hora de llegada':fechaXls(a.ingreso_at),'Compra':c.codigo,'Estado del pago':ESTADOS[c.estado]||c.estado,
+      'Forma de pago':PAGOS[c.forma_pago]||c.forma_pago,'Fecha de compra':fechaXls(c.fecha)},datosPago(c)))));
+    filasA.sort((p,q)=>p['Asistente'].localeCompare(q['Asistente'],'es'));
+    const filasC=compras.map(c=>Object.assign({'Compra':c.codigo,'Fecha':fechaXls(c.fecha),'Estado del pago':ESTADOS[c.estado]||c.estado,
+      'Forma de pago':PAGOS[c.forma_pago]||c.forma_pago,'Comprobante':c.forma_pago==='transferencia'?(c.comprobante==='subido'?'Subido a la app':c.comprobante==='por mail'?'Por mail':''):'',
+      'Entradas':c.cantidad,'Precio unitario':c.precio_unitario,'Total':c.total,'Verificada':fechaXls(c.verificado)},datosPago(c),
+      {'Asistentes':(c.asistentes||[]).map(a=>a.nombre).join(', ')}));
+    const filasV=don.map(d=>({'Fecha':fechaXls(d.fecha),'Velas':d.velas,'Precio por vela':d.precio_vela,'Importe':d.importe,'Estado':d.estado==='rechazada'?'Rechazada':'Registrada',
+      'Nombre o razón social':d.nombre||'','CUIL/CUIT':d.cuit?formatoCuit(d.cuit):'','Teléfono':d.telefono||'','Mail':d.email||''}));
+    const wb=XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb,hojaXls(filasA,['Asistente','Código de entrada','Llegó','Hora de llegada','Compra','Estado del pago','Forma de pago','Fecha de compra','Paga (nombre o razón social)','CUIL/CUIT','Teléfono','Mail','Soy']),'Asistentes');
+    XLSX.utils.book_append_sheet(wb,hojaXls(filasC,['Compra','Fecha','Estado del pago','Forma de pago','Comprobante','Entradas','Precio unitario','Total','Verificada','Paga (nombre o razón social)','CUIL/CUIT','Teléfono','Mail','Soy','Asistentes']),'Compras');
+    XLSX.utils.book_append_sheet(wb,hojaXls(filasV,['Fecha','Velas','Precio por vela','Importe','Estado','Nombre o razón social','CUIL/CUIT','Teléfono','Mail']),'Velas');
+    const buf=XLSX.write(wb,{bookType:'xlsx',type:'array'});
+    const blob=new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+    const hoy=new Date(),dd=n=>String(n).padStart(2,'0');
+    const nombre='Gala-Candle-Night-'+hoy.getFullYear()+'-'+dd(hoy.getMonth()+1)+'-'+dd(hoy.getDate())+'_'+dd(hoy.getHours())+dd(hoy.getMinutes())+'.xlsx';
+    await compartirArchivo(blob,nombre,'Gala Candle Night — entradas');
+    trackEvent('export_excel',{});avisar('Excel listo: '+filasA.length+' asistentes, '+filasC.length+' compras, '+filasV.length+' donaciones');
+  }catch(e){avisar(e&&/Excel/.test(e.message)?e.message:msgError(e))}
+};
 rpc('gcn_info_publica').then(info=>{
   if(!info)return;
   PRECIO=info.precio_entrada;PRECIO_VELA=info.precio_vela;velasDonadas=info.total_velas;
