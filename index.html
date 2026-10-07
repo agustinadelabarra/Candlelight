@@ -20,11 +20,11 @@
     gtag('config', window.GA_ID, { send_page_view: false });
   }
 </script>
-<meta name="description" content="3 de noviembre en el Colegio Michael Ham. Comprá tu entrada o doná una vela.">
+<meta name="description" content="3 de noviembre en el Colegio Michael Ham. Comprá tu entrada o prendé una vela.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://candlelight-lemon.vercel.app/">
 <meta property="og:title" content="Gala Candle Night">
-<meta property="og:description" content="3 de noviembre en el Colegio Michael Ham. Comprá tu entrada o doná una vela.">
+<meta property="og:description" content="3 de noviembre en el Colegio Michael Ham. Comprá tu entrada o prendé una vela.">
 <meta property="og:image" content="https://candlelight-lemon.vercel.app/og-image.jpg">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="800">
@@ -205,6 +205,15 @@ input.mal{border-color:var(--error);box-shadow:0 0 0 1px var(--error)}
 .e-top b{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600;font-size:1.3rem;color:var(--oro-claro)}
 .e-top span{font-size:1rem;white-space:nowrap}
 .e-cuerpo{padding:.9rem 1rem;border-bottom:2px dashed var(--linea)}
+.cv-cuerpo{display:flex;align-items:stretch;border-bottom:2px dashed var(--linea)}
+.cv-foto{position:relative;flex:none;width:96px;background:#140600;overflow:hidden}
+.cv-foto .vela-in{height:100%;top:50%;transform:translate(-50%,-50%)}
+.cv-foto::after{content:'';position:absolute;right:0;top:0;bottom:0;width:34px;background:linear-gradient(to right,rgba(255,255,255,0),#fff)}
+.cv-datos{flex:1;padding:.9rem 1rem;background:var(--blanco)}
+.cv-datos .cv-n{font-size:1.6rem;font-weight:700;line-height:1.15;margin:0 0 .3rem}
+.cv-datos .cv-g{font-size:1.05rem;margin:0}
+.cv-datos .cv-i{font-size:1.15rem;font-weight:700;margin:.5rem 0 0}
+.cap .vela-fx,.cap .vela-gw{animation:none!important}
 .e-cuerpo small{display:block;color:var(--tinta-2);font-size:1rem}
 .e-cuerpo .nombre{font-size:1.45rem;font-weight:700;margin-bottom:.5rem}
 .e-pie{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:.4rem .75rem;padding:.7rem 1rem;font-size:1rem}
@@ -543,7 +552,7 @@ input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;
 <section class="pantalla" id="p-vela">
   <div class="barra"><button class="volver" data-ir="p-inicio">‹ Volver</button><span class="barra-titulo">Gala Candle Night</span></div>
   <div class="cuerpo" style="padding-top:1rem">
-    <h2>¿Cuántas velas querés donar?</h2>
+    <h2>¿Cuántas velas querés prender?</h2>
     <p class="intro-vela">Cada vela es una donación de <b id="precio-vela"></b>.</p>
     <div class="contador">
       <button id="menos-v" aria-label="Una vela menos">−</button>
@@ -578,17 +587,21 @@ input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;
     </label>
     </div>
   <button type="submit" class="sr-submit" tabindex="-1" aria-hidden="true" aria-label="Continuar"></button></form></div>
-  <div class="pie"><button class="btn btn-principal" id="ok-vela">Donar con Mercado Pago</button></div>
+  <div class="pie"><button class="btn btn-principal" id="ok-vela">Ir a pagar con Mercado Pago</button></div>
 </section>
 
 </div>
 
 <div class="modal" id="modal-vela" role="dialog" aria-modal="true" aria-labelledby="mv-titulo">
-  <div class="caja gracias">
-    <div class="velas-anim" id="mv-velas" aria-hidden="true">🕯️</div>
-    <h2 id="mv-titulo">¡Gracias por tu donación!</h2>
-    <p id="mv-txt"></p>
-    <button class="btn btn-principal" id="fin-vela">Volver al inicio</button>
+  <div class="caja">
+    <h2 id="mv-titulo">¡Gracias! Este es tu comprobante</h2>
+    <p class="nota" id="mv-txt"></p>
+    <div id="comp-vela"></div>
+    <div class="acciones-entradas">
+      <button class="btn btn-principal" id="guardar-vela"><span id="gv-txt">Guardar o compartir</span><small style="display:block;font-size:1rem;font-weight:400">Por WhatsApp, en la galería y más</small></button>
+      <button class="btn btn-borde" id="pdf-vela"><span id="pv-txt">Descargar en PDF</span></button>
+      <button class="btn btn-borde" id="fin-vela">Volver al inicio</button>
+    </div>
   </div>
 </div>
 
@@ -690,6 +703,8 @@ function ir(id,desdeHistorial){
   document.querySelectorAll('.pantalla').forEach(p=>p.classList.remove('activa'));
   const p=$(id);p.classList.add('activa');
   if(p.dataset.paso)pintarProgreso(p);
+  const fm={'p-contacto':'f-pago','p-vela-datos':'f-vela','p-ayuda':'f-ayuda'}[id];
+  if(fm)requestAnimationFrame(()=>{const x=document.createElement('input');x.type='hidden';$(fm).appendChild(x);setTimeout(()=>x.remove(),50)});
   if(id==='p-nombres')armarNombres();
   if(id==='p-pago')armarResumen();
   if(id==='p-inicio')ubicarLlamas();
@@ -795,7 +810,7 @@ function pintarListaVol(){
     '</tbody></table></div>';
 }
 // Versión y firma
-const APP_VERSION='2.6';
+const APP_VERSION='2.7';
 $('app-ver').textContent='v'+APP_VERSION;
 $('vs-mark').addEventListener('click',e=>{e.stopPropagation();$('vs-tip').hidden=!$('vs-tip').hidden;if(!$('vs-tip').hidden)trackEvent('vertexsur_click',{})});
 document.addEventListener('click',e=>{if(!e.target.closest('#vs-mark'))$('vs-tip').hidden=true});
@@ -1078,7 +1093,7 @@ async function compartirArchivo(blob,fileName,titulo){
 async function capturar(el,ancho,fondo){
   const caja=document.createElement('div');
   caja.style.cssText='position:fixed;left:-10000px;top:0;width:'+ancho+'px;background:'+fondo+';padding:8px';
-  caja.appendChild(el.cloneNode(true));document.body.appendChild(caja);
+  const cl=el.cloneNode(true);cl.classList.add('cap');caja.appendChild(cl);document.body.appendChild(caja);
   try{return await html2canvas(caja,{backgroundColor:fondo,scale:2,scrollX:0,scrollY:0,windowWidth:ancho+40})}
   finally{caja.remove()}
 }
@@ -1175,16 +1190,42 @@ async function donarVela(){
     if(ventanaMP)ventanaMP.location=LINK_MP_VELA;else avisar('Acá se abre el link de Mercado Pago');
     velasDonadas=r.total_velas;pintarContadorInicio();
     trackEvent('donacion_vela',{velas:vela.cant,value:PRECIO_VELA*vela.cant,currency:'ARS'});
-    const n=vela.datos.nombre;
-    $('mv-velas').textContent='🕯️'.repeat(Math.min(vela.cant,5));
-    $('mv-txt').textContent=(n?n.split(/\s+/)[0]+', ':'')+(vela.cant===1?'encendiste una vela':'encendiste '+vela.cant+' velas')+
-      ' para la Gala Candle Night. Ya son '+velasDonadas.toLocaleString('es-AR')+' velas donadas.';
+    const n=vela.datos.nombre;vela.codigo=r.codigo||'';
+    const BS=document.querySelector('#p-inicio .vela-bs').src,FX=document.querySelector('#p-inicio .vela-fx img').src;
+    $('mv-txt').textContent='Ya son '+velasDonadas.toLocaleString('es-AR')+' velas prendidas para la Gala.';
+    $('comp-vela').innerHTML='<div class="entrada"><div class="e-top"><b>Gala Candle Night</b><span>'+(vela.cant===1?'Vela prendida':'Velas prendidas')+'</span></div>'+
+      '<div class="cv-cuerpo"><div class="cv-foto" aria-hidden="true"><span class="vela-in"><img class="vela-bs" src="'+BS+'" alt=""><span class="vela-gw"></span><span class="vela-fx"><img src="'+FX+'" alt=""></span></span></div>'+
+      '<div class="cv-datos"><p class="cv-n">'+(vela.cant===1?'1 vela prendida':vela.cant+' velas prendidas')+'</p><p class="cv-g">Gracias, <b>'+esc(n)+'</b></p>'+
+      '<p class="cv-i">'+pesos(r.importe!=null?r.importe:PRECIO_VELA*vela.cant)+'</p></div></div>'+
+      '<div class="e-pie"><span>Martes 3 de noviembre, 19 h<br>Colegio Michael Ham</span>'+(vela.codigo?'<span>Código <b>'+esc(vela.codigo)+'</b></span>':'')+'</div></div>';
     $('modal-vela').classList.add('ver');document.body.style.overflow='hidden';
   }catch(e){if(ventanaMP)ventanaMP.close();avisar(msgError(e))}
-  finally{btn.disabled=false;btn.textContent='Donar con Mercado Pago'}
+  finally{btn.disabled=false;btn.textContent='Ir a pagar con Mercado Pago'}
 }
 $('fin-vela').onclick=()=>{$('modal-vela').classList.remove('ver');document.body.style.overflow='';vela.cant=1;vela.datos={};pintarVelas();['v-nombre','v-cuit','v-tel','v-email'].forEach(i=>$(i).value='');ir('p-inicio')};
 pintarVelas();pintarContadorInicio();
+// Guardar o compartir y PDF del comprobante de velas
+$('guardar-vela').addEventListener('click',async function(){
+  trackEvent('vela_guardar',{});
+  if(typeof html2canvas==='undefined'){alert('No pudimos preparar la imagen. Sacale una captura de pantalla al comprobante.');return}
+  const btn=this,lbl=$('gv-txt'),o=lbl.textContent;btn.disabled=true;lbl.textContent='Preparando…';
+  try{const c=await capturar($('comp-vela'),380,'#FFF6E3');const blob=await new Promise(r=>c.toBlob(r,'image/png'));
+    await compartirArchivo(blob,'vela-gala-candle-night-'+(vela.codigo||'')+'.png','Vela Gala Candle Night')}
+  catch(e){alert('No pudimos generar la imagen. Sacale una captura de pantalla al comprobante.')}
+  finally{btn.disabled=false;lbl.textContent=o}
+});
+$('pdf-vela').addEventListener('click',async function(){
+  trackEvent('vela_pdf',{});
+  if(typeof html2canvas==='undefined'||!window.jspdf){alert('No pudimos preparar el PDF. Usá "Guardar o compartir" o sacale una captura de pantalla.');return}
+  const btn=this,lbl=$('pv-txt'),o=lbl.textContent;btn.disabled=true;lbl.textContent='Preparando…';
+  try{const {jsPDF}=window.jspdf;const c=await capturar($('comp-vela').querySelector('.entrada'),380,'#FFFFFF');
+    const ancho=110,m=8,alto=ancho*c.height/c.width;const pdf=new jsPDF({unit:'mm',format:[ancho+m*2,alto+m*2],orientation:'portrait'});
+    pdf.addImage(c.toDataURL('image/jpeg',0.92),'JPEG',m,m,ancho,alto);
+    const blob=pdf.output('blob');const ok=await compartirArchivo(blob,'vela-gala-candle-night-'+(vela.codigo||'')+'.pdf','Vela Gala Candle Night');
+    if(!ok&&esMobile){const w=window.open(URL.createObjectURL(blob));if(!w)avisar('Si no ves el PDF, revisá tus descargas.')}}
+  catch(e){alert('No pudimos generar el PDF. Usá "Guardar o compartir" o sacale una captura de pantalla.')}
+  finally{btn.disabled=false;lbl.textContent=o}
+});
 
 // Pedidos de ayuda (voluntarios)
 let ayudaDatos=[];
