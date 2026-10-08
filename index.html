@@ -247,7 +247,7 @@ input.mal{border-color:var(--error);box-shadow:0 0 0 1px var(--error)}
 .vela-fx{position:absolute;left:39.00%;top:13.31%;width:22.00%;height:27.82%;transform-origin:50% 95%;animation:vela-fk 1.5s ease-in-out infinite;-webkit-mask-image:radial-gradient(ellipse 50% 50% at 50% 50%,#000 55%,transparent 100%);mask-image:radial-gradient(ellipse 50% 50% at 50% 50%,#000 55%,transparent 100%)}
 .vela-fx img{width:100%;height:100%;display:block}
 .vela-gw{position:absolute;left:50%;top:25.83%;width:60%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(255,215,130,.45) 0,rgba(255,190,90,0) 65%);animation:vela-gw 2.1s ease-in-out infinite;mix-blend-mode:screen}
-.vela-cnt{position:absolute;left:0;width:72px;bottom:5px;text-align:center;font-size:.66rem;font-weight:600;line-height:1.15;color:#FFF6E3}
+.vela-cnt{position:absolute;left:0;width:72px;bottom:5px;text-align:center;font-size:.76rem;font-weight:600;line-height:1.15;color:#FFF6E3}
 @keyframes vela-fk{0%,100%{transform:scale(1,1) skewX(0)}18%{transform:scale(.97,1.05) skewX(1.2deg)}36%{transform:scale(1.02,.97) skewX(-.9deg)}55%{transform:scale(.98,1.06) skewX(.6deg)}78%{transform:scale(1.01,.98) skewX(-1deg)}}
 @keyframes vela-gw{0%,100%{opacity:.7}30%{opacity:1}55%{opacity:.8}80%{opacity:.95}}
 @media (prefers-reduced-motion:reduce){.vela-fx,.vela-gw{animation:none}}
@@ -812,7 +812,7 @@ function pintarListaVol(){
     '</tbody></table></div>';
 }
 // Versión y firma
-const APP_VERSION='2.8';
+const APP_VERSION='2.9';
 $('app-ver').textContent='v'+APP_VERSION;
 $('vs-mark').addEventListener('click',e=>{e.stopPropagation();$('vs-tip').hidden=!$('vs-tip').hidden;if(!$('vs-tip').hidden)trackEvent('vertexsur_click',{})});
 document.addEventListener('click',e=>{if(!e.target.closest('#vs-mark'))$('vs-tip').hidden=true});
