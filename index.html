@@ -71,12 +71,13 @@ body{margin:0;min-height:100%;background:var(--crema);color:var(--tinta);
   body .datos-transf dl{display:grid;grid-template-columns:1fr 1.7fr;column-gap:1rem}
   body .datos-transf dl .dato:last-child{grid-column:1 / -1}
   body .opciones.op-pago{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
-  body .opciones.op-soy .opcion,body .opciones.op-pago .opcion{min-height:56px;padding-top:.5rem;padding-bottom:.5rem}
-  body #p-contacto .cuerpo h3{margin-top:.6rem}
-  body .grilla-datos label.campo{margin-bottom:.5rem}
+  body .opciones.op-soy .opcion,body .opciones.op-pago .opcion{min-height:52px;padding-top:.5rem;padding-bottom:.5rem}
+  body #p-contacto .cuerpo h3{margin-top:.3rem}
+  body .grilla-datos label.campo{margin-bottom:.3rem}
   body .grilla-datos label.campo>span{font-size:.95rem}
-  body #p-contacto .toggle{margin-bottom:.5rem;padding-bottom:.5rem}
+  body #p-contacto .toggle{margin-bottom:.3rem;padding-bottom:.4rem}
   body #p-contacto .aclara{margin-bottom:.4rem}
+  body #p-contacto .toggle.tg-comp{margin:0;padding:0;border-bottom:0;min-height:44px}
 }
 .hero img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
 .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(255,246,227,0) 80%,var(--crema) 100%)}
@@ -280,6 +281,7 @@ input.mal{border-color:var(--error);box-shadow:0 0 0 1px var(--error)}
 .toggle input:checked+.tg-ui::after{transform:translateX(24px)}
 .toggle input:focus-visible+.tg-ui{outline:4px solid var(--oro-prog);outline-offset:3px}
 .toggle .tg-txt{flex:none;text-align:right;font-size:1rem;font-weight:400;color:var(--tinta-2);line-height:1.3}
+.toggle.tg-comp{margin:.1rem 0 .2rem;padding:0;border-bottom:0;min-height:48px}
 .toggle .tg-txt small{display:block;font-weight:400;font-size:1rem;color:var(--tinta-2);margin-top:.15rem}
 p.aclara{margin:-.4rem 0 1rem;color:var(--tinta-2);font-size:1rem}
 .sugerencia{display:inline-block;margin-top:.35rem;font:inherit;font-size:1rem;font-weight:600;color:var(--tinta);background:#F3E8CF;border:2px solid var(--tinta);border-radius:10px;padding:.55rem .8rem;min-height:44px;cursor:pointer}
@@ -467,18 +469,13 @@ input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;
   <div class="barra"><button class="volver" data-ir="p-cantidad">‹ Volver</button><span class="barra-titulo">Gala Candle Night</span></div>
   <div class="progreso"></div>
   <div class="cuerpo"><form id="f-pago" class="f-datos" autocomplete="on" novalidate>
-    <h2>Datos de facturación</h2>
-    <p class="aclara">Para fines impositivos de la donación.</p>
+    <h2>Datos de pago</h2>
     <label class="toggle"><input type="checkbox" id="asiste" role="switch" checked><span class="tg-ui" aria-hidden="true"></span>
       <span class="tg-txt">La persona que paga asiste</span></label>
     <div class="grilla-datos">
     <label class="campo"><span>Nombre y apellido o razón social</span>
       <input type="text" id="pg-nombre" name="name" autocapitalize="words" autocomplete="name" placeholder="Ej: María López">
       <div class="msg-error" id="err-pg-nombre">Escribí nombre y apellido, o la razón social.</div>
-    </label>
-    <label class="campo"><span>CUIL o CUIT</span>
-      <input type="text" id="pg-cuit" name="cuit" inputmode="numeric" autocomplete="off" placeholder="Ej: 20-12345678-6" maxlength="13">
-      <div class="msg-error" id="err-pg-cuit">Revisá el número: son 11 dígitos, con o sin guiones.</div>
     </label>
     <label class="campo"><span>Teléfono</span>
       <input type="tel" id="tel" name="tel" inputmode="tel" autocomplete="tel" placeholder="Ej: 11 4567 8900">
@@ -487,6 +484,14 @@ input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;
     <label class="campo"><span>Mail</span>
       <input type="email" id="pg-email" name="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="Ej: maria@gmail.com">
       <div class="msg-error" id="err-pg-email">Revisá el mail, por ejemplo maria@gmail.com.</div>
+    </label>
+    </div>
+    <label class="toggle tg-comp"><input type="checkbox" id="pide-comp" role="switch"><span class="tg-ui" aria-hidden="true"></span>
+      <span class="tg-txt">Necesito comprobante de donación</span></label>
+    <div id="bloque-cuit" hidden>
+    <label class="campo"><span>CUIL o CUIT</span>
+      <input type="text" id="pg-cuit" name="cuit" inputmode="numeric" autocomplete="off" placeholder="Ej: 20-12345678-6" maxlength="13">
+      <div class="msg-error" id="err-pg-cuit">Revisá el número: son 11 dígitos, con o sin guiones.</div>
     </label>
     </div>
     <h3>Soy:</h3>
@@ -575,10 +580,6 @@ input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;
       <input type="text" id="v-nombre" name="name" autocapitalize="words" autocomplete="name" placeholder="Ej: María López">
       <div class="msg-error" id="err-v-nombre">Escribí nombre y apellido, o la razón social.</div>
     </label>
-    <label class="campo"><span>CUIL o CUIT</span>
-      <input type="text" id="v-cuit" name="cuit" inputmode="numeric" autocomplete="off" placeholder="Ej: 20-12345678-6" maxlength="13">
-      <div class="msg-error" id="err-v-cuit">Revisá el número: son 11 dígitos, con o sin guiones.</div>
-    </label>
     <label class="campo"><span>Teléfono</span>
       <input type="tel" id="v-tel" name="tel" inputmode="tel" autocomplete="tel" placeholder="Ej: 11 4567 8900">
       <div class="msg-error" id="err-v-tel">Escribí el teléfono con código de área, por ejemplo 11 4567 8900.</div>
@@ -656,7 +657,7 @@ const MAX_ENTRADAS = 10;
 const LINK_MP = '';     // link de pago de Mercado Pago para entradas, a definir
 let PRECIO_VELA = 15000;
 // Casilla que recibe comprobantes enviados por mail (temporal, para pruebas)
-const MAIL_COMPROBANTES = 'agusdelabarra@hotmail.com';
+const MAIL_COMPROBANTES = 'marcelo.vega@michaelham.org.ar';
 // Nombre que tiene que aparecer como destinatario en Mercado Pago (aviso antes de pagar)
 const TITULAR_MP = 'FUNDACION COLEGIO MICHAEL HAM';     // se actualiza desde la base al cargar
 const LINK_MP_VELA = '';     // link de Mercado Pago para donaciones, a definir
@@ -812,7 +813,7 @@ function pintarListaVol(){
     '</tbody></table></div>';
 }
 // Versión y firma
-const APP_VERSION='2.9';
+const APP_VERSION='2.10';
 $('app-ver').textContent='v'+APP_VERSION;
 $('vs-mark').addEventListener('click',e=>{e.stopPropagation();$('vs-tip').hidden=!$('vs-tip').hidden;if(!$('vs-tip').hidden)trackEvent('vertexsur_click',{})});
 document.addEventListener('click',e=>{if(!e.target.closest('#vs-mark'))$('vs-tip').hidden=true});
@@ -962,25 +963,28 @@ function sugerirEmail(s){const m=String(s||'').trim().toLowerCase().match(/^([^@
 function marcar(id,errId,ok){$(id).classList.toggle('mal',!ok);$(errId).classList.toggle('ver',!ok)}
 // Valida los 4 datos; devuelve el primer campo con error o null, y guarda los datos limpios
 function validarPagador(p,telId,destino){
-  const nom=$(p+'nombre').value.trim().replace(/\s+/g,' '),cuit=$(p+'cuit').value,tel=$(telId).value.trim(),mail=$(p+'email').value.trim();
+  const pide=p==='pg-'&&$('pide-comp').checked;
+  const nom=$(p+'nombre').value.trim().replace(/\s+/g,' '),cuit=pide?$(p+'cuit').value:'',tel=$(telId).value.trim(),mail=$(p+'email').value.trim();
   const empresa=['30','33','34'].includes(cuit.replace(/\D/g,'').slice(0,2));
-  const okN=empresa?nom.length>=2:/^\S{2,}(\s+\S+)+$/.test(nom),okC=cuitOk(cuit),okT=tel.replace(/\D/g,'').length>=10,sug=sugerirEmail(mail),okM=emailOk(mail)&&!sug;
-  marcar(p+'nombre','err-'+p+'nombre',okN);marcar(p+'cuit','err-'+p+'cuit',okC);marcar(telId,'err-'+telId,okT);marcar(p+'email','err-'+p+'email',okM);
+  const okN=empresa?nom.length>=2:/^\S{2,}(\s+\S+)+$/.test(nom),okC=!pide||cuitOk(cuit),okT=tel.replace(/\D/g,'').length>=10,sug=sugerirEmail(mail),okM=emailOk(mail)&&!sug;
+  marcar(p+'nombre','err-'+p+'nombre',okN);if(pide)marcar(p+'cuit','err-'+p+'cuit',okC);marcar(telId,'err-'+telId,okT);marcar(p+'email','err-'+p+'email',okM);
   $('err-'+p+'email').innerHTML=sug?'¿Quisiste decir <b>'+esc(sug)+'</b>?<br><button type="button" class="sugerencia" data-sug="'+esc(sug)+'" data-campo="'+p+'email">Sí, usar '+esc(sug)+'</button>':'Revisá el mail, por ejemplo maria@gmail.com.';
-  $('err-'+p+'cuit').textContent=cuit.replace(/\D/g,'').length===11?'Ese número no es un CUIL/CUIT válido. Revisá que esté bien escrito.':'Revisá el número: son 11 dígitos, con o sin guiones.';
-  if(okC)$(p+'cuit').value=formatoCuit(cuit);
+  if(pide)$('err-'+p+'cuit').textContent=cuit.replace(/\D/g,'').length===11?'Ese número no es un CUIL/CUIT válido. Revisá que esté bien escrito.':'Revisá el número: son 11 dígitos, con o sin guiones.';
+  if(pide&&okC)$(p+'cuit').value=formatoCuit(cuit);
   const malo=!okN?p+'nombre':!okC?p+'cuit':!okT?telId:!okM?p+'email':null;
   if(malo)return $(malo);
-  Object.assign(destino,{nombre:nom,cuit:cuit.replace(/\D/g,''),tel,email:mail.toLowerCase()});return null;
+  Object.assign(destino,{nombre:nom,cuit:cuit.replace(/\D/g,''),pide,tel,email:mail.toLowerCase()});return null;
 }
 document.addEventListener('click',e=>{const b=e.target.closest('.sugerencia');if(!b)return;e.preventDefault();
   const c=$(b.dataset.campo);c.value=b.dataset.sug;c.classList.remove('mal');b.closest('.msg-error').classList.remove('ver');c.focus()});
+$('pide-comp').addEventListener('change',()=>{const on=$('pide-comp').checked;$('bloque-cuit').hidden=!on;
+  if(on)$('pg-cuit').focus();else{$('pg-cuit').classList.remove('mal');$('err-pg-cuit').classList.remove('ver')}});
 let toggleTocado=false;$('asiste').addEventListener('change',()=>{toggleTocado=true;pintarProgreso($('p-contacto'))});
 ['input','blur'].forEach(ev=>$('pg-cuit').addEventListener(ev,()=>{
   const d=$('pg-cuit').value.replace(/\D/g,'');
   if(!toggleTocado&&$('asiste').checked&&['30','33','34'].includes(d.slice(0,2))){$('asiste').checked=false;avisar('Es un CUIT de empresa: apagamos "La persona que paga asiste"')}
 }));
-['pg-cuit','v-cuit'].forEach(id=>$(id).addEventListener('blur',()=>{if(cuitOk($(id).value))$(id).value=formatoCuit($(id).value)}));
+['pg-cuit'].forEach(id=>$(id).addEventListener('blur',()=>{if(cuitOk($(id).value))$(id).value=formatoCuit($(id).value)}));
 
 // Formularios de datos: permiten el autocompletado del navegador; "Enter" equivale al botón principal
 [['f-pago','ok-contacto'],['f-vela','ok-vela'],['f-ayuda','ok-ayuda']].forEach(([f,b])=>$(f).addEventListener('submit',e=>{e.preventDefault();$(b).click()}));
@@ -1204,7 +1208,7 @@ async function donarVela(){
   }catch(e){if(ventanaMP)ventanaMP.close();avisar(msgError(e))}
   finally{btn.disabled=false;btn.textContent='Ir a pagar con Mercado Pago'}
 }
-$('fin-vela').onclick=()=>{$('modal-vela').classList.remove('ver');document.body.style.overflow='';vela.cant=1;vela.datos={};pintarVelas();['v-nombre','v-cuit','v-tel','v-email'].forEach(i=>$(i).value='');ir('p-inicio')};
+$('fin-vela').onclick=()=>{$('modal-vela').classList.remove('ver');document.body.style.overflow='';vela.cant=1;vela.datos={};pintarVelas();['v-nombre','v-tel','v-email'].forEach(i=>$(i).value='');ir('p-inicio')};
 pintarVelas();pintarContadorInicio();
 // Guardar o compartir y PDF del comprobante de velas
 $('guardar-vela').addEventListener('click',async function(){
@@ -1280,7 +1284,7 @@ $('menu-export').onclick=async()=>{
     if(r&&r.error){if(r.error==='pin'){pinVol=null;pintarMenu();ir('p-pin');return}avisar('Demasiados intentos. Esperá unos minutos.');return}
     await cargarScript(XLSX_URL);
     const compras=r.compras||[],don=r.donaciones||[];
-    const datosPago=c=>({'Paga (nombre o razón social)':c.pagador||'','CUIL/CUIT':c.cuit?formatoCuit(c.cuit):'','Teléfono':c.telefono||'','Mail':c.email||'','Soy':VINC[c.vinculo]||c.vinculo||''});
+    const datosPago=c=>({'Paga (nombre o razón social)':c.pagador||'','Pide comprobante':c.pide_comprobante?'Sí':'','CUIL/CUIT':c.cuit?formatoCuit(c.cuit):'','Teléfono':c.telefono||'','Mail':c.email||'','Soy':VINC[c.vinculo]||c.vinculo||''});
     const filasA=[];compras.forEach(c=>(c.asistentes||[]).forEach(a=>filasA.push(Object.assign({'Asistente':a.nombre,'Código de entrada':a.codigo,
       'Llegó':a.ingreso?'Sí':'','Hora de llegada':fechaXls(a.ingreso_at),'Compra':c.codigo,'Estado del pago':ESTADOS[c.estado]||c.estado,
       'Forma de pago':PAGOS[c.forma_pago]||c.forma_pago,'Fecha de compra':fechaXls(c.fecha)},datosPago(c)))));
@@ -1292,8 +1296,8 @@ $('menu-export').onclick=async()=>{
     const filasV=don.map(d=>({'Fecha':fechaXls(d.fecha),'Velas':d.velas,'Precio por vela':d.precio_vela,'Importe':d.importe,'Estado':d.estado==='rechazada'?'Rechazada':'Registrada',
       'Nombre o razón social':d.nombre||'','CUIL/CUIT':d.cuit?formatoCuit(d.cuit):'','Teléfono':d.telefono||'','Mail':d.email||''}));
     const wb=XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb,hojaXls(filasA,['Asistente','Código de entrada','Llegó','Hora de llegada','Compra','Estado del pago','Forma de pago','Fecha de compra','Paga (nombre o razón social)','CUIL/CUIT','Teléfono','Mail','Soy']),'Asistentes');
-    XLSX.utils.book_append_sheet(wb,hojaXls(filasC,['Compra','Fecha','Estado del pago','Forma de pago','Comprobante','Entradas','Precio unitario','Total','Verificada','Paga (nombre o razón social)','CUIL/CUIT','Teléfono','Mail','Soy','Asistentes']),'Compras');
+    XLSX.utils.book_append_sheet(wb,hojaXls(filasA,['Asistente','Código de entrada','Llegó','Hora de llegada','Compra','Estado del pago','Forma de pago','Fecha de compra','Paga (nombre o razón social)','Pide comprobante','CUIL/CUIT','Teléfono','Mail','Soy']),'Asistentes');
+    XLSX.utils.book_append_sheet(wb,hojaXls(filasC,['Compra','Fecha','Estado del pago','Forma de pago','Comprobante','Entradas','Precio unitario','Total','Verificada','Paga (nombre o razón social)','Pide comprobante','CUIL/CUIT','Teléfono','Mail','Soy','Asistentes']),'Compras');
     XLSX.utils.book_append_sheet(wb,hojaXls(filasV,['Fecha','Velas','Precio por vela','Importe','Estado','Nombre o razón social','CUIL/CUIT','Teléfono','Mail']),'Velas');
     const buf=XLSX.write(wb,{bookType:'xlsx',type:'array'});
     const blob=new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
