@@ -849,7 +849,7 @@ function pintarListaVol(){
     '</tbody></table></div>';
 }
 // Versión y firma
-const APP_VERSION='2.14';
+const APP_VERSION='2.15';
 $('app-ver').textContent='v'+APP_VERSION;
 $('vs-mark').addEventListener('click',e=>{e.stopPropagation();$('vs-tip').hidden=!$('vs-tip').hidden;if(!$('vs-tip').hidden)trackEvent('vertexsur_click',{})});
 document.addEventListener('click',e=>{if(!e.target.closest('#vs-mark'))$('vs-tip').hidden=true});
@@ -1282,7 +1282,7 @@ async function donarVela(){
       '<div class="cv-cuerpo"><div class="cv-foto" aria-hidden="true"><span class="vela-in"><img class="vela-bs" src="'+BS+'" alt=""><span class="vela-gw"></span><span class="vela-fx"><img src="'+FX+'" alt=""></span></span></div>'+
       '<div class="cv-datos"><p class="cv-n">'+(vela.cant===1?'1 vela prendida':vela.cant+' velas prendidas')+'</p><p class="cv-g">Gracias, <b>'+esc(n)+'</b></p>'+
       '<p class="cv-i">'+pesos(r.importe!=null?r.importe:PRECIO_VELA*vela.cant)+'</p></div></div>'+
-      '<div class="e-pie"><span>Martes 3 de noviembre, 19 h<br>Colegio Michael Ham</span>'+(vela.codigo?'<span>Código <b>'+esc(vela.codigo)+'</b></span>':'')+'</div></div>';
+      '<div class="e-pie"><span>Colegio Michael Ham</span>'+(vela.codigo?'<span>Código <b>'+esc(vela.codigo)+'</b></span>':'')+'</div></div>';
     $('modal-vela').classList.add('ver');document.body.style.overflow='hidden';
     btn.disabled=false;btn.textContent=txtOriginal;
   }catch(e){if(ventanaMP)ventanaMP.close();avisar(msgError(e));btn.disabled=false;btn.textContent=txtOriginal}
