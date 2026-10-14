@@ -273,6 +273,7 @@ input.mal{border-color:var(--error);box-shadow:0 0 0 1px var(--error)}
 .contador-velas b{color:var(--oro-claro)}
 .intro-vela{color:var(--tinta-2);margin:-.35rem 0 .7rem;font-size:1.05rem}
 .sr-submit{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;border:0;padding:0}
+.btn[hidden],.opcion[hidden]{display:none}
 .toggle{display:flex;align-items:center;justify-content:flex-end;gap:.7rem;margin:0 0 1rem;padding:.3rem 0 .7rem;cursor:pointer;min-height:52px;border-bottom:1px solid #E2D8C3}
 .toggle input{position:absolute;opacity:0;width:1px;height:1px}
 .toggle .tg-ui{order:2;flex:none;width:56px;height:32px;border-radius:16px;background:#C9C0AE;position:relative;transition:background .2s}
@@ -487,7 +488,7 @@ input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;
     </label>
     </div>
     <label class="toggle tg-comp"><input type="checkbox" id="pide-comp" role="switch"><span class="tg-ui" aria-hidden="true"></span>
-      <span class="tg-txt">Necesito comprobante de donación</span></label>
+      <span class="tg-txt">Necesito comprobante fiscal</span></label>
     <div id="bloque-cuit" hidden>
     <label class="campo"><span>CUIL o CUIT</span>
       <input type="text" id="pg-cuit" name="cuit" inputmode="numeric" autocomplete="off" placeholder="Ej: 20-12345678-6" maxlength="13">
@@ -514,8 +515,8 @@ input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;
     <div class="resumen" id="resumen"></div>
     <h3>Forma de pago</h3>
     <div class="opciones op-pago" role="radiogroup" aria-label="Forma de pago">
-      <label class="opcion"><input type="radio" name="pago" value="mp"><span>Mercado Pago<small>Con tarjeta o dinero en cuenta</small></span></label>
-      <label class="opcion"><input type="radio" name="pago" value="transf"><span>Transferencia bancaria<small>Desde tu banco o billetera</small></span></label>
+      <label class="opcion" id="op-mp" hidden><input type="radio" name="pago" value="mp"><span>Mercado Pago<small>Con tarjeta o dinero en cuenta</small></span></label>
+      <label class="opcion" id="op-transf"><input type="radio" name="pago" value="transf"><span>Transferencia bancaria<small>Desde tu banco o billetera</small></span></label>
     </div>
     <div class="msg-error" id="err-pago">Elegí la forma de pago.</div>
     <div class="datos-transf" id="datos-transf">
@@ -590,7 +591,7 @@ input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;
     </label>
     </div>
   <button type="submit" class="sr-submit" tabindex="-1" aria-hidden="true" aria-label="Continuar"></button></form></div>
-  <div class="pie"><button class="btn btn-principal" id="ok-vela">Ir a pagar con Mercado Pago</button></div>
+  <div class="pie"><button class="btn btn-principal" id="ok-vela">Continuar</button></div>
 </section>
 
 </div>
@@ -599,6 +600,12 @@ input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;
   <div class="caja">
     <h2 id="mv-titulo">¡Gracias! Este es tu comprobante</h2>
     <p class="nota" id="mv-txt"></p>
+    <p class="nota" id="mv-nota-pago" style="font-weight:600;color:var(--tinta)" hidden></p>
+    <button class="btn btn-principal" id="mv-pagar" hidden>Ir a pagar con Mercado Pago</button>
+    <div class="m-mail" id="mv-mail" hidden>
+      <a class="btn btn-principal" id="mv-mail-btn" href="#">✉️ Enviar comprobante por mail</a>
+      <p class="m-mail-alt">Si no se abre tu mail, envialo a <b id="mv-mail-dir"></b><button class="copiar" data-copiar="mv-mail-dir" aria-label="Copiar dirección de mail" title="Copiar"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 8V5a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h2" fill="none" stroke="currentColor" stroke-width="2"/></svg></button> indicando la donación <b id="mv-mail-cod"></b>.</p>
+    </div>
     <div id="comp-vela"></div>
     <div class="acciones-entradas">
       <button class="btn btn-principal" id="guardar-vela"><span id="gv-txt">Guardar o compartir</span><small style="display:block;font-size:1rem;font-weight:400">Por WhatsApp, en la galería y más</small></button>
@@ -612,6 +619,7 @@ input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;
   <div class="caja">
     <h2 id="m-titulo">¡Gracias! Estas son tus entradas</h2>
     <p class="nota" id="m-nota-pago" style="font-weight:600;color:var(--tinta)"></p>
+    <button class="btn btn-principal" id="m-pagar" hidden>Ir a pagar con Mercado Pago</button>
     <div class="m-mail" id="m-mail" hidden>
       <a class="btn btn-principal" id="m-mail-btn" href="#">✉️ Enviar comprobante por mail</a>
       <p class="m-mail-alt">Si no se abre tu mail, envialo a <b id="m-mail-dir"></b><button class="copiar" data-copiar="m-mail-dir" aria-label="Copiar dirección de mail" title="Copiar"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 8V5a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h2" fill="none" stroke="currentColor" stroke-width="2"/></svg></button> indicando la compra <b id="m-mail-cod"></b>.</p>
@@ -675,6 +683,34 @@ async function rpc(fn,params){
   if(!r.ok)throw new Error((data&&data.message)||'Error de conexión');
   return data;
 }
+// Mercado Pago integrado (API de Orders): el servidor arma el cobro con los datos de la base
+let MP_MODO='off';
+let flujo='compra'; // 'compra' (entradas) o 'vela' (donación): comparten la pantalla de pago
+// Mientras la integración no esté activa (y no haya link de pago), la opción Mercado Pago no se muestra
+// Formas de pago habilitadas (gcn_config: pago_mp, pago_transferencia; efectivo deshabilitado)
+let PAGO_MP=true,PAGO_TRANSF=true;
+function aplicarMP(){
+  const verMP=PAGO_MP&&(mpActivo()||!!LINK_MP);$('op-mp').hidden=!verMP;$('op-transf').hidden=!PAGO_TRANSF;
+  [['mp',verMP],['transf',PAGO_TRANSF]].forEach(([v,ver])=>{const r=document.querySelector('input[name=pago][value='+v+']');if(!ver&&r.checked)r.checked=false});
+}
+function elegirUnicaForma(){
+  if(!$('op-mp').hidden||$('op-transf').hidden||document.querySelector('input[name=pago]:checked'))return;
+  const r=document.querySelector('input[name=pago][value=transf]');r.checked=true;r.dispatchEvent(new Event('change'));
+}
+const mpActivo=()=>MP_MODO==='prueba'||MP_MODO==='produccion';
+async function crearCobroMP(tipo,codigo){
+  const r=await fetch(SB_URL+'/functions/v1/gcn-mp-cobro',{method:'POST',
+    headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'},body:JSON.stringify({tipo,codigo})});
+  let d={};try{d=await r.json()}catch(e){}
+  if(!r.ok||!d.url)throw new Error(d.error==='ya_pagada'?'Ese pago ya está acreditado.':'No pudimos abrir Mercado Pago. Probá de nuevo en unos minutos.');
+  return d.url;
+}
+function abrirCobroMP(tipo,codigo,ventana,btn){
+  if(btn){btn.disabled=true;btn.textContent='Abriendo Mercado Pago…'}
+  return crearCobroMP(tipo,codigo).then(u=>{if(ventana&&!ventana.closed)ventana.location=u;else window.open(u,'_blank')||(location.href=u);return true})
+    .catch(e=>{if(ventana&&!ventana.closed)ventana.close();avisar(e.message);return false})
+    .finally(()=>{if(btn){btn.disabled=false;btn.textContent='Ir a pagar con Mercado Pago'}});
+}
 async function subirComprobante(file){
   const ext=((file.name.split('.').pop()||'jpg').toLowerCase()).replace(/[^a-z0-9]/g,'')||'jpg';
   const id=(crypto.randomUUID?crypto.randomUUID():Date.now()+'-'+Math.random().toString(36).slice(2));
@@ -709,8 +745,8 @@ function ir(id,desdeHistorial){
   const fm={'p-contacto':'f-pago','p-vela-datos':'f-vela','p-ayuda':'f-ayuda'}[id];
   if(fm)requestAnimationFrame(()=>{const x=document.createElement('input');x.type='hidden';$(fm).appendChild(x);setTimeout(()=>x.remove(),50)});
   if(id==='p-nombres')armarNombres();
-  if(id==='p-pago')armarResumen();
-  if(id==='p-inicio')ubicarLlamas();
+  if(id==='p-pago'){armarResumen();elegirUnicaForma()}
+  if(id==='p-inicio'){ubicarLlamas();reiniciarToggles()}
   const np=NOMBRES_PANTALLA[id]||id;
   trackEvent('page_view',{page_title:'Gala Candle Night — '+np,page_location:location.origin+location.pathname+'#'+np,page_path:'/'+np});
   window.scrollTo(0,0);
@@ -813,7 +849,7 @@ function pintarListaVol(){
     '</tbody></table></div>';
 }
 // Versión y firma
-const APP_VERSION='2.10';
+const APP_VERSION='2.14';
 $('app-ver').textContent='v'+APP_VERSION;
 $('vs-mark').addEventListener('click',e=>{e.stopPropagation();$('vs-tip').hidden=!$('vs-tip').hidden;if(!$('vs-tip').hidden)trackEvent('vertexsur_click',{})});
 document.addEventListener('click',e=>{if(!e.target.closest('#vs-mark'))$('vs-tip').hidden=true});
@@ -840,8 +876,9 @@ async function cargarComp(){
     if(r&&r.error){if(r.error==='pin'){pinVol=null;pintarMenu();ir('p-pin')}else avisar('Demasiados intentos. Esperá unos minutos.');return}
     compDatos=r.compras||[];
     $('comp-total').textContent=r.pendientes;
-    const tr=r.transferencias||0,ef=r.efectivo||0,partes=[];
+    const tr=r.transferencias||0,ef=r.efectivo||0,ve=r.velas||0,partes=[];
     if(tr)partes.push(tr===1?'1 transferencia':tr+' transferencias');if(ef)partes.push(ef===1?'1 en efectivo':ef+' en efectivo');
+    if(ve)partes.push(ve===1?'1 donación de velas':ve+' donaciones de velas');
     $('comp-det').textContent=r.pendientes?partes.join(' · ')+' · '+(r.entradas===1?'1 entrada':r.entradas+' entradas'):'Todo al día';
     $('menu-comp-n').textContent=r.pendientes||'';
     pintarComp();
@@ -851,10 +888,10 @@ async function cargarComp(){
 $('comp-act').onclick=cargarComp;
 function pintarComp(){
   if(!compDatos.length){$('comp-lista').innerHTML='<p class="vol-vacio">No hay pagos para controlar.</p>';return}
-  $('comp-lista').innerHTML='<div class="tabla-wrap"><table class="tabla-comp"><thead><tr><th>Asistentes</th><th class="n">Entr.</th><th class="n">Total</th><th></th></tr></thead><tbody>'+
+  $('comp-lista').innerHTML='<div class="tabla-wrap"><table class="tabla-comp"><thead><tr><th>Asistentes</th><th class="n">Cant.</th><th class="n">Total</th><th></th></tr></thead><tbody>'+
     compDatos.map(c=>{const n=c.nombres||[];
       return '<tr><td>'+esc(n[0]||'')+(n.length>1?' <span class="mas">+'+(n.length-1)+'</span>':'')+
-        '<br><span class="tipo '+esc(c.forma_pago)+'">Compra <b>'+esc(c.codigo)+'</b> · '+(c.forma_pago==='efectivo'?'Efectivo':c.por_mail?'Transferencia · comprobante por mail':'Transferencia')+'</span></td>'+
+        '<br><span class="tipo '+esc(c.forma_pago)+'">'+(c.tipo==='vela'?'Velas <b>'+esc(c.codigo.replace(/^V-/,''))+'</b>':'Compra <b>'+esc(c.codigo)+'</b>')+' · '+(c.forma_pago==='efectivo'?'Efectivo':c.por_mail?'Transferencia · comprobante por mail':'Transferencia')+'</span></td>'+
       '<td class="n">'+c.cantidad+'</td><td class="n">'+pesos(c.total).replace('$ ','$')+'</td>'+
       '<td><button class="b-tabla" data-ver="'+esc(c.codigo)+'">Ver</button></td></tr>'}).join('')+
     '</tbody></table></div><p class="nota-tabla">Tocá "Ver" para revisar el pago y marcarlo como aprobado o rechazado.</p>';
@@ -867,12 +904,13 @@ async function cambiarEstado(cod,est){
   const c=compDatos.find(x=>x.codigo===cod);if(!c)return;
   const quien=(c.nombres||[]).join(', ');
   const ef=c.forma_pago==='efectivo';
-  const preg=est==='pagada'?(ef?'¿Marcar como pagada la reserva ':'¿Aprobar la compra '):(ef?'¿Cancelar la reserva ':'¿Rechazar la compra ');
-  if(!confirm(preg+cod+'?\n'+quien+' — '+pesos(c.total)))return;
+  const ve=c.tipo==='vela',cv=cod.replace(/^V-/,'');
+  const preg=ve?(est==='pagada'?'¿Aprobar la donación de velas ':'¿Rechazar la donación de velas '):est==='pagada'?(ef?'¿Marcar como pagada la reserva ':'¿Aprobar la compra '):(ef?'¿Cancelar la reserva ':'¿Rechazar la compra ');
+  if(!confirm(preg+cv+'?\n'+quien+' — '+pesos(c.total)))return;
   document.querySelectorAll('[data-cod="'+cod+'"],#mc-ok,#mc-no').forEach(x=>x.disabled=true);
   try{const r=await rpc('gcn_cambiar_estado',{p_pin:pinVol,p_codigo:cod,p_estado:est});
     if(r&&r.error)throw new Error(r.error);
-    avisar(est==='pagada'?(ef?'Reserva '+cod+' pagada ✓':'Compra '+cod+' aprobada ✓'):(ef?'Reserva '+cod+' cancelada':'Compra '+cod+' rechazada'));
+    avisar(ve?(est==='pagada'?'Donación '+cv+' aprobada ✓':'Donación '+cv+' rechazada'):est==='pagada'?(ef?'Reserva '+cod+' pagada ✓':'Compra '+cod+' aprobada ✓'):(ef?'Reserva '+cod+' cancelada':'Compra '+cod+' rechazada'));
     trackEvent(est==='pagada'?'compra_aprobada':'compra_rechazada',{});
     cerrarComp();await cargarComp();
   }catch(e){avisar(e.message==='no existe'?'Esa compra ya no existe.':msgError(e));
@@ -880,15 +918,16 @@ async function cambiarEstado(cod,est){
 }
 async function verComprobante(cod){
   const c=compDatos.find(x=>x.codigo===cod);if(!c)return;compAbierta=cod;
-  $('mc-titulo').textContent='Compra '+cod;
-  $('mc-sub').innerHTML=esc((c.nombres||[]).join(', '))+(c.pagador?'<br>Pagó: '+esc(c.pagador)+(c.email?' · '+esc(c.email):''):'')+'<br><b>'+pesos(c.total)+'</b> · '+(c.cantidad===1?'1 entrada':c.cantidad+' entradas')+
+  const ve=c.tipo==='vela',cv=cod.replace(/^V-/,'');
+  $('mc-titulo').textContent=ve?'Donación de velas '+cv:'Compra '+cod;
+  $('mc-sub').innerHTML=esc((c.nombres||[]).join(', '))+(c.pagador?'<br>Pagó: '+esc(c.pagador)+(c.email?' · '+esc(c.email):''):'')+'<br><b>'+pesos(c.total)+'</b> · '+(ve?(c.cantidad===1?'1 vela':c.cantidad+' velas'):(c.cantidad===1?'1 entrada':c.cantidad+' entradas'))+
     '<br>'+fechaCorta(c.fecha)+' · <a href="tel:'+esc(c.telefono.replace(/[^\d+]/g,''))+'" style="color:var(--tinta);display:inline-block;padding:.65rem .2rem;margin:-.55rem 0">'+esc(c.telefono)+'</a>';
   const ef=c.forma_pago==='efectivo';
-  $('mc-ok').textContent=ef?'Marcar como pagada':'Aprobar compra';$('mc-no').textContent=ef?'Cancelar reserva':'Rechazar';
+  $('mc-ok').textContent=ef?'Marcar como pagada':ve?'Aprobar donación':'Aprobar compra';$('mc-no').textContent=ef?'Cancelar reserva':'Rechazar';
   $('mc-cont').innerHTML=ef?'<div class="ef-aviso"><b>Pago en efectivo.</b> Se cobra el día del evento. Marcala como pagada cuando recibas el dinero.</div>':'<div class="cargando">Cargando comprobante…</div>';
   $('mc-ok').disabled=$('mc-no').disabled=false;
   $('modal-comp').classList.add('ver');$('modal-comp').scrollTop=0;document.body.style.overflow='hidden';
-  if(c.por_mail){$('mc-cont').innerHTML='<div class="ef-aviso"><b>Comprobante por mail.</b> Buscalo en '+esc(MAIL_COMPROBANTES)+' con el asunto «Compra '+esc(c.codigo)+'» y, si el pago está acreditado, aprobá la compra.</div>';return}
+  if(c.por_mail){$('mc-cont').innerHTML='<div class="ef-aviso"><b>Comprobante por mail.</b> Buscalo en '+esc(MAIL_COMPROBANTES)+' con el asunto «'+(ve?'Velas '+esc(cv):'Compra '+esc(c.codigo))+'» y, si el pago está acreditado, aprobalo.</div>';return}
   if(ef)return;
   try{
     const r=await fetch(SB_URL+'/functions/v1/gcn-comprobante',{method:'POST',
@@ -979,7 +1018,16 @@ document.addEventListener('click',e=>{const b=e.target.closest('.sugerencia');if
   const c=$(b.dataset.campo);c.value=b.dataset.sug;c.classList.remove('mal');b.closest('.msg-error').classList.remove('ver');c.focus()});
 $('pide-comp').addEventListener('change',()=>{const on=$('pide-comp').checked;$('bloque-cuit').hidden=!on;
   if(on)$('pg-cuit').focus();else{$('pg-cuit').classList.remove('mal');$('err-pg-cuit').classList.remove('ver')}});
-let toggleTocado=false;$('asiste').addEventListener('change',()=>{toggleTocado=true;pintarProgreso($('p-contacto'))});
+let toggleTocado=false;
+// Al volver al inicio, los dos toggles vuelven a su estado inicial (asiste: encendido; comprobante: apagado, sin CUIL)
+function reiniciarToggles(){
+  flujo='compra';estado.comprobante=null;
+  if($('comprobante')){$('comprobante').value='';$('subir').classList.remove('ok','apagado');$('subir-txt').textContent='📎 Subir comprobante';
+    $('por-mail').checked=false;$('por-mail').disabled=false;$('por-mail').closest('label').classList.remove('apagado');
+    document.querySelectorAll('input[name=pago]').forEach(r=>r.checked=false);$('datos-transf').classList.remove('ver');}
+  toggleTocado=false;$('asiste').checked=true;$('pide-comp').checked=false;$('bloque-cuit').hidden=true;
+  $('pg-cuit').value='';$('pg-cuit').classList.remove('mal');$('err-pg-cuit').classList.remove('ver');
+}$('asiste').addEventListener('change',()=>{toggleTocado=true;pintarProgreso($('p-contacto'))});
 ['input','blur'].forEach(ev=>$('pg-cuit').addEventListener(ev,()=>{
   const d=$('pg-cuit').value.replace(/\D/g,'');
   if(!toggleTocado&&$('asiste').checked&&['30','33','34'].includes(d.slice(0,2))){$('asiste').checked=false;avisar('Es un CUIT de empresa: apagamos "La persona que paga asiste"')}
@@ -1005,6 +1053,13 @@ $('ok-contacto').onclick=()=>{
 
 // Paso 4
 function armarResumen(){
+  const pv=$('p-pago');if(flujo==='vela')pv.querySelector('.volver').dataset.ir='p-vela-datos';
+  pv.querySelector('.progreso').style.display=flujo==='vela'?'none':'';
+  if(flujo==='vela'){
+    const imp=PRECIO_VELA*vela.cant;
+    $('resumen').innerHTML='<div class="r-total"><span>'+(vela.cant===1?'1 vela':vela.cant+' velas')+'</span><b>'+pesos(imp)+'</b></div><p class="r-paga">Dona: <b>'+esc(vela.datos.nombre)+'</b></p>';
+    $('importe-transf').textContent=pesos(imp);actualizarBoton();return;
+  }
   $('resumen').innerHTML='<div class="r-total"><span>'+estado.cant+(estado.cant===1?' entrada':' entradas')+'</span><b>'+pesos(PRECIO*estado.cant)+'</b></div><ul>'+
     estado.nombres.map(n=>'<li>'+esc(n)+'</li>').join('')+'</ul><p class="r-paga">Paga: <b>'+esc(estado.pagador.nombre)+'</b></p>';
   $('importe-transf').textContent=pesos(PRECIO*estado.cant);
@@ -1013,9 +1068,10 @@ function armarResumen(){
 const FORMA_PAGO={mp:'mp',transf:'transferencia'};
 function actualizarBoton(){
   const p=document.querySelector('input[name=pago]:checked');const b=$('ok-pago');
-  if(!p){b.disabled=true;b.textContent='Confirmar compra';return}
+  const txt=flujo==='vela'?'Confirmar donación':'Confirmar compra';
+  if(!p){b.disabled=true;b.textContent=txt;return}
   if(p.value==='mp'){b.disabled=false;b.textContent='Ir a pagar con Mercado Pago'}
-  else{const ok=estado.comprobante||$('por-mail').checked;b.disabled=!ok;b.textContent=ok?'Confirmar compra':'Subí el comprobante para confirmar'}
+  else{const ok=estado.comprobante||$('por-mail').checked;b.disabled=!ok;b.textContent=ok?txt:'Subí el comprobante para confirmar'}
 }
 document.querySelectorAll('input[name=pago]').forEach(r=>r.addEventListener('change',()=>{
   $('err-pago').classList.remove('ver');
@@ -1023,7 +1079,7 @@ document.querySelectorAll('input[name=pago]').forEach(r=>r.addEventListener('cha
   $('datos-transf').classList.toggle('ver',sel==='transf');
   if(sel==='transf')setTimeout(()=>$('datos-transf').scrollIntoView({behavior:'smooth',block:'nearest'}),50);
   actualizarBoton();
-  if(sel==='mp'&&!$('ok-pago').disabled)abrirAvisoMP(confirmarCompra);
+  if(sel==='mp'&&!$('ok-pago').disabled)abrirAvisoMP(confirmarPago);
 }));
 $('por-mail').addEventListener('change',()=>{$('subir').classList.toggle('apagado',$('por-mail').checked);actualizarBoton()});
 $('comprobante').addEventListener('change',e=>{
@@ -1042,12 +1098,13 @@ function cerrarAvisoMP(){$('modal-mp').classList.remove('ver');document.body.sty
 $('mp-ir').onclick=()=>{if(!$('modal-mp').classList.contains('ver'))return;const f=pendienteMP;cerrarAvisoMP();trackEvent('aviso_mp_ok',{});if(f)f()};
 $('mp-volver').onclick=cerrarAvisoMP;
 $('modal-mp').onclick=e=>{if(e.target===$('modal-mp'))cerrarAvisoMP()};
-$('ok-pago').onclick=()=>{const p=document.querySelector('input[name=pago]:checked');if(!p||$('ok-pago').disabled)return;if(p.value==='mp')abrirAvisoMP(confirmarCompra);else confirmarCompra()};
+const confirmarPago=()=>flujo==='vela'?donarVela():confirmarCompra();
+$('ok-pago').onclick=()=>{const p=document.querySelector('input[name=pago]:checked');if(!p||$('ok-pago').disabled)return;if(p.value==='mp')abrirAvisoMP(confirmarPago);else confirmarPago()};
 async function confirmarCompra(){
   const p=document.querySelector('input[name=pago]:checked');if(!p)return;
   const btn=$('ok-pago');if(btn.disabled)return;const txtOriginal=btn.textContent;
   // La ventana de Mercado Pago se abre antes de esperar a la base, para que el navegador no la bloquee
-  const ventanaMP=(p.value==='mp'&&LINK_MP)?window.open('about:blank','_blank'):null;
+  const ventanaMP=(p.value==='mp'&&(mpActivo()||LINK_MP))?window.open('about:blank','_blank'):null;
   btn.disabled=true;btn.textContent='Registrando…';
   try{
     let path=null;
@@ -1058,14 +1115,17 @@ async function confirmarCompra(){
       p_pagador_nombre:estado.pagador.nombre,p_cuit:estado.pagador.cuit,p_email:estado.pagador.email,p_comprobante_por_mail:porMail});
     estado.codigo=r.codigo;
     trackEvent('compra_registrada',{forma_pago:FORMA_PAGO[p.value],cantidad:estado.cant,value:PRECIO*estado.cant,currency:'ARS',vinculo:estado.vinculo});
-    if(ventanaMP)ventanaMP.location=LINK_MP;
+    const conMP=p.value==='mp'&&mpActivo();
+    if(conMP){btn.textContent='Abriendo Mercado Pago…';await abrirCobroMP('compra',r.codigo,ventanaMP,null)}
+    else if(ventanaMP)ventanaMP.location=LINK_MP;
+    $('m-pagar').hidden=!conMP;$('m-pagar').dataset.codigo=r.codigo;
     $('entradas').innerHTML=r.asistentes.map((a,i)=>
       '<div class="entrada"><div class="e-top"><b>Gala Candle Night</b><span>Entrada '+(i+1)+' de '+r.asistentes.length+'</span></div>'+
       '<div class="e-cuerpo"><small>Asistente</small><div class="nombre">'+esc(a.nombre)+'</div>'+
       '<small>Fecha</small><div>Martes 3 de noviembre, 19 h</div><small style="margin-top:.4rem">Lugar</small><div>Colegio Michael Ham</div>'+'</div>'+
       '<div class="e-pie"><span>Ubicación por orden de llegada</span><span>Código <b>'+esc(a.codigo_entrada)+'</b></span></div></div>').join('');
     const esTransf=p.value!=='mp';
-    $('m-nota-pago').textContent='';$('m-nota-pago').hidden=true;
+    $('m-nota-pago').textContent=conMP?'Completá el pago en Mercado Pago. Tu compra queda confirmada cuando se acredite. Si cerraste la ventana de pago, tocá el botón de abajo.':'';$('m-nota-pago').hidden=!conMP;
     $('m-mail').hidden=!porMail;
     if(porMail){
       const asunto='Comprobante Gala Candle Night - Compra '+r.codigo;
@@ -1081,6 +1141,8 @@ async function confirmarCompra(){
   }
 }
 $('fin').onclick=()=>location.reload();
+$('m-pagar').onclick=()=>abrirCobroMP('compra',$('m-pagar').dataset.codigo,window.open('about:blank','_blank'),$('m-pagar'));
+$('mv-pagar').onclick=()=>abrirCobroMP('vela',$('mv-pagar').dataset.codigo,window.open('about:blank','_blank'),$('mv-pagar'));
 
 const esMobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.maxTouchPoints>1&&/Mac/.test(navigator.platform));
 // En celular: menú nativo de compartir. En PC: descarga directa. Devuelve true si se resolvió.
@@ -1187,13 +1249,30 @@ function pintarVelas(){
 $('menos-v').onclick=()=>{if(vela.cant>1){vela.cant--;pintarVelas()}};
 $('mas-v').onclick=()=>{if(vela.cant<50){vela.cant++;pintarVelas()}};
 $('ok-vela-cant').onclick=()=>{$('resumen-v').textContent=(vela.cant===1?'1 vela':vela.cant+' velas')+' ('+pesos(PRECIO_VELA*vela.cant)+')';ir('p-vela-datos')};
-$('ok-vela').onclick=()=>{vela.datos=vela.datos||{};const malo=validarPagador('v-','v-tel',vela.datos);if(malo){malo.focus();return}abrirAvisoMP(donarVela)};
+$('ok-vela').onclick=()=>{vela.datos=vela.datos||{};const malo=validarPagador('v-','v-tel',vela.datos);if(malo){malo.focus();return}flujo='vela';ir('p-pago')};
 async function donarVela(){
-  const btn=$('ok-vela');if(btn.disabled)return;const ventanaMP=LINK_MP_VELA?window.open('about:blank','_blank'):null;
+  const p=document.querySelector('input[name=pago]:checked');if(!p)return;
+  const btn=$('ok-pago');if(btn.disabled)return;const txtOriginal=btn.textContent;
+  const ventanaMP=(p.value==='mp'&&(mpActivo()||LINK_MP_VELA))?window.open('about:blank','_blank'):null;
   btn.disabled=true;btn.textContent='Registrando…';
   try{
-    const r=await rpc('gcn_registrar_donacion',{p_velas:vela.cant,p_nombre:vela.datos.nombre,p_cuit:vela.datos.cuit,p_telefono:vela.datos.tel,p_email:vela.datos.email});
-    if(ventanaMP)ventanaMP.location=LINK_MP_VELA;else avisar('Acá se abre el link de Mercado Pago');
+    let path=null;const porMail=p.value==='transf'&&$('por-mail').checked;
+    if(p.value==='transf'&&!porMail){btn.textContent='Subiendo comprobante…';path=await subirComprobante(estado.comprobante);btn.textContent='Registrando…'}
+    const r=await rpc('gcn_registrar_donacion2',{p_velas:vela.cant,p_nombre:vela.datos.nombre,p_telefono:vela.datos.tel,p_email:vela.datos.email,
+      p_forma_pago:FORMA_PAGO[p.value],p_comprobante_path:path,p_comprobante_por_mail:porMail});
+    const conMP=p.value==='mp'&&mpActivo();
+    if(conMP){btn.textContent='Abriendo Mercado Pago…';await abrirCobroMP('vela',r.codigo,ventanaMP,null)}
+    else if(ventanaMP)ventanaMP.location=LINK_MP_VELA;
+    $('mv-pagar').hidden=!conMP;$('mv-pagar').dataset.codigo=r.codigo||'';
+    $('mv-nota-pago').hidden=!conMP;
+    $('mv-nota-pago').textContent=conMP?'Completá el pago en Mercado Pago. Si cerraste la ventana de pago, tocá el botón de abajo.':'';
+    $('mv-mail').hidden=!porMail;
+    if(porMail){
+      const asunto='Comprobante Gala Candle Night - Velas '+r.codigo;
+      const cuerpo='Hola, adjunto el comprobante de la transferencia.\n\nDonación de velas: '+r.codigo+'\nVelas: '+vela.cant+'\nImporte: '+pesos(PRECIO_VELA*vela.cant)+'\nDona: '+vela.datos.nombre+'\n\nGracias.';
+      $('mv-mail-cod').textContent=r.codigo;$('mv-mail-dir').textContent=MAIL_COMPROBANTES;
+      $('mv-mail-btn').href='mailto:'+MAIL_COMPROBANTES+'?subject='+encodeURIComponent(asunto)+'&body='+encodeURIComponent(cuerpo);
+    }
     velasDonadas=r.total_velas;pintarContadorInicio();
     trackEvent('donacion_vela',{velas:vela.cant,value:PRECIO_VELA*vela.cant,currency:'ARS'});
     const n=vela.datos.nombre;vela.codigo=r.codigo||'';
@@ -1205,10 +1284,10 @@ async function donarVela(){
       '<p class="cv-i">'+pesos(r.importe!=null?r.importe:PRECIO_VELA*vela.cant)+'</p></div></div>'+
       '<div class="e-pie"><span>Martes 3 de noviembre, 19 h<br>Colegio Michael Ham</span>'+(vela.codigo?'<span>Código <b>'+esc(vela.codigo)+'</b></span>':'')+'</div></div>';
     $('modal-vela').classList.add('ver');document.body.style.overflow='hidden';
-  }catch(e){if(ventanaMP)ventanaMP.close();avisar(msgError(e))}
-  finally{btn.disabled=false;btn.textContent='Ir a pagar con Mercado Pago'}
+    btn.disabled=false;btn.textContent=txtOriginal;
+  }catch(e){if(ventanaMP)ventanaMP.close();avisar(msgError(e));btn.disabled=false;btn.textContent=txtOriginal}
 }
-$('fin-vela').onclick=()=>{$('modal-vela').classList.remove('ver');document.body.style.overflow='';vela.cant=1;vela.datos={};pintarVelas();['v-nombre','v-tel','v-email'].forEach(i=>$(i).value='');ir('p-inicio')};
+$('fin-vela').onclick=()=>location.reload();
 pintarVelas();pintarContadorInicio();
 // Guardar o compartir y PDF del comprobante de velas
 $('guardar-vela').addEventListener('click',async function(){
@@ -1293,12 +1372,13 @@ $('menu-export').onclick=async()=>{
       'Forma de pago':PAGOS[c.forma_pago]||c.forma_pago,'Comprobante':c.forma_pago==='transferencia'?(c.comprobante==='subido'?'Subido a la app':c.comprobante==='por mail'?'Por mail':''):'',
       'Entradas':c.cantidad,'Precio unitario':c.precio_unitario,'Total':c.total,'Verificada':fechaXls(c.verificado)},datosPago(c),
       {'Asistentes':(c.asistentes||[]).map(a=>a.nombre).join(', ')}));
-    const filasV=don.map(d=>({'Fecha':fechaXls(d.fecha),'Velas':d.velas,'Precio por vela':d.precio_vela,'Importe':d.importe,'Estado':d.estado==='rechazada'?'Rechazada':'Registrada',
+    const filasV=don.map(d=>({'Fecha':fechaXls(d.fecha),'Velas':d.velas,'Precio por vela':d.precio_vela,'Importe':d.importe,'Estado':ESTADOS[d.estado]||d.estado,
+      'Forma de pago':PAGOS[d.forma_pago]||d.forma_pago||'','Comprobante':d.comprobante==='subido'?'Subido a la app':d.comprobante==='por mail'?'Por mail':'','Código':d.codigo||'',
       'Nombre o razón social':d.nombre||'','CUIL/CUIT':d.cuit?formatoCuit(d.cuit):'','Teléfono':d.telefono||'','Mail':d.email||''}));
     const wb=XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb,hojaXls(filasA,['Asistente','Código de entrada','Llegó','Hora de llegada','Compra','Estado del pago','Forma de pago','Fecha de compra','Paga (nombre o razón social)','Pide comprobante','CUIL/CUIT','Teléfono','Mail','Soy']),'Asistentes');
     XLSX.utils.book_append_sheet(wb,hojaXls(filasC,['Compra','Fecha','Estado del pago','Forma de pago','Comprobante','Entradas','Precio unitario','Total','Verificada','Paga (nombre o razón social)','Pide comprobante','CUIL/CUIT','Teléfono','Mail','Soy','Asistentes']),'Compras');
-    XLSX.utils.book_append_sheet(wb,hojaXls(filasV,['Fecha','Velas','Precio por vela','Importe','Estado','Nombre o razón social','CUIL/CUIT','Teléfono','Mail']),'Velas');
+    XLSX.utils.book_append_sheet(wb,hojaXls(filasV,['Fecha','Velas','Precio por vela','Importe','Estado','Forma de pago','Comprobante','Código','Nombre o razón social','CUIL/CUIT','Teléfono','Mail']),'Velas');
     const buf=XLSX.write(wb,{bookType:'xlsx',type:'array'});
     const blob=new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
     const hoy=new Date(),dd=n=>String(n).padStart(2,'0');
@@ -1307,9 +1387,17 @@ $('menu-export').onclick=async()=>{
     trackEvent('export_excel',{});avisar('Excel listo: '+filasA.length+' asistentes, '+filasC.length+' compras, '+filasV.length+' donaciones');
   }catch(e){avisar(e&&/Excel/.test(e.message)?e.message:msgError(e))}
 };
+// Vuelta desde Mercado Pago (?mp=aprobado|pendiente|rechazado)
+(function(){const q=new URLSearchParams(location.search),mp=q.get('mp');if(!mp)return;
+  const MSJ={aprobado:'¡Listo! Tu pago con Mercado Pago se acreditó. Gracias por ser parte de la Gala.',
+    pendiente:'Tu pago quedó pendiente de acreditación en Mercado Pago. Te avisamos cuando se confirme.',
+    rechazado:'El pago no se completó. Podés volver a intentarlo con el botón "Ir a pagar con Mercado Pago".'};
+  history.replaceState(null,'',location.pathname);
+  if(MSJ[mp]){trackEvent('mp_vuelta',{resultado:mp});setTimeout(()=>{aviso.textContent=MSJ[mp];aviso.classList.add('ver');clearTimeout(t);t=setTimeout(()=>aviso.classList.remove('ver'),9000)},400)}
+})();
 rpc('gcn_info_publica').then(info=>{
   if(!info)return;
-  PRECIO=info.precio_entrada;PRECIO_VELA=info.precio_vela;velasDonadas=info.total_velas;
+  PRECIO=info.precio_entrada;PRECIO_VELA=info.precio_vela;velasDonadas=info.total_velas;MP_MODO=info.mp_modo||'off';PAGO_MP=info.pago_mp!==false;PAGO_TRANSF=info.pago_transferencia!==false;aplicarMP();
   pintarCant();pintarVelas();pintarContadorInicio();
   if(!info.ventas_abiertas){const b=document.querySelector('[data-ir="p-cantidad"]');b.disabled=true;b.textContent='Ventas cerradas'}
 }).catch(()=>{});
