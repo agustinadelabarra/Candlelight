@@ -86,6 +86,7 @@ body{margin:0;min-height:100%;background:var(--crema);color:var(--tinta);
 .datos{text-align:center;padding:.3rem 1.25rem 0;color:var(--oro-osc);font-size:1.05rem}
 .datos strong{display:block;font-size:1.15rem;color:var(--tinta)}
 .acciones{display:flex;flex-direction:column;gap:.75rem;padding:1rem 1.25rem .5rem}
+.mi-compra{background:#FFF6E3;border:2px solid var(--oro,#D9A928);border-radius:16px;padding:.8rem .9rem;text-align:center}.mi-compra[hidden]{display:none}.mi-compra p{margin:0 0 .55rem;font-weight:600;color:var(--tinta,#2B2418)}
 .ayuda{margin-top:auto;padding:.75rem 1.25rem 1rem;border-top:1px solid var(--linea)}
 
 /* Luces */
@@ -382,6 +383,7 @@ input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;
   <div class="titulo"><h1>Gala Candle Night</h1></div>
   <div class="datos"><strong>Martes 3 de noviembre, 19 h</strong>Colegio Michael Ham</div>
   <main class="acciones">
+    <div class="mi-compra" id="mi-compra" hidden><p id="mi-compra-txt">Tenés una compra con el pago en proceso</p><button class="btn btn-principal" id="mi-compra-btn">Ya pagué, ver mis entradas</button></div>
     <button class="btn btn-principal btn-ini" data-ir="p-cantidad"><span class="tt">Comprar entrada</span></button>
     <button class="btn btn-sec btn-ini btn-vela" data-ir="p-vela">
       <span class="vela-ph" aria-hidden="true"><span class="vela-in"><img class="vela-bs" src="data:image/webp;base64,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" alt=""><span class="vela-gw"></span><span class="vela-fx"><img src="data:image/webp;base64,UklGRv4CAABXRUJQVlA4IPICAACQDwCdASosAEUAPjEUiEKiISEXe258IAMEsQBWGVVBE+H+QD5J6x/k919OjDC3AnmA827/IerPeTvQz6W8EQfh0ALNfv5i9wemCSMD1V2OIMrj3tBHU+RvZGl4zIF0K4NT0HDF/bB+vjAX6c2m8pcOu8HUd6K1bVnQ2BOLo23vYG0+qyUAAP79U3LupZ1oicf2YIfP/2qjpR7VXkTn/7SK9zLdU8YHX+OZ36OU76HIFz9u67mj4A1DKw8Z16cTOvlnYDutpmtVxgb7j+fwR06ujRWd9nEH8cuIhPgPFGzt9BUbHXLEE/trpha1hOZbYnbyenxNH8A1t55ScDqfAEA7is1pn+EWai8I14gyAj+zpZ1H8y5nBZV7+WuiezdKS+AGGv+CGDFNAp7mZA8ik5N//pAmGJQlkjy6h7czoyNCT9kDbaPwMb6H5erbr2TurrncN18ZVswQD/AF3ExH1Kr7uv+ujaUPSv5dq3mzeI871MygmY34zpxG65X09gmMZvITbPdHuWIGBH5HA+J3JGT+lwpG8n7/GT5/4IlLhBiN5+mtx/KUXKZxLEhLZvf1S6Hfqhet4IDhobPcQ46/trSLJ9iJWuoUU6NWKqCIY5Z7gX99/8RGt9LQ7iO5CSjEaBzXKJaBl56de/5pKOnSzS1S2Wo3hSy41qP7TZsxDRw0EcFN9Z5q7Hs9Lzjfmt0kl7dV/QmjD17ra/EBGQEeYsGOZIPiF7MX/gDFIqnRx2P4rMms29tpdv8Gv+h5p0YT1SQn/mLERI0OUu5QmrrfCZ5p+E34AfjDN/Dtk2O4seo1WLZ8fsT7j8ZUJLPd8153Vehdj7cuLpbTtV4d8Xam34T/o9W9oR3GGPvod/C81F/cDxaH9bRZx+fqQXIqIzyEaw56bie5zqPvGunsmoIRfA02amUmx04eacDL/5ckp4TJ5IvKLzOR5wKZPEQaMuJMKnqfzt3Ij2bxkXg616sPzYQThldOL9B6k4XbQYD1pbNFAAAA" alt=""></span></span></span>
@@ -722,9 +724,12 @@ function mpAccion(body){
     headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'},body:JSON.stringify(body)})
     .then(r=>r.json()).catch(()=>({})).finally(()=>clearTimeout(to));
 }
-function abrirCobroMP(tipo,codigo,ventana,btn){
+function abrirCobroMP(tipo,codigo,ventana,btn,mismaPestana=true){
   if(btn){btn.disabled=true;btn.textContent='Abriendo Mercado Pago…'}
-  return crearCobroMP(tipo,codigo).then(u=>{if(ventana&&!ventana.closed)ventana.location=u;else window.open(u,'_blank')||(location.href=u);return true})
+  return crearCobroMP(tipo,codigo).then(u=>{
+    if(ventana&&!ventana.closed)ventana.location=u;
+    else if(!window.open(u,'_blank')){if(mismaPestana)location.href=u;else avisar('Tocá «Ir a pagar con Mercado Pago» para abrir el pago.')}
+    return true})
     .catch(e=>{if(ventana&&!ventana.closed)ventana.close();avisar(e.message);return false})
     .finally(()=>{if(btn){btn.disabled=false;btn.textContent='Ir a pagar con Mercado Pago'}});
 }
@@ -866,7 +871,7 @@ function pintarListaVol(){
     '</tbody></table></div>';
 }
 // Versión y firma
-const APP_VERSION='2.18';
+const APP_VERSION='2.19';
 $('app-ver').textContent='v'+APP_VERSION;
 $('vs-mark').addEventListener('click',e=>{e.stopPropagation();$('vs-tip').hidden=!$('vs-tip').hidden;if(!$('vs-tip').hidden)trackEvent('vertexsur_click',{})});
 document.addEventListener('click',e=>{if(!e.target.closest('#vs-mark'))$('vs-tip').hidden=true});
@@ -1100,7 +1105,7 @@ document.querySelectorAll('input[name=pago]').forEach(r=>r.addEventListener('cha
   $('bloque-comp').classList.toggle('ver',conComprobante(sel));
   if(conComprobante(sel))setTimeout(()=>$(sel==='transf'?'datos-transf':'datos-mplink').scrollIntoView({behavior:'smooth',block:'nearest'}),50);
   actualizarBoton();
-  if(sel==='mp'&&!$('ok-pago').disabled)abrirAvisoMP(confirmarPago);
+  if(sel==='mp'&&!$('ok-pago').disabled)avisoMPIntegrado(confirmarPago);
 }));
 $('por-mail').addEventListener('change',()=>{$('subir').classList.toggle('apagado',$('por-mail').checked);actualizarBoton()});
 $('comprobante').addEventListener('change',e=>{
@@ -1114,7 +1119,21 @@ document.querySelectorAll('[data-copiar]').forEach(b=>b.addEventListener('click'
   try{await navigator.clipboard.writeText($(b.dataset.copiar).textContent);avisar('Copiado ✓');b.classList.add('ok');setTimeout(()=>b.classList.remove('ok'),1200)}catch(e){avisar('No se pudo copiar. Anotalo a mano.')}
 }));
 let pendienteMP=null;
-function abrirAvisoMP(fn){pendienteMP=fn;$('mp-titular').textContent=TITULAR_MP;$('modal-mp').classList.add('ver');document.body.style.overflow='hidden';setTimeout(()=>$('mp-ir').focus(),50)}
+const enAppInterna=()=>/Instagram|FBAN|FBAV|FB_IAB|FBIOS|WhatsApp|Line\/|; wv\)/i.test(navigator.userAgent);
+const AVISO_MP={titulo:$('mp-titulo').textContent,txt:document.querySelector('#modal-mp .mp-txt').innerHTML,ir:$('mp-ir').textContent};
+function abrirAvisoMP(fn,interna){
+  if(interna){
+    $('mp-titulo').textContent='Abrí esta página en tu navegador';
+    document.querySelector('#modal-mp .mp-txt').textContent='Para pagar con Mercado Pago, abrí esta página en Chrome o Safari: tocá el menú (⋮ o ···) y elegí «Abrir en el navegador».';
+    $('mp-ir').textContent='Copiar el link de la página';
+    pendienteMP=async()=>{trackEvent('mp_app_interna',{});try{await navigator.clipboard.writeText(location.origin+location.pathname);avisar('Link copiado ✓ Pegalo en Chrome o Safari')}catch(e){avisar('Copiá la dirección de la página y abrila en Chrome o Safari.')}};
+  }else{
+    $('mp-titulo').textContent=AVISO_MP.titulo;$('mp-ir').textContent=AVISO_MP.ir;
+    const pt=document.querySelector('#modal-mp .mp-txt');pt.innerHTML=AVISO_MP.txt;
+    $('mp-titular').textContent=TITULAR_MP;pendienteMP=fn;
+  }
+  $('modal-mp').classList.add('ver');document.body.style.overflow='hidden';setTimeout(()=>$('mp-ir').focus(),50)}
+const avisoMPIntegrado=fn=>abrirAvisoMP(fn,flujo==='compra'&&enAppInterna());
 function cerrarAvisoMP(){$('modal-mp').classList.remove('ver');document.body.style.overflow='';pendienteMP=null}
 $('mp-ir').onclick=()=>{if(!$('modal-mp').classList.contains('ver'))return;const f=pendienteMP;cerrarAvisoMP();trackEvent('aviso_mp_ok',{});if(f)f()};
 $('mp-volver').onclick=cerrarAvisoMP;
@@ -1122,7 +1141,7 @@ $('modal-mp').onclick=e=>{if(e.target===$('modal-mp'))cerrarAvisoMP()};
 $('ir-mplink').onclick=()=>{const u=flujo==='vela'?MPL_V:MPL_E;if(!u)return;
   abrirAvisoMP(()=>{const w=window.open(u,'_blank');if(!w)location.href=u;trackEvent('mp_link_abierto',{flujo})})};
 const confirmarPago=()=>flujo==='vela'?donarVela():confirmarCompra();
-$('ok-pago').onclick=()=>{const p=document.querySelector('input[name=pago]:checked');if(!p||$('ok-pago').disabled)return;if(p.value==='mp')abrirAvisoMP(confirmarPago);else confirmarPago()};
+$('ok-pago').onclick=()=>{const p=document.querySelector('input[name=pago]:checked');if(!p||$('ok-pago').disabled)return;if(p.value==='mp')avisoMPIntegrado(confirmarPago);else confirmarPago()};
 async function confirmarCompra(){
   const p=document.querySelector('input[name=pago]:checked');if(!p)return;
   const btn=$('ok-pago');if(btn.disabled)return;const txtOriginal=btn.textContent;
@@ -1139,7 +1158,7 @@ async function confirmarCompra(){
     estado.codigo=r.codigo;
     trackEvent('compra_registrada',{forma_pago:FORMA_PAGO[p.value],cantidad:estado.cant,value:PRECIO*estado.cant,currency:'ARS',vinculo:estado.vinculo});
     const conMP=p.value==='mp'&&mpActivo();
-    if(conMP){btn.textContent='Abriendo Mercado Pago…';await abrirCobroMP('compra',r.codigo,ventanaMP,null)}
+    if(conMP){guardarMiCompra({codigo:r.codigo,asistentes:r.asistentes,estado:'pendiente'});btn.textContent='Abriendo Mercado Pago…';await abrirCobroMP('compra',r.codigo,ventanaMP,null,false)}
     else if(ventanaMP)ventanaMP.location=LINK_MP;
     $('m-pagar').dataset.codigo=r.codigo;
     pintarEntradas(r.asistentes);mpClave='';
@@ -1171,11 +1190,11 @@ function pintarEntradas(asis){
 let mpClave='';
 function modoModal(m){
   const pend=m==='mp-pendiente';
-  $('m-titulo').textContent=pend?'Falta completar el pago':'¡Gracias! Estas son tus entradas';
+  $('m-titulo').textContent=pend?'Pago en proceso':'¡Gracias! Estas son tus entradas';
   $('m-verificar').hidden=!pend;$('m-pagar').hidden=!pend;
   $('entradas').hidden=pend;$('guardar-entradas').hidden=pend;$('pdf-entradas').hidden=pend;
-  $('m-nota-pago').textContent=pend?'Completá el pago en Mercado Pago. Cuando termines, tocá «Ya pagué, ver mis entradas». Si cerraste la ventana de pago, usá «Ir a pagar con Mercado Pago».':m==='mp-ok'?'Pago acreditado con Mercado Pago. ¡Te esperamos!':'';
-  $('m-nota-pago').hidden=m==='normal';
+  $('m-nota-pago').textContent=m==='mp-ok'?'Pago acreditado con Mercado Pago. ¡Te esperamos!':'';
+  $('m-nota-pago').hidden=m!=='mp-ok';
 }
 async function verificarPagoMP(auto){
   const b=$('m-verificar');if(b.disabled)return;b.disabled=true;const tx=b.textContent;b.textContent='Consultando a Mercado Pago…';
@@ -1183,13 +1202,31 @@ async function verificarPagoMP(auto){
   b.disabled=false;b.textContent=tx;
   if(r.estado==='pagada'){
     if(r.asistentes&&r.asistentes.length)pintarEntradas(r.asistentes);
+    const mc=leerMiCompra();if(mc&&mc.codigo===estado.codigo)guardarMiCompra({...mc,estado:'pagada',asistentes:(r.asistentes&&r.asistentes.length)?r.asistentes:mc.asistentes});
+    else if(r.asistentes&&r.asistentes.length)guardarMiCompra({codigo:estado.codigo,asistentes:r.asistentes,estado:'pagada'});
     if(!$('entradas').children.length){avisar('Tu pago está acreditado. Para ver las entradas, volvé a la pestaña donde hiciste la compra.');return}
     modoModal('mp-ok');$('modal').scrollTop=0;trackEvent('mp_verificado',{auto:!!auto});return;
   }
   if(r.estado==='rechazada'||['failed','canceled','expired'].includes(r.mp)){avisar('El pago no se completó. Podés volver a intentarlo con «Ir a pagar con Mercado Pago».');return}
-  avisar(r.estado?'Todavía no vemos el pago acreditado. Si recién pagaste, esperá unos segundos y tocá «Ya pagué» de nuevo.':'No pudimos consultar a Mercado Pago. Probá de nuevo en unos segundos.');
+  avisar(r.estado?'Todavía no se acreditó. Probá de nuevo en unos segundos.':'No pudimos consultar a Mercado Pago. Probá de nuevo en unos segundos.');
 }
 $('m-verificar').onclick=()=>verificarPagoMP(false);
+// Compra con Mercado Pago recordada en este celular (por si se pierde la pantalla)
+const MI_COMPRA='gcn_mi_compra',FIN_EVENTO=new Date('2026-11-04T06:00:00-03:00').getTime();
+function leerMiCompra(){try{const c=JSON.parse(localStorage.getItem(MI_COMPRA)||'null');return c&&c.codigo&&Array.isArray(c.asistentes)&&Date.now()<FIN_EVENTO?c:null}catch(e){return null}}
+function guardarMiCompra(c){try{localStorage.setItem(MI_COMPRA,JSON.stringify(c))}catch(e){}pintarMiCompra()}
+function pintarMiCompra(){
+  const c=leerMiCompra();$('mi-compra').hidden=!c;if(!c)return;const ok=c.estado==='pagada';
+  $('mi-compra-txt').textContent=ok?'Ya tenés tus entradas':'Tenés una compra con el pago en proceso';
+  $('mi-compra-btn').textContent=ok?'Ver mis entradas':'Ya pagué, ver mis entradas';
+}
+$('mi-compra-btn').onclick=()=>{
+  const c=leerMiCompra();if(!c)return;estado.codigo=c.codigo;$('m-pagar').dataset.codigo=c.codigo;mpClave='';
+  pintarEntradas(c.asistentes);$('m-mail').hidden=true;modoModal(c.estado==='pagada'?'mp-ok':'mp-pendiente');
+  $('modal').classList.add('ver');$('modal').scrollTop=0;document.body.style.overflow='hidden';trackEvent('mi_compra_abierta',{estado:c.estado});
+  if(c.estado!=='pagada')verificarPagoMP(true);
+};
+pintarMiCompra();
 $('m-pagar').onclick=()=>abrirCobroMP('compra',$('m-pagar').dataset.codigo,window.open('about:blank','_blank'),$('m-pagar'));
 $('mv-pagar').onclick=()=>abrirCobroMP('vela',$('mv-pagar').dataset.codigo,window.open('about:blank','_blank'),$('mv-pagar'));
 
