@@ -203,6 +203,9 @@ input.mal{border-color:var(--error);box-shadow:0 0 0 1px var(--error)}
   padding:calc(1rem + env(safe-area-inset-top,0px)) 1rem calc(1rem + env(safe-area-inset-bottom,0px))}
 .modal.ver{display:block}
 .caja{max-width:440px;margin:0 auto;background:var(--crema);border-radius:20px;padding:1.25rem 1rem 1rem}
+.cerrar-x{position:sticky;top:.35rem;float:right;z-index:3;width:44px;height:44px;margin:-.7rem -.45rem -2.2rem 0;border-radius:50%;border:1.5px solid var(--linea,#D9CBA8);background:#fff;color:var(--tinta,#2B2418);font-size:1.15rem;line-height:1;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.12)}.cerrar-x[hidden]{display:none}
+.t-asis{table-layout:fixed}.t-asis td{overflow:hidden;text-overflow:ellipsis}.tabla-comp.t-asis th,.tabla-comp.t-asis td{padding-left:.3rem;padding-right:.3rem}.t-asis .flecha{color:var(--tinta-2);font-size:1.3rem;padding-left:0;padding-right:.2rem;text-align:right}
+#m-titulo,#mc-titulo{padding:0 2.6rem}.tabla-comp.t-asis td.flecha{overflow:visible;padding:0;text-align:left}.t-asis tr[data-ver-ent]{cursor:pointer}
 .caja h2{text-align:center;margin:.2rem 0 .3rem;font-size:1.4rem}
 .caja .nota{text-align:center;color:var(--tinta-2);margin:0 0 1rem;font-size:1rem}
 .entrada{background:var(--blanco);border-radius:16px;overflow:hidden;margin-bottom:1rem;border:1px solid var(--linea)}
@@ -677,6 +680,7 @@ input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;
 
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="m-titulo">
   <div class="caja">
+    <button class="cerrar-x" id="m-x" aria-label="Cerrar" hidden>✕</button>
     <h2 id="m-titulo">¡Gracias! Estas son tus entradas</h2>
     <p class="nota" id="m-nota-pago" style="font-weight:600;color:var(--tinta)"></p>
     <button class="btn btn-principal" id="m-verificar" hidden>Ya pagué, ver mis entradas</button>
@@ -686,7 +690,11 @@ input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;
       <p class="m-mail-alt">Si no se abre tu mail, envialo a <b id="m-mail-dir"></b><button class="copiar" data-copiar="m-mail-dir" aria-label="Copiar dirección de mail" title="Copiar"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 8V5a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h2" fill="none" stroke="currentColor" stroke-width="2"/></svg></button> indicando la compra <b id="m-mail-cod"></b>.</p>
     </div>
     <div id="entradas"></div>
-    <a class="btn btn-principal" id="m-wa" href="#" target="_blank" rel="noopener" hidden>💬 Abrir chat de WhatsApp con el comprador</a>
+    <div class="wa-pasos" id="m-wa-pasos" hidden>
+      <p class="nota" style="margin:.2rem 0 .5rem">WhatsApp no deja adjuntar la imagen desde un link: primero abrí el chat y después mandá la imagen.</p>
+      <a class="btn btn-principal" id="m-wa" href="#" target="_blank" rel="noopener">💬 1. Abrir chat con el comprador</a>
+      <button class="btn btn-principal" id="m-wa-img" style="margin-top:.55rem">📎 2. Enviar la imagen de las entradas</button>
+    </div>
     <div class="acciones-entradas">
       <button class="btn btn-principal" id="guardar-entradas"><span id="ge-txt">Guardar o compartir</span><small style="display:block;font-size:1rem;font-weight:400">Por WhatsApp, en la galería y más</small></button>
       <button class="btn btn-borde" id="pdf-entradas"><span id="pdf-txt">Descargar en PDF</span></button>
@@ -695,6 +703,7 @@ input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;
   </div>
 </div>
 <div class="modal" id="modal-comp" role="dialog" aria-modal="true" aria-labelledby="mc-titulo"><div class="caja">
+  <button class="cerrar-x" id="mc-x" aria-label="Cerrar">✕</button>
   <h2 id="mc-titulo"></h2>
   <p class="nota" id="mc-sub"></p>
   <p class="mc-estado" id="mc-estado" hidden></p>
@@ -915,21 +924,22 @@ function pintarListaVol(){
   const q=$('vol-buscar').value.trim().toLowerCase(),qd=q.replace(/\D/g,'');
   const lista=volDatos.filter(a=>!q||a.nombre.toLowerCase().includes(q)||(qd&&(a.telefono.replace(/\D/g,'').includes(qd)||(a.codigo||'').includes(qd))));
   if(!lista.length){$('vol-lista').innerHTML='<p class="vol-vacio">'+(volDatos.length?'No hay resultados para esa búsqueda.':'Todavía no hay entradas vendidas.')+'</p>';return}
-  $('vol-lista').innerHTML='<div class="tabla-wrap"><table class="tabla-comp t-asis"><thead><tr><th>Llegó</th><th>Asistente</th><th>Entrada</th><th>Estado</th></tr></thead><tbody>'+
-    lista.map(a=>'<tr'+(a.ingreso?' class="llego"':'')+'><td class="c-tilde">'+(a.estado==='rechazada'?'<span class="sin-tilde">—</span>':
+  $('vol-lista').innerHTML='<div class="tabla-wrap"><table class="tabla-comp t-asis"><colgroup><col style="width:50px"><col><col style="width:62px"><col style="width:104px"><col style="width:16px"></colgroup><thead><tr><th>Llegó</th><th>Asistente</th><th>Entrada</th><th>Estado</th><th></th></tr></thead><tbody>'+
+    lista.map(a=>'<tr'+(a.ingreso?' class="llego"':'')+(a.estado==='pagada'?' data-ver-ent="'+esc(a.codigo_compra||'')+'" tabindex="0" role="button" aria-label="Ver las entradas de '+esc(a.nombre)+'"':'')+'><td class="c-tilde">'+(a.estado==='rechazada'?'<span class="sin-tilde">—</span>':
       '<button class="tilde'+(a.ingreso?' si':'')+'" data-ingreso="'+esc(a.codigo||'')+'" aria-pressed="'+(!!a.ingreso)+'" aria-label="'+(a.ingreso?'Llegó: ':'Marcar llegada de ')+esc(a.nombre)+'">'+(a.ingreso?'✓':'')+'</button>')+'</td>'+
       '<td>'+esc(a.nombre)+'<br><a class="tel-chico" href="tel:'+esc(a.telefono.replace(/[^\d+]/g,''))+'">'+esc(a.telefono)+'</a></td>'+
-      '<td class="c-cod">'+esc(a.codigo||'')+'</td><td><span class="chip '+esc(a.estado)+'">'+(ESTADOS[a.estado]||esc(a.estado))+'</span>'+(a.estado==='pagada'?'<button class="ver-ent" data-ver-ent="'+esc(a.codigo_compra||'')+'" aria-label="Ver y enviar las entradas de '+esc(a.nombre)+'">🎟 Ver</button>':'')+'</td></tr>').join('')+
+      '<td class="c-cod">'+esc(a.codigo||'')+'</td><td><span class="chip '+esc(a.estado)+'">'+(ESTADOS[a.estado]||esc(a.estado))+'</span></td><td class="flecha" aria-hidden="true">'+(a.estado==='pagada'?'›':'')+'</td></tr>').join('')+
     '</tbody></table></div>';
 }
 // Versión y firma
-const APP_VERSION='2.22';
+const APP_VERSION='2.23';
 $('app-ver').textContent='v'+APP_VERSION;
 $('vs-mark').addEventListener('click',e=>{e.stopPropagation();$('vs-tip').hidden=!$('vs-tip').hidden;if(!$('vs-tip').hidden)trackEvent('vertexsur_click',{})});
 document.addEventListener('click',e=>{if(!e.target.closest('#vs-mark'))$('vs-tip').hidden=true});
 $('vol-buscar').addEventListener('input',pintarListaVol);
 $('vol-lista').addEventListener('click',async e=>{
-  const v=e.target.closest('[data-ver-ent]');if(v){abrirEntradasVol(v.dataset.verEnt);return}
+  const v=e.target.closest('[data-ver-ent]');
+  if(v&&!e.target.closest('[data-ingreso],a')){abrirEntradasVol(v.dataset.verEnt);return}
   const b=e.target.closest('[data-ingreso]');if(!b||b.disabled)return;
   const a=volDatos.find(x=>x.codigo===b.dataset.ingreso);if(!a)return;const nuevo=!a.ingreso;
   if(!nuevo&&!confirm('¿Desmarcar la llegada de '+a.nombre+'?'))return;
@@ -1096,7 +1106,8 @@ async function verComprobante(cod){
   }catch(e){$('mc-cont').innerHTML='<div class="cargando">'+(e.message==='sin comprobante'?'Esta compra no tiene comprobante adjunto.':'No se pudo cargar el comprobante. Probá de nuevo.')+'</div>'}
 }
 function cerrarComp(){compAbierta=null;$('modal-comp').classList.remove('ver');document.body.style.overflow=''}
-$('mc-cerrar').onclick=cerrarComp;
+$('mc-cerrar').onclick=cerrarComp;$('mc-x').onclick=cerrarComp;
+$('m-x').onclick=()=>cerrarEntradasVol();
 $('mc-ok').onclick=()=>compAbierta&&cambiarEstado(compAbierta,'pagada');
 $('mc-no').onclick=()=>compAbierta&&cambiarEstado(compAbierta,'rechazada');
 
@@ -1326,15 +1337,27 @@ function abrirEntradasVol(cod){
   const tel=telWhatsApp(asis[0].telefono);
   const txt='¡Hola! Te enviamos tus entradas para la Gala Candle Night: martes 3 de noviembre, 19 h, Colegio Michael Ham.\n\n'+
     asis.map(x=>'🎟 '+x.nombre+' – código '+x.codigo).join('\n')+'\n\nCompra '+cod+'. ¡Te esperamos!';
-  $('m-wa').hidden=!tel;$('m-wa').href='https://wa.me/'+tel+'?text='+encodeURIComponent(txt);
+  $('m-wa-pasos').hidden=!tel;$('m-wa').href='https://wa.me/'+tel+'?text='+encodeURIComponent(txt);
+  $('guardar-entradas').hidden=!!tel;$('m-x').hidden=false;
   $('modal').dataset.vol='1';$('fin').textContent='Cerrar';
   $('modal').classList.add('ver');$('modal').scrollTop=0;document.body.style.overflow='hidden';trackEvent('vol_ver_entradas',{});
 }
 function cerrarEntradasVol(){
-  delete $('modal').dataset.vol;$('fin').textContent='Volver al inicio';$('m-wa').hidden=true;
+  delete $('modal').dataset.vol;$('fin').textContent='Volver al inicio';$('m-wa-pasos').hidden=true;$('m-x').hidden=true;$('guardar-entradas').hidden=false;
   $('modal').classList.remove('ver');document.body.style.overflow='';
 }
 $('m-wa').addEventListener('click',()=>trackEvent('vol_whatsapp',{}));
+$('vol-lista').addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('tr[data-ver-ent]')){e.preventDefault();abrirEntradasVol(e.target.dataset.verEnt)}});
+// Paso 2 de WhatsApp: la imagen de las entradas (en el celular abre compartir; en la PC se descarga)
+$('m-wa-img').addEventListener('click',async function(){
+  if(typeof html2canvas==='undefined'){avisar('No pudimos preparar la imagen. Probá de nuevo en unos segundos.');return}
+  const btn=this,txt=btn.textContent;btn.disabled=true;btn.textContent='Preparando…';
+  try{const c=await capturar($('entradas'),380,'#FFF6E3');const blob=await new Promise(r=>c.toBlob(r,'image/png'));
+    const ok=await compartirArchivo(blob,'entradas-gala-candle-night-'+(estado.codigo||'')+'.png','Entradas Gala Candle Night');
+    if(!ok)avisar('Imagen descargada: adjuntala en el chat de WhatsApp del comprador.');trackEvent('vol_whatsapp_imagen',{});
+  }catch(e){avisar('No pudimos preparar la imagen. Probá de nuevo.')}
+  finally{btn.disabled=false;btn.textContent=txt}
+});
 // Entradas y estados del modal de compra
 function pintarEntradas(asis){
   $('entradas').innerHTML=asis.map((a,i)=>
