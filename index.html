@@ -51,7 +51,7 @@ body{margin:0;min-height:100%;background:var(--crema);color:var(--tinta);
   font-family:Lexend,"Segoe UI",Verdana,sans-serif;font-size:1.15rem;line-height:1.45}
 .app{max-width:560px;margin:0 auto}
 .pantalla{display:none;flex-direction:column;min-height:100vh;min-height:100dvh}
-.pantalla.activa{display:flex}
+.pantalla.activa{display:flex}#p-comp{position:relative}
 .btn{display:block;width:100%;border:none;cursor:pointer;text-align:center;font-family:inherit;
   border-radius:16px;padding:.95rem 1rem;min-height:64px;text-decoration:none;color:var(--tinta)}
 .btn:focus-visible,input:focus-visible,.opcion:focus-within,.subir:focus-within{outline:4px solid var(--oro-prog);outline-offset:3px}
@@ -310,6 +310,35 @@ label.campo span.opcional{display:inline;font-weight:400;color:var(--tinta-2)}
 .menu-lista button[hidden]+button{border-top:none}
 /* Voluntarios */
 input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;max-width:220px;display:block;margin:0 auto}
+.cp-cont .cont{padding:.4rem .3rem;border:none;font:inherit;cursor:pointer;border-radius:12px}.cp-cont .cont b{font-size:1.6rem}.cp-cont .cont small{font-size:.875rem;display:block}.cp-cont .cont i{font-style:normal;font-size:.875rem;opacity:.85;display:block}
+.cp-cont .cont[aria-pressed="true"]{outline:3px solid var(--oro,#D9A928);outline-offset:-3px}
+.cp-herr{display:flex;align-items:center;justify-content:flex-end;gap:.5rem;margin:.2rem 0 .4rem}.cp-herr .det{flex:1;font-size:.9rem;color:var(--tinta-2)}
+.cp-herr button{min-height:44px;border-radius:8px;border:1.5px solid var(--tinta,#2B2418);background:#fff;color:var(--tinta,#2B2418);font:inherit;font-size:.9rem;padding:0 .7rem;cursor:pointer}
+#cp-limpiar{border-color:var(--oro,#D9A928);background:#FFF6E3}#cp-limpiar[hidden]{display:none}
+.th-f{background:none;border:none;font:inherit;font-weight:600;color:inherit;padding:.55rem .1rem;min-height:44px;min-width:46px;cursor:pointer;white-space:nowrap}
+.th-f.activo{color:#7A5200;text-decoration:underline;text-decoration-thickness:2px}
+.f-pop{position:absolute;z-index:40;background:#fff;border:1.5px solid var(--linea,#D9CBA8);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.18);padding:.4rem;min-width:190px}
+.f-pop[hidden]{display:none}
+.f-pop label{display:flex;align-items:center;gap:.55rem;min-height:44px;padding:0 .4rem;font-size:.95rem;cursor:pointer;border-radius:6px}
+.f-pop input[type=checkbox]{width:1.2rem;height:1.2rem;accent-color:#151B2B}
+.f-pop .f-op{display:block;width:100%;text-align:left;min-height:44px;padding:0 .6rem;border:1.5px solid transparent;border-radius:6px;background:none;font:inherit;font-size:.95rem;cursor:pointer}
+.f-pop .f-op[aria-pressed="true"]{border-color:#151B2B;background:#F1EDE3;font-weight:600}
+.f-pop input[type=date]{width:100%;min-height:44px;font:inherit;font-size:.95rem;margin-top:.3rem;padding:0 .4rem;border:1.5px solid var(--linea,#D9CBA8);border-radius:6px}
+.f-pop .f-listo{width:100%;margin-top:.35rem;min-height:44px;border:none;border-radius:6px;background:#151B2B;color:#fff;font:inherit;font-weight:600;cursor:pointer}
+.chip-c{display:inline-block;border-radius:4px;padding:.05rem .35rem;font-size:.875rem;font-weight:600}
+.chip-c.pendiente,.chip-c.reservada{background:#FBEFD2;color:#7A5A14}.chip-c.pagada{background:#E3F2E8;color:#1F5E3A}.chip-c.rechazada{background:#F8E1DF;color:#8C1D17}
+.mp-tag{display:inline-block;background:#00B1EA;color:#fff;font-weight:700;border-radius:4px;padding:0 .3rem;font-size:.85rem;letter-spacing:.02em}
+.t-pagos tbody tr{cursor:pointer}.t-pagos tbody tr:hover td{background:#FBF6EA}.t-pagos .flecha{color:var(--tinta-2);font-size:1.2rem;text-align:right}
+.tabla-comp.t-pagos{font-size:.875rem;table-layout:fixed;width:100%}
+.t-pagos col.c-f{width:86px}.t-pagos.hoy col.c-f{width:50px}.t-pagos col.c-ti{width:52px}.t-pagos col.c-m{width:60px}.t-pagos col.c-t{width:74px}.t-pagos col.c-e{width:58px}.t-pagos col.c-v{width:14px}
+.t-pagos tr.e-pendiente td:first-child,.t-pagos tr.e-reservada td:first-child{box-shadow:inset 5px 0 #E0A82E}.t-pagos tr.e-pagada td:first-child{box-shadow:inset 5px 0 #2E8B57}.t-pagos tr.e-rechazada td:first-child{box-shadow:inset 5px 0 #C0392B}.tabla-comp.t-pagos td:first-child,.tabla-comp.t-pagos th:first-child{padding-left:.55rem}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.tabla-comp.t-pagos th,.tabla-comp.t-pagos td{white-space:nowrap;padding:.35rem .22rem;font-size:.875rem}
+.t-pagos td.nom,.t-pagos td,.t-pagos th{overflow:hidden;text-overflow:ellipsis}
+.t-pagos .b-tabla{min-height:44px;min-width:44px;padding:0 .3rem}.t-pagos td:last-child,.t-pagos th:last-child{overflow:visible;text-align:right}
+.punto{display:inline-block;width:.8rem;height:.8rem;border-radius:50%;vertical-align:middle}
+.punto.pendiente,.punto.reservada{background:#E0A82E}.punto.pagada{background:#2E8B57}.punto.rechazada{background:#C0392B}
+.comp-pie{font-size:.9rem;color:var(--tinta-2);text-align:right;margin:.4rem .2rem 0;font-weight:600}
+.mc-estado{font-weight:600;margin:.3rem 0 .6rem}
 .vol-resumen{background:var(--carbon);color:#F5EEDF;border-radius:18px;padding:1rem 1.1rem;text-align:center;margin:.6rem 0 .8rem}
 .vol-resumen small{display:block;color:var(--oro-claro);font-size:1rem}
 .vol-resumen b{display:block;font-size:3.4rem;line-height:1.05;font-weight:700}
@@ -324,6 +353,7 @@ input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;
 .vol-l1 a{color:var(--tinta);white-space:nowrap;font-size:1rem}
 .vol-l2{display:flex;flex-wrap:wrap;align-items:center;gap:.45rem;margin-top:.3rem;font-size:.92rem;color:var(--tinta-2)}
 .chip{border-radius:999px;padding:.1rem .6rem;font-weight:600;font-size:.88rem}
+.ver-ent{display:block;margin-top:.35rem;background:none;border:1.5px solid var(--tinta,#2B2418);color:var(--tinta,#2B2418);border-radius:999px;padding:.15rem .6rem;font:inherit;font-size:.9rem;font-weight:600;cursor:pointer;min-height:44px;min-width:44px;white-space:nowrap}
 .chip.pagada{background:#E3F2E8;color:#1F5E3A}.chip.pendiente{background:#FBEFD2;color:#7A5A14}.chip.rechazada{background:#F8E1DF;color:#8C1D17}.chip.reservada{background:#EAF0FA;color:#22406E}
 .vol-vacio{text-align:center;color:var(--tinta-2);padding:1.5rem 0}
 /* Menú en barra de voluntarios */
@@ -361,7 +391,7 @@ input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;
 .comp-datos{display:flex;flex-wrap:wrap;gap:.3rem .9rem;font-size:.95rem;color:var(--tinta-2)}
 .comp-datos a{color:var(--tinta)}.comp-datos strong{color:var(--tinta)}
 .comp-mp{font-size:.92rem;background:#F3EFE6;border-radius:10px;padding:.45rem .65rem;margin-top:.55rem;color:var(--tinta-2)}
-.comp-acc{display:flex;gap:.5rem;margin-top:.6rem}
+.comp-acc{display:flex;gap:.5rem;margin-top:.6rem}.comp-acc[hidden]{display:none}
 .comp-acc button{flex:1;font:inherit;font-size:1rem;font-weight:600;min-height:50px;border-radius:12px;cursor:pointer}
 .b-ver{border:2px solid var(--tinta);background:var(--blanco);color:var(--tinta);width:100%;margin-top:.6rem;font:inherit;font-size:1rem;font-weight:600;min-height:50px;border-radius:12px;cursor:pointer}
 .b-ok{border:none;background:#2E7D4F;color:#fff}.b-no{border:2px solid var(--error);background:var(--blanco);color:var(--error)}
@@ -433,12 +463,31 @@ input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;
     <div id="ayuda-lista"></div>
   </div>
 </section>
+<section class="pantalla" id="p-velas-vol">
+  <div class="barra"><button class="volver" data-ir="p-inicio">‹ Inicio</button><span class="barra-titulo">Velas</span><button class="menu-barra abre-menu" aria-label="Abrir menú"><i></i><i></i><i></i></button></div>
+  <div class="cuerpo">
+    <div class="contadores">
+      <div class="cont tot"><b id="vv-tot">–</b><small>Velas</small></div>
+      <div class="cont ok"><b id="vv-ok">–</b><small>Confirmadas</small></div>
+      <div class="cont pend"><b id="vv-pend">–</b><small>Pendientes</small></div>
+    </div>
+    <div class="det-rech" id="vv-plata"></div>
+    <div class="vol-herr" style="justify-content:flex-end"><button id="vv-act" style="min-height:50px">Actualizar</button></div>
+    <div id="vv-lista"></div>
+  </div>
+</section>
 <section class="pantalla" id="p-comp">
   <div class="barra"><button class="volver" data-ir="p-inicio">‹ Inicio</button><span class="barra-titulo">Control de pagos</span><button class="menu-barra abre-menu" aria-label="Abrir menú"><i></i><i></i><i></i></button></div>
   <div class="cuerpo">
-    <div class="vol-resumen"><small>Pagos para controlar</small><b id="comp-total">–</b><div class="det" id="comp-det"></div></div>
-    <div class="vol-herr" style="justify-content:flex-end"><button id="comp-act" style="min-height:50px">Actualizar</button></div>
+    <div class="contadores cp-cont">
+      <button class="cont ok" data-cont="pagada"><b id="cp-ok">–</b><small>Aprobados</small><i id="cp-ok-p"></i></button>
+      <button class="cont pend" data-cont="pendiente"><b id="comp-total">–</b><small>Pendientes</small><i id="cp-pend-p"></i></button>
+      <button class="cont tot" data-cont="rechazada"><b id="cp-rech">–</b><small>Rechazados</small><i id="cp-rech-p"></i></button>
+    </div>
+    <div class="cp-herr"><div class="det" id="comp-det" hidden></div><button id="cp-limpiar" hidden>Limpiar filtros</button><button id="comp-act">Actualizar</button></div>
     <div id="comp-lista"></div>
+    <p class="comp-pie" id="comp-pie"></p>
+    <div class="f-pop" id="f-pop" role="dialog" aria-label="Filtro" hidden></div>
   </div>
 </section>
 
@@ -637,6 +686,7 @@ input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;
       <p class="m-mail-alt">Si no se abre tu mail, envialo a <b id="m-mail-dir"></b><button class="copiar" data-copiar="m-mail-dir" aria-label="Copiar dirección de mail" title="Copiar"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 8V5a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h2" fill="none" stroke="currentColor" stroke-width="2"/></svg></button> indicando la compra <b id="m-mail-cod"></b>.</p>
     </div>
     <div id="entradas"></div>
+    <a class="btn btn-principal" id="m-wa" href="#" target="_blank" rel="noopener" hidden>💬 Abrir chat de WhatsApp con el comprador</a>
     <div class="acciones-entradas">
       <button class="btn btn-principal" id="guardar-entradas"><span id="ge-txt">Guardar o compartir</span><small style="display:block;font-size:1rem;font-weight:400">Por WhatsApp, en la galería y más</small></button>
       <button class="btn btn-borde" id="pdf-entradas"><span id="pdf-txt">Descargar en PDF</span></button>
@@ -647,6 +697,7 @@ input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;
 <div class="modal" id="modal-comp" role="dialog" aria-modal="true" aria-labelledby="mc-titulo"><div class="caja">
   <h2 id="mc-titulo"></h2>
   <p class="nota" id="mc-sub"></p>
+  <p class="mc-estado" id="mc-estado" hidden></p>
   <div id="mc-cont"></div>
   <div class="comp-acc"><button class="b-no" id="mc-no">Rechazar</button><button class="b-ok" id="mc-ok">Aprobar compra</button></div>
   <button class="btn btn-borde" id="mc-cerrar" style="margin-top:.6rem;color:var(--tinta)">Cerrar</button>
@@ -662,6 +713,7 @@ input.pin{min-height:56px;font-size:2rem;letter-spacing:.6rem;text-align:center;
   <button role="menuitem" data-menu="p-vol" class="menu-vol-item" hidden>👥 Asistentes</button>
   <button role="menuitem" data-menu="p-comp" class="menu-vol-item" hidden>📄 Control de pagos<span class="menu-n" id="menu-comp-n"></span></button>
   <button role="menuitem" data-menu="p-ayuda-vol" class="menu-vol-item" hidden>🙋 Pedidos de ayuda<span class="menu-n" id="menu-ayuda-n"></span></button>
+  <button role="menuitem" data-menu="p-velas-vol" class="menu-vol-item" hidden>🕯️ Velas</button>
   <button role="menuitem" id="menu-export" class="menu-vol-item" hidden>📊 Exportar a Excel</button>
   <button role="menuitem" id="menu-salir" class="menu-vol-item" hidden>🔓 Cerrar sesión de voluntarios</button>
 </div></div>
@@ -688,7 +740,7 @@ const pesos=n=>'$ '+n.toLocaleString('es-AR');
 // Nunca rompe la app si Analytics no cargó. No se envían nombres ni teléfonos.
 function trackEvent(nombre,params){if(typeof window.gtag!=='function')return;try{window.gtag('event',nombre,params||{})}catch(e){}}
 const NOMBRES_PANTALLA={'p-inicio':'inicio','p-cantidad':'compra_1_cantidad','p-contacto':'compra_2_datos','p-nombres':'compra_3_asistentes',
-  'p-pago':'compra_4_pago','p-vela':'vela_1_cantidad','p-vela-datos':'vela_2_datos','p-ayuda':'ayuda','p-ayuda-ok':'ayuda_enviada','p-pin':'voluntarios_pin','p-vol':'voluntarios_asistentes','p-comp':'voluntarios_comprobantes','p-ayuda-vol':'voluntarios_ayuda'};
+  'p-pago':'compra_4_pago','p-vela':'vela_1_cantidad','p-vela-datos':'vela_2_datos','p-ayuda':'ayuda','p-ayuda-ok':'ayuda_enviada','p-pin':'voluntarios_pin','p-vol':'voluntarios_asistentes','p-comp':'voluntarios_comprobantes','p-ayuda-vol':'voluntarios_ayuda','p-velas-vol':'voluntarios_velas'};
 async function rpc(fn,params){
   const r=await fetch(SB_URL+'/rest/v1/rpc/'+fn,{method:'POST',headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'},body:JSON.stringify(params||{})});
   const txt=await r.text();let data=null;try{data=txt?JSON.parse(txt):null}catch(e){}
@@ -774,7 +826,7 @@ function ir(id,desdeHistorial){
   window.scrollTo(0,0);
 }
 document.querySelectorAll('[data-ir]').forEach(b=>b.addEventListener('click',()=>ir(b.dataset.ir)));
-const PANT_VOL=['p-vol','p-comp','p-ayuda-vol'];
+const PANT_VOL=['p-vol','p-comp','p-ayuda-vol','p-velas-vol'];
 window.addEventListener('popstate',e=>{
   if(ignorarPop){ignorarPop=false;return}
   const actual=pila[pila.length-1];
@@ -806,7 +858,7 @@ document.querySelectorAll('.abre-menu').forEach(b=>{b.setAttribute('aria-expande
 menu.onclick=e=>{if(e.target===menu)cerrarMenu()};
 document.addEventListener('keydown',e=>{if(e.key==='Escape')cerrarMenu()});
 function abrirVol(dest){
-  if(dest==='p-vol'){ir('p-vol');cargarVol()}else if(dest==='p-ayuda-vol'){ir('p-ayuda-vol');cargarAyuda(true)}else{ir('p-comp')}
+  if(dest==='p-vol'){ir('p-vol');cargarVol()}else if(dest==='p-ayuda-vol'){ir('p-ayuda-vol');cargarAyuda(true)}else if(dest==='p-velas-vol'){ir('p-velas-vol');cargarVelasVol()}else{ir('p-comp')}
   cargarComp();if(dest!=='p-ayuda-vol')cargarAyuda(false);
 }
 function pintarMenu(){
@@ -867,16 +919,17 @@ function pintarListaVol(){
     lista.map(a=>'<tr'+(a.ingreso?' class="llego"':'')+'><td class="c-tilde">'+(a.estado==='rechazada'?'<span class="sin-tilde">—</span>':
       '<button class="tilde'+(a.ingreso?' si':'')+'" data-ingreso="'+esc(a.codigo||'')+'" aria-pressed="'+(!!a.ingreso)+'" aria-label="'+(a.ingreso?'Llegó: ':'Marcar llegada de ')+esc(a.nombre)+'">'+(a.ingreso?'✓':'')+'</button>')+'</td>'+
       '<td>'+esc(a.nombre)+'<br><a class="tel-chico" href="tel:'+esc(a.telefono.replace(/[^\d+]/g,''))+'">'+esc(a.telefono)+'</a></td>'+
-      '<td class="c-cod">'+esc(a.codigo||'')+'</td><td><span class="chip '+esc(a.estado)+'">'+(ESTADOS[a.estado]||esc(a.estado))+'</span></td></tr>').join('')+
+      '<td class="c-cod">'+esc(a.codigo||'')+'</td><td><span class="chip '+esc(a.estado)+'">'+(ESTADOS[a.estado]||esc(a.estado))+'</span>'+(a.estado==='pagada'?'<button class="ver-ent" data-ver-ent="'+esc(a.codigo_compra||'')+'" aria-label="Ver y enviar las entradas de '+esc(a.nombre)+'">🎟 Ver</button>':'')+'</td></tr>').join('')+
     '</tbody></table></div>';
 }
 // Versión y firma
-const APP_VERSION='2.19';
+const APP_VERSION='2.22';
 $('app-ver').textContent='v'+APP_VERSION;
 $('vs-mark').addEventListener('click',e=>{e.stopPropagation();$('vs-tip').hidden=!$('vs-tip').hidden;if(!$('vs-tip').hidden)trackEvent('vertexsur_click',{})});
 document.addEventListener('click',e=>{if(!e.target.closest('#vs-mark'))$('vs-tip').hidden=true});
 $('vol-buscar').addEventListener('input',pintarListaVol);
 $('vol-lista').addEventListener('click',async e=>{
+  const v=e.target.closest('[data-ver-ent]');if(v){abrirEntradasVol(v.dataset.verEnt);return}
   const b=e.target.closest('[data-ingreso]');if(!b||b.disabled)return;
   const a=volDatos.find(x=>x.codigo===b.dataset.ingreso);if(!a)return;const nuevo=!a.ingreso;
   if(!nuevo&&!confirm('¿Desmarcar la llegada de '+a.nombre+'?'))return;
@@ -897,7 +950,7 @@ async function cargarComp(){
   if(mpActivo())await mpAccion({accion:'conciliar'});
   try{const r=await rpc('gcn_panel_comprobantes',{p_pin:pinVol});
     if(r&&r.error){if(r.error==='pin'){pinVol=null;pintarMenu();ir('p-pin')}else avisar('Demasiados intentos. Esperá unos minutos.');return}
-    compDatos=r.compras||[];
+    compDatos=r.todos||(r.compras||[]).map(c=>Object.assign({estado:c.forma_pago==='efectivo'?'reservada':'pendiente'},c));
     $('comp-total').textContent=r.pendientes;
     const tr=r.transferencias||0,ef=r.efectivo||0,ve=r.velas||0,partes=[];
     if(tr)partes.push(tr===1?'1 transferencia':tr+' transferencias');if(ef)partes.push(ef===1?'1 en efectivo':ef+' en efectivo');
@@ -910,17 +963,91 @@ async function cargarComp(){
   finally{b.disabled=false;b.textContent='Actualizar'}
 }
 $('comp-act').onclick=cargarComp;
-function pintarComp(){
-  if(!compDatos.length){$('comp-lista').innerHTML='<p class="vol-vacio">No hay pagos para controlar.</p>';return}
-  $('comp-lista').innerHTML='<div class="tabla-wrap"><table class="tabla-comp"><thead><tr><th>Asistentes</th><th class="n">Cant.</th><th class="n">Total</th><th></th></tr></thead><tbody>'+
-    compDatos.map(c=>{const n=c.nombres||[];
-      return '<tr><td>'+esc(n[0]||'')+(n.length>1?' <span class="mas">+'+(n.length-1)+'</span>':'')+
-        '<br><span class="tipo '+esc(c.forma_pago)+'">'+(c.tipo==='vela'?'Velas <b>'+esc(c.codigo.replace(/^V-/,''))+'</b>':'Compra <b>'+esc(c.codigo)+'</b>')+' · '+(c.forma_pago==='efectivo'?'Efectivo':(PAGOS[c.forma_pago]||'Transferencia')+(c.por_mail?' · comprobante por mail':''))+'</span></td>'+
-      '<td class="n">'+c.cantidad+'</td><td class="n">'+pesos(c.total).replace('$ ','$')+'</td>'+
-      '<td><button class="b-tabla" data-ver="'+esc(c.codigo)+'">Ver</button></td></tr>'}).join('')+
-    '</tbody></table></div><p class="nota-tabla">Tocá "Ver" para revisar el pago y marcarlo como aprobado o rechazado.</p>';
+// Filtros de Control de pagos (en los títulos de la tabla, como en Excel)
+const F_DEF=()=>({fecha:'todas',tipo:new Set(['compra','vela']),medio:new Set(['transferencia','mp','mp_link','efectivo']),estado:new Set(['pendiente'])});
+let compFiltro=F_DEF();
+const F_OPC={tipo:[['compra','Entradas'],['vela','Velas']],medio:[['transferencia','Transferencia'],['mp','Mercado Pago'],['mp_link','Link de MP'],['efectivo','Efectivo']],
+  estado:[['pagada','Aprobada'],['pendiente','Pendiente'],['rechazada','Rechazada']]};
+const MEDIO_TXT={transferencia:'Transf.',mp_link:'Link',efectivo:'Efect.'};
+const TIPO_TXT={compra:'Entr.',vela:'Velas'};
+const EST_TXT={pendiente:'Pendiente',reservada:'Pendiente (efectivo)',pagada:'Aprobada',rechazada:'Rechazada'};
+const EST_CORTO={pendiente:'Pend.',reservada:'Pend.',pagada:'Aprob.',rechazada:'Rech.'};
+const TZ={timeZone:'America/Argentina/Buenos_Aires'};
+const diaAR=f=>new Date(f).toLocaleDateString('en-CA',TZ);   // AAAA-MM-DD en hora argentina
+const fechaHora=f=>{const d=new Date(f);
+  return d.toLocaleDateString('es-AR',Object.assign({day:'2-digit',month:'2-digit'},TZ))+' '+d.toLocaleTimeString('es-AR',Object.assign({hour:'2-digit',minute:'2-digit',hour12:false},TZ))};
+const estN=e=>e==='reservada'?'pendiente':(e||'pendiente');
+const fechaElegida=()=>compFiltro.fecha==='hoy'?diaAR(Date.now()):compFiltro.fecha==='ayer'?diaAR(Date.now()-864e5):compFiltro.fecha==='todas'?null:compFiltro.fecha;
+const filtroActivo=k=>k==='fecha'?compFiltro.fecha!=='todas':compFiltro[k].size!==F_OPC[k].length;
+function compFiltrados(sinEstado){
+  const dia=fechaElegida();
+  return compDatos.filter(c=>compFiltro.tipo.has(c.tipo)&&compFiltro.medio.has(c.forma_pago)&&(sinEstado||compFiltro.estado.has(estN(c.estado)))&&(!dia||diaAR(c.fecha)===dia))
+    .sort((a,b)=>new Date(b.fecha)-new Date(a.fecha));
 }
+function pintarContadores(){
+  const base=compFiltrados(true),suma=e=>base.filter(c=>estN(c.estado)===e);
+  [['pagada','cp-ok'],['pendiente','comp-total'],['rechazada','cp-rech']].forEach(([e,id])=>{
+    const l=suma(e);$(id).textContent=l.length;
+    $(id==='comp-total'?'cp-pend-p':id+'-p').textContent=pesos(l.reduce((a,c)=>a+Number(c.total||0),0)).replace('$ ','$');
+  });
+  document.querySelectorAll('[data-cont]').forEach(b=>b.setAttribute('aria-pressed',String(compFiltro.estado.size===1&&compFiltro.estado.has(b.dataset.cont))));
+  const estDef=compFiltro.estado.size===1&&compFiltro.estado.has('pendiente');
+  $('cp-limpiar').hidden=estDef&&!['fecha','tipo','medio'].some(filtroActivo);
+}
+function th(k,txt){return '<button class="th-f'+(filtroActivo(k)?' activo':'')+'" data-th="'+k+'" aria-haspopup="true">'+txt+' ▾</button>'}
+function pintarComp(){
+  pintarContadores();cerrarPop();const l=compFiltrados(),hoy=compFiltro.fecha==='hoy'||compFiltro.fecha==='ayer';
+  const tabla=(filas)=>'<div class="tabla-wrap"><table class="tabla-comp t-pagos'+(hoy?' hoy':'')+'"><colgroup><col class="c-f"><col class="c-ti"><col class="c-m"><col class="c-t"><col class="c-e"><col class="c-v"></colgroup><thead><tr>'+
+    '<th>'+th('fecha',hoy?'Hora':'Fecha')+'</th><th>'+th('tipo','Tipo')+'</th><th>'+th('medio','Medio')+'</th><th class="n">Total</th><th>'+th('estado','Estado')+'</th><th></th></tr></thead><tbody>'+filas+'</tbody></table></div>';
+  if(!l.length){$('comp-lista').innerHTML=tabla('')+'<p class="vol-vacio">'+(compDatos.length?'No hay pagos con estos filtros.':'No hay pagos para controlar.')+'</p>';$('comp-pie').textContent='';return}
+  $('comp-lista').innerHTML=tabla(l.map(c=>{const est=c.estado||'pendiente',n=c.nombres||[];
+      const desc=(c.tipo==='vela'?'Donación de velas ':'Compra ')+c.codigo.replace(/^V-/,'')+' de '+(c.pagador||n[0]||'')+', '+pesos(c.total)+', '+(EST_TXT[est]||est);
+      return '<tr data-ver="'+esc(c.codigo)+'" tabindex="0" role="button" aria-label="'+esc(desc)+'"><td>'+(hoy?fechaHora(c.fecha).slice(6):fechaHora(c.fecha))+'</td>'+
+        '<td>'+TIPO_TXT[c.tipo]+'</td>'+
+        '<td title="'+esc(PAGOS[c.forma_pago]||'')+(c.por_mail?' · comprobante por mail':'')+'">'+(c.forma_pago==='mp'?'<span class="mp-tag">MP</span>':esc(MEDIO_TXT[c.forma_pago]||c.forma_pago||''))+(c.por_mail?'*':'')+'</td>'+
+        '<td class="n">'+pesos(c.total).replace('$ ','$')+'</td>'+
+        '<td><span class="chip-c '+esc(est)+'">'+(EST_CORTO[est]||esc(est))+'</span></td><td class="flecha" aria-hidden="true">›</td></tr>'}).join(''));
+  const tot=l.reduce((a,c)=>a+Number(c.total||0),0);
+  $('comp-pie').textContent=(compFiltro.fecha==='hoy'?'Hoy: ':compFiltro.fecha==='ayer'?'Ayer: ':'')+(l.length===1?'1 pago':l.length+' pagos')+' · '+pesos(tot)+(l.some(c=>c.por_mail)?'  (* comprobante por mail)':'');
+}
+// Desplegable de filtro
+let popK=null;
+function cerrarPop(){$('f-pop').hidden=true;popK=null}
+function abrirPop(k,btn){
+  if(popK===k){cerrarPop();return}popK=k;const p=$('f-pop');
+  if(k==='fecha'){
+    const f=compFiltro.fecha,esDia=!['todas','hoy','ayer'].includes(f);
+    p.innerHTML=[['todas','Todas las fechas'],['hoy','Hoy'],['ayer','Ayer']].map(([v,t])=>'<button class="f-op" data-fecha="'+v+'" aria-pressed="'+(f===v)+'">'+t+'</button>').join('')+
+      '<label style="display:block;padding:.2rem .4rem 0;min-height:0;font-size:.875rem">Un día:<input type="date" id="f-dia" value="'+(esDia?f:'')+'"></label>';
+  }else{
+    p.innerHTML=F_OPC[k].filter(([v])=>k!=='medio'||v==='transferencia'||v==='mp'||compDatos.some(c=>c.forma_pago===v)).map(([v,t])=>
+      '<label><input type="checkbox" data-fk="'+k+'" value="'+v+'"'+(compFiltro[k].has(v)?' checked':'')+'>'+t+'</label>').join('')+'<button class="f-listo">Listo</button>';
+  }
+  p.hidden=false;const r=btn.getBoundingClientRect(),cont=$('p-comp').getBoundingClientRect();
+  p.style.top=(r.bottom-cont.top+$('p-comp').scrollTop+4)+'px';
+  p.style.left=Math.max(8,Math.min(r.left-cont.left,cont.width-p.offsetWidth-8))+'px';
+  trackEvent('control_filtro',{f:k});
+}
+$('comp-lista').addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('tr[data-ver]')){e.preventDefault();verComprobante(e.target.dataset.ver)}});
+$('f-pop').addEventListener('change',e=>{
+  if(e.target.id==='f-dia'){if(e.target.value){compFiltro.fecha=e.target.value;pintarComp()}return}
+  const k=e.target.dataset.fk;if(!k)return;
+  if(e.target.checked)compFiltro[k].add(e.target.value);else compFiltro[k].delete(e.target.value);
+  const keep=popK,btn=document.querySelector('[data-th="'+k+'"]');pintarComp();
+  const nb=document.querySelector('[data-th="'+keep+'"]');if(nb)abrirPop(keep,nb);
+});
+$('f-pop').addEventListener('click',e=>{
+  const o=e.target.closest('[data-fecha]');if(o){compFiltro.fecha=o.dataset.fecha;pintarComp();return}
+  if(e.target.closest('.f-listo'))cerrarPop();
+});
+document.addEventListener('click',e=>{if(!$('f-pop').hidden&&!e.target.closest('#f-pop')&&!e.target.closest('[data-th]'))cerrarPop()});
+document.querySelectorAll('[data-cont]').forEach(b=>b.onclick=()=>{
+  const e=b.dataset.cont,solo=compFiltro.estado.size===1&&compFiltro.estado.has(e);
+  compFiltro.estado=solo?new Set(F_OPC.estado.map(x=>x[0])):new Set([e]);pintarComp();
+});
+$('cp-limpiar').onclick=()=>{compFiltro=F_DEF();pintarComp()};
 $('comp-lista').addEventListener('click',e=>{
+  const t=e.target.closest('[data-th]');if(t){e.stopPropagation();abrirPop(t.dataset.th,t);return}
   const v=e.target.closest('[data-ver]');if(v){verComprobante(v.dataset.ver);return}
   const b=e.target.closest('[data-estado]');if(b)cambiarEstado(b.dataset.cod,b.dataset.estado);
 });
@@ -943,6 +1070,10 @@ async function cambiarEstado(cod,est){
 async function verComprobante(cod){
   const c=compDatos.find(x=>x.codigo===cod);if(!c)return;compAbierta=cod;
   const ve=c.tipo==='vela',cv=cod.replace(/^V-/,'');
+  const est=c.estado||'pendiente',abierta=est==='pendiente'||est==='reservada';
+  document.querySelector('#modal-comp .comp-acc').hidden=!abierta;
+  $('mc-estado').hidden=abierta;
+  $('mc-estado').textContent=est==='pagada'?'✅ Aprobada'+(c.resuelto_at?' el '+fechaHora(c.resuelto_at):''):est==='rechazada'?'❌ Rechazada'+(c.resuelto_at?' el '+fechaHora(c.resuelto_at):''):'';
   $('mc-titulo').textContent=ve?'Donación de velas '+cv:'Compra '+cod;
   $('mc-sub').innerHTML=esc((c.nombres||[]).join(', '))+(c.pagador?'<br>Pagó: '+esc(c.pagador)+(c.email?' · '+esc(c.email):''):'')+'<br><b>'+pesos(c.total)+'</b> · '+(ve?(c.cantidad===1?'1 vela':c.cantidad+' velas'):(c.cantidad===1?'1 entrada':c.cantidad+' entradas'))+
     '<br>'+fechaCorta(c.fecha)+' · <a href="tel:'+esc(c.telefono.replace(/[^\d+]/g,''))+'" style="color:var(--tinta);display:inline-block;padding:.65rem .2rem;margin:-.55rem 0">'+esc(c.telefono)+'</a>';
@@ -953,6 +1084,7 @@ async function verComprobante(cod){
   $('modal-comp').classList.add('ver');$('modal-comp').scrollTop=0;document.body.style.overflow='hidden';
   if(c.por_mail){$('mc-cont').innerHTML='<div class="ef-aviso"><b>Comprobante por mail.</b> Buscalo en '+esc(MAIL_COMPROBANTES)+' con el asunto «'+(ve?'Velas '+esc(cv):'Compra '+esc(c.codigo))+'» y, si el pago está acreditado, aprobalo.</div>';return}
   if(ef)return;
+  if(c.forma_pago==='mp'){$('mc-cont').innerHTML='<div class="ef-aviso"><b>Pago con Mercado Pago.</b> Lo acreditó Mercado Pago automáticamente; no tiene comprobante para revisar.</div>';return}
   try{
     const r=await fetch(SB_URL+'/functions/v1/gcn-comprobante',{method:'POST',
       headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'},body:JSON.stringify({pin:pinVol,codigo:cod})});
@@ -1177,7 +1309,32 @@ async function confirmarCompra(){
     avisar(msgError(e));btn.disabled=false;btn.textContent=txtOriginal;
   }
 }
-$('fin').onclick=()=>location.reload();
+$('fin').onclick=()=>{
+  if($('modal').dataset.vol){cerrarEntradasVol();return}
+  location.reload();
+};
+// Voluntarios: ver y enviar las entradas de una compra aprobada
+function telWhatsApp(t){
+  let d=String(t||'').replace(/\D/g,'');if(!d)return '';
+  if(d.startsWith('549'))return d;if(d.startsWith('54'))return '549'+d.slice(2);
+  return '549'+d.replace(/^0/,'');
+}
+function abrirEntradasVol(cod){
+  const asis=volDatos.filter(x=>x.codigo_compra===cod&&x.estado==='pagada');if(!asis.length)return;
+  estado.codigo=cod;pintarEntradas(asis.map(x=>({nombre:x.nombre,codigo_entrada:x.codigo})));
+  modoModal('normal');$('m-titulo').textContent='Entradas de la compra '+cod;$('m-mail').hidden=true;
+  const tel=telWhatsApp(asis[0].telefono);
+  const txt='¡Hola! Te enviamos tus entradas para la Gala Candle Night: martes 3 de noviembre, 19 h, Colegio Michael Ham.\n\n'+
+    asis.map(x=>'🎟 '+x.nombre+' – código '+x.codigo).join('\n')+'\n\nCompra '+cod+'. ¡Te esperamos!';
+  $('m-wa').hidden=!tel;$('m-wa').href='https://wa.me/'+tel+'?text='+encodeURIComponent(txt);
+  $('modal').dataset.vol='1';$('fin').textContent='Cerrar';
+  $('modal').classList.add('ver');$('modal').scrollTop=0;document.body.style.overflow='hidden';trackEvent('vol_ver_entradas',{});
+}
+function cerrarEntradasVol(){
+  delete $('modal').dataset.vol;$('fin').textContent='Volver al inicio';$('m-wa').hidden=true;
+  $('modal').classList.remove('ver');document.body.style.overflow='';
+}
+$('m-wa').addEventListener('click',()=>trackEvent('vol_whatsapp',{}));
 // Entradas y estados del modal de compra
 function pintarEntradas(asis){
   $('entradas').innerHTML=asis.map((a,i)=>
@@ -1419,6 +1576,24 @@ function pintarAyuda(){
               :'<button class="pd-btn llamar" data-ayuda="'+esc(a.id)+'" data-llamado="1">Llamar</button>')+'</div>').join('');
 }
 $('ayuda-act').onclick=()=>cargarAyuda(true);
+// Reporte de velas
+async function cargarVelasVol(){
+  const b=$('vv-act');b.disabled=true;b.textContent='Cargando…';
+  try{const r=await rpc('gcn_panel_velas',{p_pin:pinVol});
+    if(r&&r.error){if(r.error==='pin'){pinVol=null;pintarMenu();ir('p-pin')}else avisar('Demasiados intentos. Esperá unos minutos.');return}
+    $('vv-tot').textContent=r.confirmadas+r.pendientes;$('vv-ok').textContent=r.confirmadas;$('vv-pend').textContent=r.pendientes;
+    $('vv-plata').textContent='Recaudado: '+pesos(r.recaudado)+(r.a_cobrar?' · Por confirmar: '+pesos(r.a_cobrar):'');
+    const l=r.donaciones||[];
+    $('vv-lista').innerHTML=!l.length?'<p class="vol-vacio">Todavía no hay velas.</p>':
+      '<div class="tabla-wrap"><table class="tabla-comp t-asis"><thead><tr><th>Dona</th><th>Velas</th><th>Estado</th></tr></thead><tbody>'+
+      l.map(d=>'<tr><td>'+esc(d.nombre)+'<br><a class="tel-chico" href="tel:'+esc(String(d.telefono||'').replace(/[^\d+]/g,''))+'">'+esc(d.telefono||'')+'</a>'+
+        '<br><small>'+fechaCorta(d.fecha)+' · '+esc(PAGOS[d.forma_pago]||d.forma_pago||'')+'</small></td>'+
+        '<td class="c-cod">'+d.velas+'<br><small style="white-space:nowrap">'+pesos(d.importe)+'</small></td>'+
+        '<td><span class="chip '+esc(d.estado)+'">'+(ESTADOS[d.estado]||esc(d.estado))+'</span></td></tr>').join('')+'</tbody></table></div>';
+  }catch(e){avisar(msgError(e))}
+  finally{b.disabled=false;b.textContent='Actualizar'}
+}
+$('vv-act').onclick=cargarVelasVol;
 $('ayuda-lista').addEventListener('click',async e=>{
   const b=e.target.closest('[data-ayuda]');if(!b||b.disabled)return;b.disabled=true;
   const llamado=b.dataset.llamado==='1';
@@ -1448,7 +1623,12 @@ $('menu-export').onclick=async()=>{
     const r=await rpc('gcn_panel_export',{p_pin:pinVol});
     if(r&&r.error){if(r.error==='pin'){pinVol=null;pintarMenu();ir('p-pin');return}avisar('Demasiados intentos. Esperá unos minutos.');return}
     await cargarScript(XLSX_URL);
-    const compras=r.compras||[],don=r.donaciones||[];
+    const sinPagar=x=>x.forma_pago==='mp'&&x.estado==='pendiente';
+    const compras=(r.compras||[]).filter(c=>!sinPagar(c)),don=(r.donaciones||[]).filter(d=>!sinPagar(d));
+    const filasS=(r.compras||[]).filter(sinPagar).map(c=>({'Tipo':'Entradas','Código':c.codigo,'Fecha':fechaXls(c.fecha),'Cantidad':c.cantidad,'Importe':c.total,
+      'Nombre o razón social':c.pagador||'','Teléfono':c.telefono||'','Mail':c.email||'','Asistentes':(c.asistentes||[]).map(a=>a.nombre).join(', ')}))
+      .concat((r.donaciones||[]).filter(sinPagar).map(d=>({'Tipo':'Velas','Código':d.codigo,'Fecha':fechaXls(d.fecha),'Cantidad':d.velas,'Importe':d.importe,
+      'Nombre o razón social':d.nombre||'','Teléfono':d.telefono||'','Mail':d.email||'','Asistentes':''})));
     const datosPago=c=>({'Paga (nombre o razón social)':c.pagador||'','Pide comprobante':c.pide_comprobante?'Sí':'','CUIL/CUIT':c.cuit?formatoCuit(c.cuit):'','Teléfono':c.telefono||'','Mail':c.email||'','Soy':VINC[c.vinculo]||c.vinculo||''});
     const filasA=[];compras.forEach(c=>(c.asistentes||[]).forEach(a=>filasA.push(Object.assign({'Asistente':a.nombre,'Código de entrada':a.codigo,
       'Llegó':a.ingreso?'Sí':'','Hora de llegada':fechaXls(a.ingreso_at),'Compra':c.codigo,'Estado del pago':ESTADOS[c.estado]||c.estado,
@@ -1465,6 +1645,7 @@ $('menu-export').onclick=async()=>{
     XLSX.utils.book_append_sheet(wb,hojaXls(filasA,['Asistente','Código de entrada','Llegó','Hora de llegada','Compra','Estado del pago','Forma de pago','Fecha de compra','Paga (nombre o razón social)','Pide comprobante','CUIL/CUIT','Teléfono','Mail','Soy']),'Asistentes');
     XLSX.utils.book_append_sheet(wb,hojaXls(filasC,['Compra','Fecha','Estado del pago','Forma de pago','Comprobante','Entradas','Precio unitario','Total','Verificada','Paga (nombre o razón social)','Pide comprobante','CUIL/CUIT','Teléfono','Mail','Soy','Asistentes']),'Compras');
     XLSX.utils.book_append_sheet(wb,hojaXls(filasV,['Fecha','Velas','Precio por vela','Importe','Estado','Forma de pago','Comprobante','Código','Nombre o razón social','CUIL/CUIT','Teléfono','Mail']),'Velas');
+    XLSX.utils.book_append_sheet(wb,hojaXls(filasS,['Tipo','Código','Fecha','Cantidad','Importe','Nombre o razón social','Teléfono','Mail','Asistentes']),'MP sin pagar');
     const buf=XLSX.write(wb,{bookType:'xlsx',type:'array'});
     const blob=new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
     const hoy=new Date(),dd=n=>String(n).padStart(2,'0');
